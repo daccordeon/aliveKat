@@ -1,4 +1,6 @@
 .ipynb_checkpoints/*
 source/.ipynb_checkpoints/*
 *.pdf
-
+*.png
+*.jpg
+*.jpeg

@@ -1,5 +1,5 @@
-## aliveKat
-# README.md
+# aliveKat
+## README.md
 *Using Finesse on a non-linear element to compare to analytic quantum optics*
 
 James Gardner, July 2020

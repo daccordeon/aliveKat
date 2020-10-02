@@ -1,0 +1,146 @@
+% AliveKat
+\documentclass[pra,superscriptaddress,reprint,nofootinbib]{revtex4-1}
+% \documentclass[prb,reprint,nofootinbib]{revtex4-1} 
+% \documentclass[pra,superscriptaddress,reprint,nofootinbib]{revtex4-1}
+% \documentclass[prb,preprint,letterpaper,noeprint,longbibliography,nodoi,footinbib]{revtex4-1} 
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{mathtools}
+% \usepackage[usenames,dvipsnames]{xcolor}	
+\usepackage{hyperref}
+% \usepackage{siunitx}
+\usepackage{textcomp}
+\usepackage{subfiles}
+\usepackage[bottom]{footmisc}
+\usepackage{comment}
+
+
+%\bibliographystyle{apsrev4-2}
+%\setlength{\parindent}{0pt}
+
+
+
+\begin{document}
+
+\title{Optical modelling of advanced gravitational wave detector configurations}
+
+
+\author{James W. Gardner}
+\email{u6069809@anu.edu.au}
+\affiliation{%
+College of Science, Australian National University, Acton, ACT, 2601, Australia 
+}%
+
+\author{Vaishali B. Adya}
+% \email{vaishali.adya@anu.edu.au}
+\affiliation{%
+Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
+}
+\affiliation{%
+OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
+}
+
+\author{David McClelland}
+% \email{david.mcclelland@anu.edu.au}
+\affiliation{%
+Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
+}
+\affiliation{%
+OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
+}
+
+\author{Daniel Toyra}
+% \email{daniel.toyra@anu.edu.au}
+\affiliation{%
+Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
+}
+\affiliation{%
+OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
+}
+
+
+
+\date{\today}
+
+
+\begin{abstract}
+
+
+
+\end{abstract}
+
+{
+\let\clearpage\relax
+\maketitle
+}
+
+% \tableofcontents
+
+\section{Introduction}
+\label{sec:introduction}
+\subfile{introduction.tex}
+
+
+\section{Basic concepts in optics}
+\subsection{Modulation}
+\subsection{Demodulation}
+\subsection{Readout}
+
+
+\section{Simple cavities}
+% \subsection{Analytics}
+\subsection{Coupled, overcoupled, undercoupled}
+
+
+\section{Squeezing}
+\subsection{Quantum noise and squeezed states}
+\subsection{Spectral density}
+
+
+\section{Squeezed cavity}
+\subsection{Comparison to Finesse simulation}
+
+
+\section{Interferometers}
+\subsection{Basic analytics}
+\subsection{Signal recycling cavity}
+\subsection{Internal squeezing}
+
+
+\section{Gravitational wave detector configurations}
+\subsection{Analytics for aLIGO}
+\subsection{Finesse simulation for aLIGO}
+\subsection{Comparison for long SRC with internal squeezing}
+
+
+\section{Future work}
+\label{sec:future_work}
+\subfile{future-work.tex}
+
+
+\section{Conclusions}
+\label{sec:conclusions}
+\subfile{conclusions.tex}
+
+
+\begin{acknowledgments}
+
+
+
+\end{acknowledgments}
+
+
+\appendix
+\subfile{appendix.tex}
+
+
+\nocite{*}
+\bibliographystyle{myunsrt}
+\bibliography{bib}
+
+
+\end{document}

@@ -1,8 +1,14 @@
-% AliveKat
-\documentclass[pra,superscriptaddress,reprint,nofootinbib]{revtex4-1}
+% aliveKat
+\documentclass[aps,pra,superscriptaddress,reprint,nofootinbib]{revtex4-1}
 % \documentclass[prb,reprint,nofootinbib]{revtex4-1} 
 % \documentclass[pra,superscriptaddress,reprint,nofootinbib]{revtex4-1}
 % \documentclass[prb,preprint,letterpaper,noeprint,longbibliography,nodoi,footinbib]{revtex4-1} 
+
+
+
+% worry about formatting AFTER the text is written
+
+
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsthm}
@@ -15,9 +21,11 @@
 % \usepackage{siunitx}
 \usepackage{textcomp}
 \usepackage{subfiles}
-\usepackage[bottom]{footmisc}
 \usepackage{comment}
+% \usepackage[bottom]{footmisc}
 
+\usepackage{silence}
+\WarningFilter{revtex4-1}{Repair the float}
 
 %\bibliographystyle{apsrev4-2}
 %\setlength{\parindent}{0pt}
@@ -25,9 +33,7 @@
 
 
 \begin{document}
-
 \title{Optical modelling of advanced gravitational wave detector configurations}
-
 
 \author{James W. Gardner}
 \email{u6069809@anu.edu.au}
@@ -53,7 +59,7 @@ Centre for Gravitational Astrophysics, The Australian National University, Acton
 OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
 }
 
-\author{Daniel Toyra}
+\author{Daniel Töyra}
 % \email{daniel.toyra@anu.edu.au}
 \affiliation{%
 Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
@@ -62,69 +68,109 @@ Centre for Gravitational Astrophysics, The Australian National University, Acton
 OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
 }
 
-
-
 \date{\today}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-
-
+% to-do todo
+Abstract: ... 
 
 \end{abstract}
 
-{
-\let\clearpage\relax
+% {
+% \let\clearpage\relax
 \maketitle
-}
-
+% }
 % \tableofcontents
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:introduction}
-\subfile{introduction.tex}
+
+% motivate the need for optical modelling
 
 
-\section{Basic concepts in optics}
+\section{Finesse}
+% section can be quite short
+% how it works and why it works, what is new
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Basics of optics for interferometry}
+
 \subsection{Modulation}
-\subsection{Demodulation}
-\subsection{Readout}
+% one paragraph
+
+\subsection{Types of cavities}
+% one paragraph
+% Coupled, overcoupled, undercoupled
 
 
-\section{Simple cavities}
-% \subsection{Analytics}
-\subsection{Coupled, overcoupled, undercoupled}
+\section{Generation and detection of squeezed states}
+
+\subsection{Squeezed states}
+% one paragraph
+
+% spectral density
+
+\subsection{Homodyne readout}
+% one paragraph
 
 
-\section{Squeezing}
-\subsection{Quantum noise and squeezed states}
-\subsection{Spectral density}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Gravitational wave detector interferometry}
 
-\section{Squeezed cavity}
-\subsection{Comparison to Finesse simulation}
+\subsection{Interferometry}
+% one paragraph
 
+\subsection{aLIGO configuration}
 
-\section{Interferometers}
-\subsection{Basic analytics}
-\subsection{Signal recycling cavity}
+\subsection{Signal recycling cavity - short vs.\ long}
+
 \subsection{Internal squeezing}
 
 
-\section{Gravitational wave detector configurations}
-\subsection{Analytics for aLIGO}
-\subsection{Finesse simulation for aLIGO}
-\subsection{Comparison for long SRC with internal squeezing}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modelling a non-linear element in a cavity}
+
+% threshold results
 
 
+\subsection{Different definitions of dB}
+
+% amplitude versus power quantities
+
+% finesse does 10*log10(e^r), analytics convention is 20*log10(e^r)
+
+
+
+\section{Modelling advanced gravitational wave detector configurations}
+% \subsection{Analytics for aLIGO}
+% \subsection{Finesse simulation for aLIGO}
+% \subsection{Comparison for long SRC with internal squeezing}
+
+
+\subsection{Reasons for the discrepancy}
+
+% different def of dB gives a factor of 2
+
+% approximations in the analytics
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Future work}
 \label{sec:future_work}
-\subfile{future-work.tex}
+
+% (detuned long SRC ,non degenerate squeezing, limitations of finesse in its current form that can be overcome)
 
 
 \section{Conclusions}
 \label{sec:conclusions}
-\subfile{conclusions.tex}
 
 
 \begin{acknowledgments}
@@ -135,7 +181,8 @@ OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational
 
 
 \appendix
-\subfile{appendix.tex}
+% don’t bother with subfiles just yet
+% \subfile{appendix.tex}
 
 
 \nocite{*}

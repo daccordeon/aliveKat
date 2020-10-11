@@ -31,7 +31,8 @@
 %\setlength{\parindent}{0pt}
 
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
-
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ip}[2]{\langle #1,#2 \rangle}
 
 
 \begin{document}
@@ -163,7 +164,21 @@ If the reflectivies are fixed and instead the frequency of the incoming light is
 \subsection{Squeezed states}
 % one paragraph
 
-% spectral density
+Given a sinusoidal signal, one can decompose it into two quadratures $A_C \cos(\Omega t) + A_S \sin(\Omega t)$, called the cosine and sine or the amplitude and phase quadratures (so called because of the effects of amplitude and phase modulation being seen in their respective quadratures). Note that the quadrature decomposition of all the light in the interferometer is relative and taken (typically) with respect to the carrier.
+
+
+We are interested in quadratures because they lead to a simple explanation of squeezing. In the quantum mechanical two-photon formalism~\cite{Danilishin_2012}, the quadratures relate the harmonic oscillator creation/annihilation operators of the sidebands ($\hat{a}_{\omega_0 \pm \Omega}^\dagger, \hat{a}_{\omega_0 \pm \Omega}$) around the carrier (here we assume $\Omega \ll \omega_0$) $$\hat{a}_c(\Omega) \approx \frac{1}{2^{1/2}} (\hat{a}_{\omega_0 + \Omega} + \hat{a}_{\omega_0 - \Omega}^\dagger),\; \hat{a}_s(\Omega) \approx \frac{1}{i 2^{1/2}} (\hat{a}_{\omega_0 + \Omega} - \hat{a}_{\omega_0 - \Omega}^\dagger).$$ In quantum optics, these then define dimensionless “position” and “momentum” operators $\hat{X}, \hat{Y}$, the moments of which describe the uncertainty in each quadrature (and are also equal to values in the spectral density and covariance matrices~\cite{Danilishin_2012}). These uncertainties ultimately represent the uncertainty in the amplitude and phase of the electric field.
+
+
+Consider a vacuum state, although the expected value for either quadrature is zero $\langle \hat{X} \rangle = \langle \hat{Y} \rangle = 0$, due to the Heisenberg Uncertainty Principle (HUP) the standard deviations are limited by $\mathrm{Var}[\hat{X}]^{1/2} \mathrm{Var}[\hat{Y}]^{1/2} \geq 1/2$. Imagining the distribution of the state in phase space, this means that smallest area the noise ellipse corresponding to one standard deviation can have is $1/2$. The vacuum ground state with minimum uncertainty has equal radii of $1/2^{1/2}$.
+
+
+Squeezing a state simply scales one quadrature variance down by some factor while scaling the other quadrature variance up by the same factor, as to maintain the HUP. In phase space, this looks like squeezing (hence the name) the circular noise ellipse such that one of its radii decrease and the other increases such that the area remains the same. A squeezer requires two parameters, the squeezing strength $r_{\mathrm{dB}} = 20 \log_{10}(e^r)$ and the squeezing angle $\phi_{\mathrm{sqz}}$. The squeezing strength measures in dB the gain in the squeezed quadrature, for a squeezed (vacuum) state the radii get scaled to $e^{\pm r}/2^{1/2}$. The squeezing angle determines along which line the noise ellipse is squeezed.
+
+
+% spectral density of the quantum noise
+The goal of squeezing in a gravitational wave interferometer is primarily to control the quantum noise in a given quadrature. By squeezing the vacuum input (see Section~\ref{sec:gwIFO}) we change the spectrum of the quantum noise, reducing the noise in one quadrature while worsening it in the other. We study the (double-sided) power spectral density (PSD) of the quantum noise. Given a spectrum $\hat{Z}(\Omega)$, the PSD $\hat{S}_Z$ of $\hat{Z}$ is given by $$\hat{S}_Z(\Omega) 2 \pi \delta(\Omega - \Omega') = \langle0| \hat{Z}(\Omega) \circ \hat{Z}^\dagger(\Omega') |0\rangle$$ where $|0\rangle$ is the vacuum state and $\circ$ is the symmetric product $A \circ B = \frac{1}{2}(A B + B A)$.
+
 
 \subsection{Homodyne readout}
 % one paragraph

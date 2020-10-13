@@ -155,7 +155,7 @@ $$\abs{\frac{E_{\mathrm{refl}}}{E_{\mathrm{inci}}}}^2 = \abs{\frac{r_1 - r_2 e^{
 The result of which is that cavities fall into three categories determined by which of the two reflected fields dominate, which depends on the relative size of $r_1$ and $r_2$. If $r_1 = r_2$ then the cavity is impedance matched, the fields exactly balance and no light is reflected back. If $r_1 < r_2$ then the cavity is overcoupled, the transmitted circulating fields wins out and light is reflected off the cavity at a $\pi$ phase shift. And if $r_1 > r_2$ then the cavity is undercoupled, the directly reflected field wins out and the light is reflected back at the same phase it came in at. In gravitational wave detectors both overcoupled cavities (e.g.\ the arm cavities) and impedance matched cavities (when no reflection is necessary) are used.
 
 
-If the reflectivies are fixed and instead the frequency of the incoming light is changed, then resonance peaks are seen in the power of the circulating field whenever the roundtrip distance is some multiple of the wavelength. The distance between these peaks, the free spectral range (FSR), is therefore given by $c/{2L}$. Comparing this to the full-width at half-max (FWHM) of each peak gives a dimensionless rating for the cavity, the finesse $= \mathrm{FSR}/\mathrm{FWHM}$ (cf.\ the quality factor of an oscillator), that allows for different cavities to be compared. For example, the aLIGO arm cavities have a finesse of $440$~\cite{AdvancedLIGO:2015}.
+If the reflectivies are fixed and instead the frequency of the incoming light is changed, then resonance peaks are seen in the power of the circulating field whenever the roundtrip distance is some multiple of the wavelength. The distance between these peaks, the free spectral range (FSR), is therefore given by $c/{2L}$. Comparing this to the full-width at half-max (FWHM) of each peak gives a dimensionless rating for the cavity, the finesse $= \mathrm{FSR}/\mathrm{FWHM}$ (cf.\ the quality factor of an oscillator), that allows for different cavities to be compared. For reference, the aLIGO arm cavities have a finesse of $440$~\cite{AdvancedLIGO:2015}.
 
 
 \section{Generation and detection of squeezed states}
@@ -177,11 +177,25 @@ Squeezing a state simply scales one quadrature variance down by some factor whil
 
 
 % spectral density of the quantum noise
-The goal of squeezing in a gravitational wave interferometer is primarily to control the quantum noise in a given quadrature. By squeezing the vacuum input (see Section~\ref{sec:gwIFO}) we change the spectrum of the quantum noise, reducing the noise in one quadrature while worsening it in the other. We study the (double-sided) power spectral density (PSD) of the quantum noise. Given a spectrum $\hat{Z}(\Omega)$, the PSD $\hat{S}_Z$ of $\hat{Z}$ is given by $$\hat{S}_Z(\Omega) 2 \pi \delta(\Omega - \Omega') = \langle0| \hat{Z}(\Omega) \circ \hat{Z}^\dagger(\Omega') |0\rangle$$ where $|0\rangle$ is the vacuum state and $\circ$ is the symmetric product $A \circ B = \frac{1}{2}(A B + B A)$.
+The goal of squeezing in a gravitational wave interferometer is primarily to control the quantum noise in a given quadrature. By squeezing the vacuum input (see Section~\ref{sec:gwIFO}) we change the spectrum of the quantum noise, reducing the noise in one quadrature while worsening it in the other. The (double-sided) power spectral density (PSD) $\hat{S}_Z$ of the quantum noise $\hat{Z}$, given a spectrum $\hat{Z}(\Omega)$, is given by $$\hat{S}_Z(\Omega) 2 \pi \delta(\Omega - \Omega') = \langle0| \hat{Z}(\Omega) \circ \hat{Z}^\dagger(\Omega') |0\rangle$$ where $|0\rangle$ is the vacuum state and $\circ$ is the symmetric product $A \circ B = \frac{1}{2}(A B + B A)$. However, the convention for measuring sensitivity (cf.\ power versus amplitude quantities) means that values are reported in dB defined as $20 \log_{10}(I(\Omega)/I(0))$ for a spectrum (typically of intensity, or the power off the photodiode) $I(\Omega)$.
+% Throughout, these arguments $\Omega$ are sideband frequencies relative to the carrier.
+
+
+\subsection{Generation of squeezed states}
+
+In the lab, squeezed states are generated in a non-linear crystal in which parametric down conversion (PDC) occurs. In degenerate squeezing, a photon of pump frequency $2\omega_0$ is annihilated and two photons of frequency $\omega_0$ are created (called the signal and the idler). The non-linear crystal is directional in that squeezing of light only occurs if the light passes one direction through the crystal, in the other direction the light is unaffected.
+
+
+In the analytics used here, squeezing is performed by suitable multiplication of the quadrature amplitudes by a squeezing matrix. Given a squeezer parameter $r$ as input, the squeezing strength (or, the amount of signal gain) in dB is given by $r_{\mathrm{dB}} = 20 \log_{10}(e^r)$. The analytics also accounts for the directionality of the squeezer crystal.
+
+
+In the non-linear element (NLE) implementation in the developer branch of Finesse, squeezing is performed by similar quadrature manipulation as the analytics. However, given a gain value as input, the NLE will produce twice that amount of squeezing as output. Equivalently, the NLE treats dB to be $10 \log_{10} (e^r)$ rather than $20 \ldots$ as is conventional. Additionally, the NLE will squeeze states incident from either side, it is direction-less. These differences will be apparent in the results shown, see Sections~\ref{sec:sqzcavity}~\ref{sec:aLIGOcomparison}.
 
 
 \subsection{Homodyne readout}
 % one paragraph
+
+
 
 
 
@@ -192,11 +206,23 @@ The goal of squeezing in a gravitational wave interferometer is primarily to con
 \subsection{Interferometry}
 % one paragraph
 
+
 \subsection{aLIGO configuration}
+
+% full and simplification to couple cavities
+
+
+\subsection{Noise sources}
+
+% strain plot, quantum noise limited strain sensitivity
+
 
 \subsection{Signal recycling cavity - short vs.\ long}
 
+
 \subsection{Internal squeezing}
+
+% vacuum input, signal and noise see the interferometer differently
 
 
 
@@ -206,16 +232,12 @@ The goal of squeezing in a gravitational wave interferometer is primarily to con
 
 \subsection{Analytic derivation}
 
+% perhaps leave the actual derivation to an appendix?
+
+% threshold results, operating above threshold isn’t physically meaningful for the approximations made to reach these analytics
 
 
-% threshold results
-
-
-\subsection{Different definitions of dB}
-
-% amplitude versus power quantities
-
-% finesse does 10*log10(e^r), analytics convention is 20*log10(e^r)
+\subsection{Finesse comparison}
 
 
 
@@ -229,9 +251,11 @@ The goal of squeezing in a gravitational wave interferometer is primarily to con
 \subsection{Reasons for the discrepancy}
 
 % different def of dB gives a factor of 2
+% double passing of NLE gives another factor of 2
+% => gave to input to NLE 1/4 of the input to analytics
 
 % approximations in the analytics
-
+ % (including the calculation of the coupled cavity pole, the interferometer itself!) 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

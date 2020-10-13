@@ -113,7 +113,7 @@ In Section~\ref{sec:aLIGOcomparison} we compare a model of the aLIGO configurati
 We suggest areas for future work in Section~\ref{sec:future_work} and draw conclusions in Section~\ref{sec:conclusions}.
 
 
-\section{Optical modelling - Finesse}
+\section{Finesse} %- Optical modelling
 \label{sec:Finesse}
 % this section can be quite short
 
@@ -175,6 +175,7 @@ Consider a vacuum state, although the expected value for either quadrature is ze
 
 Squeezing a state simply scales one quadrature variance down by some factor while scaling the other quadrature variance up by the same factor, as to maintain the HUP. In phase space, this looks like squeezing (hence the name) the circular noise ellipse such that one of its radii decrease and the other increases such that the area remains the same. A squeezer requires two parameters, the squeezing strength $r_{\mathrm{dB}} = 20 \log_{10}(e^r)$ and the squeezing angle $\phi_{\mathrm{sqz}}$. The squeezing strength measures in dB the gain in the squeezed quadrature, for a squeezed (vacuum) state the radii get scaled to $e^{\pm r}/2^{1/2}$. The squeezing angle determines along which line the noise ellipse is squeezed.
 
+\subsubsection{Spectral density}
 
 % spectral density of the quantum noise
 The goal of squeezing in a gravitational wave interferometer is primarily to control the quantum noise in a given quadrature. By squeezing the vacuum input (see Section~\ref{sec:gwIFO}) we change the spectrum of the quantum noise, reducing the noise in one quadrature while worsening it in the other. The (double-sided) power spectral density (PSD) $\hat{S}_Z$ of the quantum noise $\hat{Z}$, given a spectrum $\hat{Z}(\Omega)$, is given by $$\hat{S}_Z(\Omega) 2 \pi \delta(\Omega - \Omega') = \langle0| \hat{Z}(\Omega) \circ \hat{Z}^\dagger(\Omega') |0\rangle$$ where $|0\rangle$ is the vacuum state and $\circ$ is the symmetric product $A \circ B = \frac{1}{2}(A B + B A)$. However, the convention for measuring sensitivity (cf.\ power versus amplitude quantities) means that values are reported in dB defined as $20 \log_{10}(I(\Omega)/I(0))$ for a spectrum (typically of intensity, or the power off the photodiode) $I(\Omega)$.
@@ -189,51 +190,96 @@ In the lab, squeezed states are generated in a non-linear crystal in which param
 In the analytics used here, squeezing is performed by suitable multiplication of the quadrature amplitudes by a squeezing matrix. Given a squeezer parameter $r$ as input, the squeezing strength (or, the amount of signal gain) in dB is given by $r_{\mathrm{dB}} = 20 \log_{10}(e^r)$. The analytics also accounts for the directionality of the squeezer crystal.
 
 
-In the non-linear element (NLE) implementation in the developer branch of Finesse, squeezing is performed by similar quadrature manipulation as the analytics. However, given a gain value as input, the NLE will produce twice that amount of squeezing as output. Equivalently, the NLE treats dB to be $10 \log_{10} (e^r)$ rather than $20 \ldots$ as is conventional. Additionally, the NLE will squeeze states incident from either side, it is direction-less. These differences will be apparent in the results shown, see Sections~\ref{sec:sqzcavity}~\ref{sec:aLIGOcomparison}.
+In the non-linear element (NLE) implementation in the developer branch of Finesse, squeezing is performed by similar quadrature manipulation as the analytics. However, given a gain value in dB as input, the NLE will produce twice that amount of squeezing as output. In other words, the NLE treats the dB input as $10 \log_{10} (e^r)$ instead of the conventional $20 \log_{10} (e^r)$. Additionally, the NLE will squeeze states incident from either side, it is direction-less. These differences will be apparent in the results shown, see Sections~\ref{sec:sqzcavity}~\ref{sec:aLIGOcomparison}.
 
 
 \subsection{Homodyne readout}
 % one paragraph
 
+To detect the faint signal sidebands we use a readout scheme. In homodyne readout, the signal is mixed with a strong local oscillator at a beamsplitter. The local oscillator comes from a second laser at the carrier frequency $\omega_0$ but with some relative phase to the carrier, called the homodyne angle $\phi_{\mathrm{LO}}$. After the beamsplitter, the two mixed beams, with different relative phases between the signal and local oscillator, are each read by a photodiode. The output currents are then subtracted (e.g.\ at an op~amp) to obtain the homodyne current, proportional to the difference in intensities at the photodiodes. Homodyne readout in a simplified aLIGO configuration is shown inside the dashed blue box in Fig.~\ref{fig:aLIGO_configuration}.
 
 
+The resulting homodyne current is proportional to the amplitude of the local oscillator times a combination of the sideband quadrature amplitudes dependent on $\phi_{\mathrm{LO}}$, yet is independent of any laser noise from the local oscillator. Appropriate choice of $\phi_{\mathrm{LO}}$ allows the squeezed quadrature to be extracted. Note that homodyne readout does nothing to reduce the noise in the sidebands, it just allows for the benefits of squeezing to be gained by filtering out the anti-squeezed (or worsened) quadrature.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gravitational wave detector interferometry}
 \label{sec:gwIFO}
 
-\subsection{Interferometry}
+\subsection{The Michelson interferometer}
 % one paragraph
 
+\begin{figure*}
+	\begin{center}
+	\includegraphics[height=0.5\textwidth,angle=-90]{figures/Michelson_interferometer.pdf}
+	\end{center}
+	\caption{Configuration of a simple Michelson interferometer}
+	\label{fig:Michelson}
+\end{figure*}
 
-\subsection{aLIGO configuration}
+In its simplest form (ignoring spatial effects henceforth), a Michelson interferometer consists of a laser, a beamsplitter, two arm mirrors, and a photodiode. The laser light is split and travels down two arms, reflects of a mirror at the end of each arm, and then recombines at the beamsplitter output, at which a photodiode is placed. The relative path difference between the two arms produces interference at the photodiode. By tuning the unperturbed lengths of the arms the photodiode can default to being the darkport of the interferometer (or in practise, slightly off the darkport). As such, if something perturbs the arms (e.g.\ noise or a gravitational wave) in a manner to change the relative path difference, then the photodiode will measure some light.
 
-% full and simplification to couple cavities
+
+\subsection{Configuration of aLIGO}
+% (not investigated here): external squeezing, mode cleaning and spatial effects
+
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.7\textwidth]{figures/aLIGO_internal_squeezing.pdf}
+	\end{center}
+	\caption{Simplified configuration of aLIGO}
+	\label{fig:aLIGO_configuration}
+\end{figure*}
+
+In the farfield, a gravitational wave stretches and squishes the distances between objects in a quadrupole manner. Transverse to the axis of propagation distances in one direction are stretched while those in the perpendicular direction are squished. In order to best detect these changes we need two pairs of objects at right angles to each other (and, ideally, to the gravitational wave). For this we introduce another mirror into each of the beam arms, forming an overcoupled arm cavity between an initial test mass (ITM) and an end test mass (ETM).
+
+
+% arm cavities, prc, src, 
+To achieve the sensitivity required for gravitational wave detection, a classical Michelson interferometer requires technically infeasible amounts of power in the arms. {\Large to-do: Why do we need high power and ITMs???}
+To achieve high power in the arms, a power recycling mirror (PRM) is introduced before the beamsplitter, this reflects power returning from the arm cavities back into the interferometer. For reference, in aLIGO a $125$ W laser results in $\approx 5$ kW of power incident on the beam splitter and beyond $600$ kW of power in the arms.
+
+
+For a passing gravitational wave to result in detectable changes in the arm lengths, the beam arms need to be at least kilometres long (e.g.\ $4$ km long in aLIGO). To increase sensitivity, the signal from the darkport of the beamsplitter can be amplified by reflecting it back into the arms to ``see'' the gravitational wave again. This is done by placing a signal recycling mirror (SRM) after the darkport of the beamsplitter. What the signal recycling cavity (SRC) actually does is more complicated, see Section~\ref{sec:long_srcs}.
+
+\subsubsection{Reduction of aLIGO to coupled cavities}
+% simplification to coupled cavities
 
 
 \subsection{Noise sources}
 
 % strain plot, quantum noise limited strain sensitivity
+% quantum, Newtonian (seismic), thermal,
 
 
-\subsection{Signal recycling cavity - short vs.\ long}
-
+\subsection{Short versus long signal recycling cavities}
+\label{sec:long_srcs}
 
 \subsection{Internal squeezing}
 
 % vacuum input, signal and noise see the interferometer differently
-
+% Flucuation Dissipation Theorem~\cite{Danilishin_2012}, loss at an optical component is always accompanied by new un-correlated noise
+% quantum noise enters at every open port and every lossy optic
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Modelling a non-linear element in a cavity}
+\section{Modelling a squeezed cavity} %a non-linear element in a cavity
 \label{sec:sqzcavity}
+
+
+\begin{figure*}
+	\begin{center}
+	\includegraphics[height=0.7\textwidth, angle=-90]{figures/squeezed_cavity.pdf}
+	\end{center}
+	\caption{Configuration of squeezed cavity}
+	\label{fig:squeezed_cavity}
+\end{figure*}
 
 \subsection{Analytic derivation}
 
 % perhaps leave the actual derivation to an appendix?
+% approximate noise sources to just come from ...
 
+\subsubsection{Threshold}
 % threshold results, operating above threshold isn’t physically meaningful for the approximations made to reach these analytics
 
 
@@ -256,6 +302,8 @@ In the non-linear element (NLE) implementation in the developer branch of Finess
 
 % approximations in the analytics
  % (including the calculation of the coupled cavity pole, the interferometer itself!) 
+
+% Is the recommendation to Daniel Brown to both fix the dB and make nle a directional component (will squeeze light from n1 to n2, but will just let light through n2 to n1)?
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -23,6 +23,9 @@
 \usepackage{subfiles}
 \usepackage{comment}
 % \usepackage[bottom]{footmisc}
+% \usepackage{subfig}
+% \usepackage[style=base]{caption}
+\usepackage{subfig}
 
 \usepackage{silence}
 \WarningFilter{revtex4-1}{Repair the float}
@@ -33,6 +36,8 @@
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\ip}[2]{\langle #1,#2 \rangle}
+
+\newcommand{\code}[1]{\texttt{#1}}
 
 
 \begin{document}
@@ -149,7 +154,7 @@ Gravitational waves therefore create weak signal sidebands in the arms of the in
 In gravitational wave detectors many cavities are used to perform a variety of functions, see Section~\ref{sec:gwIFO}. Any cavity is equivalent to a two mirror cavity. Consider two lossless mirrors with reflectivities $r_1$ and $r_2$ separated by a space of macroscopic length $L$. Meaning that it is tuned to the wavelength $\lambda$ of the light and is actually of length $\lfloor \frac{L}{\lambda} \rfloor \lambda$. Of the light incident on mirror 1 from outside the cavity, $\abs{r_1}^2$ of the power is reflected directly off and undergoes no phase change (using the convention of no phase change on reflection and $\pi/2$ on transmission). The light that enters the cavity will either continue to circulate or eventually leave through either mirror. The circulating light that eventually leaks back out through mirror 1 has undergone a phase change of $\pi$ and so will destructively interfere with the directly reflected light. The result of this is that the power ratio of the incident to the reflected light, by working in the frequency domain, is given by~\cite{Danilishin_2012}
 $$\abs{\frac{E_{\mathrm{refl}}}{E_{\mathrm{inci}}}}^2 = \abs{\frac{r_1 - r_2 e^{-i 2 L \frac{2\pi}{\lambda}}}{1- r_1 r_2 e^{-i 2 L \frac{2\pi}{\lambda}}}}^2.$$ 
 
-The result of which is that cavities fall into three categories determined by which of the two reflected fields dominate, which depends on the relative size of $r_1$ and $r_2$. If $r_1 = r_2$ then the cavity is impedance matched, the fields exactly balance and no light is reflected back. If $r_1 < r_2$ then the cavity is overcoupled, the transmitted circulating fields wins out and light is reflected off the cavity at a $\pi$ phase shift. And if $r_1 > r_2$ then the cavity is undercoupled, the directly reflected field wins out and the light is reflected back at the same phase it came in at. In gravitational wave detectors both overcoupled cavities (e.g.\ the arm cavities) and impedance matched cavities (e.g.\ the power recycling cavity, when no reflection is necessary) are used.
+The result of which is that Fabry-Peroy cavities (the ones we’re studying here) fall into three categories determined by which of the two reflected fields dominate, which depends on the relative size of $r_1$ and $r_2$. If $r_1 = r_2$ then the cavity is impedance matched, the fields exactly balance and no light is reflected back. If $r_1 < r_2$ then the cavity is overcoupled, the transmitted circulating fields wins out and light is reflected off the cavity at a $\pi$ phase shift. And if $r_1 > r_2$ then the cavity is undercoupled, the directly reflected field wins out and the light is reflected back at the same phase it came in at. In gravitational wave detectors both overcoupled cavities (e.g.\ the arm cavities) and impedance matched cavities (e.g.\ the power recycling cavity, when no reflection is necessary) are used.
 
 
 If the reflectivies are fixed and instead the frequency of the incoming light is changed, then resonance peaks are seen in the power of the circulating field whenever the roundtrip distance is some multiple of the wavelength. The distance between these peaks, the free spectral range (FSR), is therefore given by $$\mathrm{FSR} = \frac{c}{2L}.$$ Comparing this to the full-width at half-max (FWHM) of each peak gives a dimensionless rating for the cavity that allows for different cavities to be compared, the finesse (cf.\ the quality factor of an oscillator) $$\mathrm{finesse} = \frac{\mathrm{FSR}}{\mathrm{FWHM}}.$$ For reference, the aLIGO arm cavities have a finesse of $440$~\cite{AdvancedLIGO:2015}.
@@ -181,14 +186,22 @@ The goal of squeezing in a gravitational wave interferometer is primarily to con
 
 \subsection{Generation of squeezed states}
 
-In the lab, squeezed states are generated in a non-linear crystal in which parametric down conversion (PDC) occurs. In degenerate squeezing, a photon of pump frequency $2\omega_0$ is annihilated and two photons of frequency $\omega_0$ are created (called the signal and the idler). The non-linear crystal is directional in that squeezing of light only occurs if the light passes one direction through the crystal, in the other direction the light is unaffected.
+In the lab, squeezed states are generated in a non-linear crystal in which parametric down conversion (PDC) occurs stimulated by a pump laser. In degenerate squeezing, a photon of pump frequency $2\omega_0$ is annihilated and two photons of frequency $\omega_0$ are created (called the signal and the idler). The non-linear crystal is directional in that squeezing of light only occurs if the light passes one direction through the crystal, in the other direction the light is unaffected.
 
 
 In the analytics used here, squeezing is performed by suitable multiplication of the quadrature amplitudes by a squeezing matrix. Given a squeezer parameter $r$ as input, the squeezing strength (or, the amount of signal gain) in dB is given by $r_{\mathrm{dB}} = 20 \log_{10}(e^r)$. The analytics also accounts for the directionality of the squeezer crystal.
 
 
-In the non-linear element (NLE) implementation in the developer branch of Finesse, squeezing is performed by similar quadrature manipulation as the analytics. However, given a gain value in dB as input, the NLE will produce twice that amount of squeezing as output. In other words, the NLE treats the dB input as $10 \log_{10} (e^r)$ (a power quantity) instead of the conventional $20 \log_{10} (e^r)$ (an amplitude quantity). Additionally, the NLE will squeeze states incident from either side, it is direction-less. These differences will be apparent in the results shown, see Sections~\ref{sec:sqzcavity}~\ref{sec:aLIGOcomparison}.
+In the non-linear element (NLE) implementation in Finesse, squeezing is performed by similar quadrature manipulation as the analytics. However, given a gain value in dB as input, the NLE will produce twice that amount of squeezing as output. In other words, the NLE treats the dB input as $10 \log_{10} (e^r)$ (a power quantity) instead of the conventional $20 \log_{10} (e^r)$ (an amplitude quantity). This can be seen in Fig.~\ref{fig:testing_Finesse_squeezers}, the right panel displays the NLE while the left panel displays the other squeezer component, “sq”, which behaves conventionally. Additionally, the NLE will squeeze states incident from either side, it is direction-less. These differences will be apparent in the results shown, see Sections~\ref{sec:sqzcavity}~\ref{sec:aLIGOcomparison}.
 
+\begin{figure*}%
+    \centering
+    \subfloat[\centering ]{{\includegraphics[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
+    \qquad
+    \subfloat[\centering ]{{\includegraphics[width=0.415\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%
+    \caption{Squeezers implemented in Finesse, showing dB gain (as $20 \log_{10}$) versus input parameter}%
+    \label{fig:testing_Finesse_squeezers}%
+\end{figure*}
 
 \subsection{Homodyne readout}
 % one paragraph
@@ -342,31 +355,87 @@ We interact with the simulation through a Python~\cite{python} wrapper called Py
 	\label{fig:squeezed_cavity}
 \end{figure*}
 
-
 \subsection{Analytics}
 
-% leave the actual derivation to an appendix
-See Appendix~\ref{app:squeezed_cavity_analytics} for the full derivation.
-
-
 % approximate noise sources/vacuum to just come from ...
+To first test the non-linear element we consider a simpler system than aLIGO, a squeezed cavity, as shown in Fig.~\ref{fig:squeezed_cavity}. This consists of a squeezer inside of a cavity, and homodyne readout to detect the squeezed vacuum of quantum noise. An isolator is included to redirect the squeezed output. We simplify by assuming that one of the mirrors is fully reflective (therefore the cavity is overcoupled) and that both mirrors are lossless. We assume that the only noise sources are the vacuum input into the cavity and the laser noise in the local oscillator (which will cancel out as usual in homodyne readout).
+% leave the actual derivation to an appendix
+We derive the analytics for this system, getting an expression for the power spectral density (PSD) of the homodyne intensity, $S_{\mathrm{HomI}}(\Omega)$, in terms of the parameters of cavity (the reflectivity of the first mirror, the length and tuning), the squeezer (gain and squeezer angle), and the local oscillator (amplitude and homodyne angle). See Appendix~\ref{app:squeezed_cavity_analytics} for the full derivation.
 
 
 \subsubsection{Threshold}
 % threshold results, operating above threshold isn’t physically meaningful for the approximations made to reach these analytics
 
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.7\textwidth]{figures/not_main_PSD_vs_r.pdf}
+	\end{center}
+	\caption{Analytics result for absolute value of PSD of homodyne intensity against the squeezer parameter for a squeezed cavity}
+	\label{fig:not_main_PSD_vs_r}
+\end{figure*}
 
-\subsection{Implementation of the non-linear element in Finesse}
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.8\textwidth]{figures/not_main_PSD_vs_freq.pdf}
+	\end{center}
+	\caption{Analytics result for absolute value of PSD of relative homodyne intensity against angular frequency offset for a squeezed cavity with various squeezer parameters}
+	\label{fig:not_main_PSD_vs_freq}
+\end{figure*}
 
+We first consider the behaviour at the carrier frequency of the absolute value of the PSD against the squeezer parameter, i.e.\ $\abs{S_{\mathrm{HomI}}(0)}$ against $r$ (alt.\ $r_\mathrm{sqz}$). We do this for a tuned, $1$ m long cavity, with the first mirror having reflectivity $r_1 = 0.9$, both squeezer and homodyne angle zero (squeezing and readout in the same quadrature), and amplitude $A = 1$ (in suitable units, see derivation), shown in Fig.~\ref{fig:not_main_PSD_vs_r}. This yields a pole at around $r_\mathrm{Thresh} = 0.0263$ (estimated numerically with Mathematica), known as the threshold value for the squeezer. The PSD also has a zero at $r = -r_\mathrm{Thresh}$ and limits to $0.5$ as $\abs{r}$ increases past threshold. Note that the squeezer parameter taking a negative value is equivalent to it taking the absolute value of that value and the squeezer angle changing by $\pi/2$, as in, switching to squeezing in the other quadrature.
+
+
+The explanation for this behaviour lies in the assumptions made in the analytics. In particular, we assumed that the pump laser for the squeezer, which is its energy source, was essentially an undepletable reservoir. This meant that when we pumped in phase with the noise we could endlessly amplify and we when pumped out of phase we could completely cancel the noise, these two conditions exactly occur when threshold is reached. Physically this is not the case and pump depletion requires a Hamiltonian model of the system to analyse properly. This means that the analytics derived here break at threshold, similarly, any results above threshold are unphysical.
+However, below threshold the model is reasonably accurate. {\Large how do we know, expt.???}
+
+
+We are also interested in the behaviour at some frequency offset $\Omega$ relative to the behaviour at the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. For the same parameters as above except for a selection of different squeezer parameters, this is shown in Fig.~\ref{fig:not_main_PSD_vs_freq}. For all non-zero squeezer parameters, it shows resonances every $9.42$ GHz (radians). At each resonance, the threshold values go to infinity and zero, while off resonance they are different from the carrier frequency but remain on the same scale (with difference of order $10^{-3}$).
+
+
+\subsection{Testing the non-linear element in Finesse}
+
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.7\textwidth]{figures/pykat_relative_qhd_vs_r.pdf}
+	\end{center}
+	\caption{Finesse result for absolute value of relative PSD of homodyne intensity against the squeezer parameter for a squeezed cavity}
+	\label{fig:pykat_relative_qhd_vs_r}
+\end{figure*}
+
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}
+	\end{center}
+	\caption{Finesse result for absolute value of PSD of relative homodyne intensity against angular frequency offset for a squeezed cavity with various squeezer parameters}
+	\label{fig:pykat_relative_qhd_vs_freq}
+\end{figure*}
+
+We model the squeezed cavity in Finesse with the \code{nle} component as the squeezer and \code{qhd} for homodyne readout of the quantum noise. We do this for the same parameters as above and only consider the relative spectral density to avoid worrying about units of amplitude. Note that \code{qhd} calculates amplitude spectral density rather than PSD, which under a logarithm gives a factor of two between them, further confusing the definitions of dB.
+
+
+% rThresh and \Omega values are the same, convert to dB and check angular freq
+The behaviour of the relative (spectral density of the) homodyne intensity against the squeezer parameter is shown in Fig.~\ref{fig:pykat_relative_qhd_vs_r}. The shape of the response is similar to the analytics. The squeezer parameter axis shows the input to \code{nle} which is in ``dB'' calculated as $r_{\mathrm{nle}} = 10 \log_{10}(e^{r_\mathrm{sqz}})$. Python quotes the threshold value as $0.144$ (here shown to three s.f.) which agrees with the analytics, $0.114 \approx 10 \log_{10}(e^{0.0263})$, with negligible uncertainty.
+
+
+% FSR is 1.5 since L = 1
+The behaviour against the frequency offset is shown in Fig.~\ref{fig:pykat_relative_qhd_vs_freq}. Again, the response is similar to the analytics. The frequency axis here is actual frequency, rather than the angular frequency shown in the analytics. The FSR here is (up to numerical error) $1.5 10^8$ Hz when $L = 1$ m, which is the predicted $\mathrm{FSR} = c/(2 L) = 3/2 10^8 = 1.5 10^8$ Hz. The FSR in the analytics is $2 \pi$ times this, as expected for the angular frequency. The behaviour against frequency for different squeezer parameters is also similar to the analytics.
+
+
+Overall, the \code{nle} component successfully models the squeezed cavity, with the consideration for the particular definition of dB used. Now, having passed the first test, we want to test the implementation in a gravitational wave detector to then start predicting the behaviour of proposed designs.
 
 
 \section{Modelling advanced gravitational wave detector configurations}
 \label{sec:aLIGOcomparison}
-% \subsection{Analytics for aLIGO}
-% \subsection{Finesse simulation for aLIGO}
-% \subsection{Comparison for long SRC with internal squeezing}
+
+\subsection{Analytics for reduced configuration}
+% get source from Vaishali
+
+
+\subsection{Finesse model of aLIGO}
+% comparison for long SRC with internal squeezing
 
 % table of aLIGO parameters used in Finesse model and analytics
+
 
 
 \subsection{Reasons for the discrepancy}
@@ -393,13 +462,6 @@ See Appendix~\ref{app:squeezed_cavity_analytics} for the full derivation.
 \label{sec:conclusions}
 
 
-\appendix
-\section{Squeezed cavity analytics}
-\label{app:squeezed_cavity_analytics}
-
-
-
-
 \begin{acknowledgments}
 
 
@@ -407,11 +469,17 @@ See Appendix~\ref{app:squeezed_cavity_analytics} for the full derivation.
 \end{acknowledgments}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
-% don’t bother with subfiles just yet
-% \subfile{appendix.tex}
+\section{Squeezed cavity analytics}
+\label{app:squeezed_cavity_analytics}
+
+% cavity matrix solution
+% Danilishin stuff
+% bring it all together
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \nocite{*}
 \bibliographystyle{myunsrt}
 \bibliography{bib}

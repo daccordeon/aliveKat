@@ -5,9 +5,7 @@
 % \documentclass[prb,preprint,letterpaper,noeprint,longbibliography,nodoi,footinbib]{revtex4-1} 
 
 
-
 % worry about formatting AFTER the text is written
-
 
 
 \usepackage[utf8]{inputenc}
@@ -16,7 +14,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{mathtools}
-% \usepackage[usenames,dvipsnames]{xcolor}	
+\usepackage[usenames,dvipsnames]{xcolor}	
 \usepackage{hyperref}
 % \usepackage{siunitx}
 \usepackage{textcomp}
@@ -38,6 +36,7 @@
 \newcommand{\ip}[2]{\langle #1,#2 \rangle}
 
 \newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\jam}[1]{\textcolor{magenta}{\textbf{#1}}}
 
 
 \begin{document}
@@ -45,44 +44,34 @@
 
 \author{James W. Gardner}
 \email{u6069809@anu.edu.au}
-\affiliation{%
-College of Science, Australian National University, Acton, ACT, 2601, Australia 
-}%
+\affiliation{College of Science, Australian National University, Acton, ACT, 2601, Australia}
 
 \author{Vaishali B. Adya}
 % \email{vaishali.adya@anu.edu.au}
-\affiliation{%
-Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
-}
-\affiliation{%
-OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
-}
+\affiliation{Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia}
+\affiliation{OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia}
 
 \author{David McClelland}
 % \email{david.mcclelland@anu.edu.au}
-\affiliation{%
-Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
-}
-\affiliation{%
-OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
-}
+\affiliation{Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia}
+\affiliation{OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia}
 
 \author{Daniel Töyra}
 % \email{daniel.toyra@anu.edu.au}
-\affiliation{%
-Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia
-}
-\affiliation{%
-OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia
-}
+\affiliation{Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia}
+\affiliation{OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia}
 
 \date{\today}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-% to-do todo
-Abstract: {\Large abstract???}
+% single paragraph, short sales pitch
+
+Gravitational wave detectors are highly complex and do not have exact analytic solutions for their transfer functions. Optical modelling allows the researcher to quickly ascertain the efficacy of a proposed configuration without needing to perform the analytical derivation. We demonstrate this using Finesse~\cite{finesse} by modelling a configuration of Advanced LIGO~\cite{AdvancedLIGO:2015} that has a long signal recycling cavity (SRC) with a degenerate squeezer inside. To do this, we first test successfully the implemented squeezer component in a squeezed cavity against derived analytics. We then test the proposed configuration against existing analytics and show that the model works up to approximation, when corrections are made for the different conventions used. Finally, we optimise the high frequency sensitivity of the proposed configuration by varying the squeezer parameters to show the benefits of the design in achieving higher peak quantum noise limited sensitivity.
+
+
+\jam{(this is a comment)}
 
 \end{abstract}
 
@@ -285,8 +274,8 @@ In aLIGO, noise enters the system from many sources and reduces sensitivity acro
 Quantum noise comes from the fundamental HUP limits on the uncertainty in each quadrature, discussed in Section~\ref{sec:squeezing}. Vacuum enters the interferometer at every open port, most importantly from behind the SRM, and, due to the Fluctuation Dissipation Theorem~\cite{Danilishin_2012}, at every lossy optical component in the form of new, un-correlated noise. In the phase quadrature, quantum noise manifests as shot noise, uncertainty in the number of photons hitting one of the mirrors, that is strongest at high frequencies. In the amplitude quadrature, quantum noise comes as radiation pressure, driving of mirror oscillations by incident light, that is strongest at low frequencies. Increasing the power in the arms reduces shot noise but increases radiation pressure, leading to a trade-off in how much power is put into the interferometer.
 
 
-To compare noise sources, we define the noise limited strain sensitivity to be the signal amplitude required to achieve a signal-to-noise (SNR) ratio of one, with respect to the given noise source in isolation. This means computing the signal and noise transfer functions for the interferometer and suitably dividing them. The total sensitivity of the interferometer is then then sum of the contribution from each noise source, shown in Fig.~{\Large ??? get noise budgets plot}.
-In frequency, the maximum sensitivity is achieved for quantum noise where the radiation pressure and shot noise balance, known as the standard quantum limit (SQL) and shown in Fig.~{\Large ??? make sensitivity figure}.	
+To compare noise sources, we define the noise limited strain sensitivity to be the signal amplitude required to achieve a signal-to-noise (SNR) ratio of one, with respect to the given noise source in isolation. This means computing the signal and noise transfer functions for the interferometer and suitably dividing them. The total sensitivity of the interferometer is then then sum of the contribution from each noise source, shown in Fig.~\jam{add noise budgets figure}.
+In frequency, the maximum sensitivity is achieved for quantum noise where the radiation pressure and shot noise balance, known as the standard quantum limit (SQL) and shown in Fig.~\jam{add quantum noise, SQL figure}.	
 
 
 \subsection{Short versus long signal recycling cavities}
@@ -307,7 +296,7 @@ Considering the coupled cavity system in analogy to a system of two coupled harm
 
 The effect of the length of the SRC on the signal transfer function is shown as red and blue lines in the middle panel of Fig.~\ref{fig:src_transfer_functions}.
 For a short SRC, the signal transfer function is constant at frequencies below $10^2$ Hz and then slowly begins to roll off, losing an order of magnitude when it gets to $10$ kHz. For a long SRC (of comparable length to the arm cavity), the signal transfer function is similar at lower frequencies, begins to roll off later than the short SRC, but has a faster roll off thereafter, losing two orders of magnitude by $10$ kHz. As a result, the long SRC is more sensitive around the coupled cavity pole but has shorter bandwidth overall, see the bottom panel of Fig.~\ref{fig:src_transfer_functions}.
-{\Large why is strain in $Hz^{-0.5}$?}
+\jam{why is strain measured in $Hz^{-0.5}$?}
 
 
 Importantly, the length of the SRC also affects how internal squeezing reduces the quantum noise, discussed below.
@@ -391,7 +380,7 @@ We first consider the behaviour at the carrier frequency of the absolute value o
 
 
 The explanation for this behaviour lies in the assumptions made in the analytics. In particular, we assumed that the pump laser for the squeezer, which is its energy source, was essentially an undepletable reservoir. This meant that when we pumped in phase with the noise we could endlessly amplify and we when pumped out of phase we could completely cancel the noise, these two conditions exactly occur when threshold is reached. Physically this is not the case and pump depletion requires a Hamiltonian model of the system to analyse properly. This means that the analytics derived here break at threshold, similarly, any results above threshold are unphysical.
-However, below threshold the model is reasonably accurate, which is all we require as operating well below threshold is all we can achieve due to other physical constraints on our squeezers. {\Large how do we know, expt.???}
+However, below threshold the model is reasonably accurate, which is all we require as operating well below threshold is all we can achieve due to other physical constraints on our squeezers. \jam{how do we know the accuracy?}
 
 
 We are also interested in the behaviour at some frequency offset $\Omega$ relative to the behaviour at the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. For the same parameters as above except for a selection of different squeezer parameters, this is shown in Fig.~\ref{fig:not_main_PSD_vs_freq}. For all non-zero squeezer parameters, it shows resonances every $9.42$ GHz (radians). At each resonance, the threshold values go to infinity and zero, while off resonance they are different from the carrier frequency but remain on the same scale (with difference of order $10^{-3}$).
@@ -435,13 +424,13 @@ Overall, the \code{nle} component successfully models the squeezed cavity, with 
 \subsection{Analytics for the reduced aLIGO configuration}
 
 % get source from Vaishali
-We use analytics for the coupled cavity system (shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}) derived in Ref.~{\Large source???} and implemented in Ref.~{\Large ???}. Recall that this system is an approximation, albeit a good one, of the simplified aLIGO configuration (shown in Fig.~\ref{fig:aLIGO_configuration}). In addition, the input/output relation and the calculation of the coupled cavity pole are both only approximate. We claim below that these approximations are responsible for the rest of the discrepancy between the analytics and the Finesse model, after first correcting for the implementation in Finesse.
+We use analytics for the coupled cavity system (shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}) derived in Ref.~\jam{ref?} and implemented in Ref.~\jam{ref?}. Recall that this system is an approximation, albeit a good one, of the simplified aLIGO configuration (shown in Fig.~\ref{fig:aLIGO_configuration}). In addition, the input/output relation and the calculation of the coupled cavity pole are both only approximate. We claim below that these approximations are responsible for the rest of the discrepancy between the analytics and the Finesse model, after first correcting for the implementation in Finesse.
 
 
 \subsection{Finesse model of aLIGO}
 
 % table of aLIGO parameters used in Finesse model and analytics
-\begin{table}[]
+\begin{table}
 	\centering
 	\begin{tabular}{l|ll}
 	 & analytics & Finesse \\ \hline
@@ -481,11 +470,11 @@ To recap, the squeezer in the analytics takes $r_\mathrm{sqz}$ as input and prod
 
 
 % double passing of NLE gives another factor of 2
-However, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}, the correct value to pass to \code{nle} is $5 \log_{10}(e^\mathrm{sqz})$, so where is the second factor of two? As mentioned in Section~\ref{sec:squeezing}, physical squeezer crystals are directional, meaning that they will only squeeze states incident from one side, letting those incident from the other through unchanged. The implementation of \code{nle} is, however, direction-less, meaning that it squeezes from both sides. When placed in a cavity it produces twice the amount of squeezing than expected. Therefore, given a squeezer parameter (not in dB), the gain in dB to pass to \code{nle} is half as small due to different definitions of dB and half as small again due to the direction-less-ness of the component.
+However, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}, the correct value to pass to \code{nle} is $5 \log_{10}(e^\mathrm{sqz})$, so where is the second factor of two? As mentioned in Section~\ref{sec:squeezing}, physical squeezer crystals are directional, meaning that they will only squeeze states incident from one side, letting those incident from the other through unchanged. The implementation of \code{nle} is, however, direction-less, meaning that it squeezes from both sides. When placed in a cavity it produces twice the amount of squeezing than expected. Therefore, given a squeezer parameter (not in dB), the gain in dB to pass to \code{nle} is half as small due to different definitions of dB and half as small again due to the direction-less-ness of the component. \jam{if this is true, where is the effect in the squeezed cavity results?}
 
 
 % Is the recommendation to Daniel Brown to both fix the dB and perhaps make nle a directional component (will squeeze light from n1 to n2, but will just let light through n2 to n1)?
-Overall, the \code{nle} component successfully models the simplified aLIGO configuration up some error likely due to approximations in the analytics, with the caveat that the gain input must be corrected to account for the nature of the implementation. This is a good result and resolves, positively, the testing of the \code{nle} component we set out to do. Due to the confusion from the differences between the analytics’ conventions and those in the implementation, we recommend that the \code{nle} component be modified to calculate the gain as $20 \log_{10}(e^\mathrm{sqz})$ and also potentially made directional.
+Overall, the \code{nle} component successfully models the simplified aLIGO configuration up some error likely due to approximations in the analytics, with the caveat that the gain input must be corrected to account for the nature of the implementation. This is a good result and resolves, positively, the testing of the \code{nle} component that we set out to do. Due to potential confusion about the dB convention and the directionality, we recommend that the \code{nle} component be modified to calculate the gain as $20 \log_{10}(e^\mathrm{sqz})$ and possibly made directional.
 
 
 \subsection{Optimisation}
@@ -509,19 +498,46 @@ We optimise the sensitivity within a high frequency band of 900 Hz to 3 kHz for 
 \section{Future work}
 \label{sec:future_work}
 
-% fixing many parameter optimisation, if done, then could feed the program a frequency band and it could come up with the best configuration possible
+We’ve shown that Finesse can successfully model internal squeezing and have then used it to demonstrate the benefits of a long SRC. Here we detail other proposed configurations and how Finesse could be used to evaluate their efficacy.
 
-% (detuned long SRC ,non degenerate squeezing, limitations of finesse in its current form that can be overcome)
 
+% optimisation
+Fixing the many parameter optimisation would improve Finesse’s usefulness in designing the configuration to achieve the best sensitivity in some band. Potential fixes to look into include tighter restraints on the parameters and developing a program to test many initial conditions in some efficient way.
+
+
+% losses and other noise sources
+We’ve largely ignored losses because how losses in the simplified aLIGO configuration translate to those in the reduced configuration is unclear. However, losses should be included in any realistic model and Finesse handles them well so this should be figured out. In a similar vein, we’ve focussed on the quantum noise limited sensitivity here because that’s what squeezing addresses, but a realistic model would include other sorts of noise sources along with control systems. Finesse is able to handle control signals but has limitations in terms of sources like thermal noise. Either the modelling would need to ignore those noise sources or some cleverness with injecting suitable sidebands would be required.
+
+
+% detuned long SRC, non-degenerate squeezing
+As for different proposed configurations, two changes would be detuning the long SRC and non-degenerate squeezing. Detuning the long SRC is something we started to investigate by allowing the optimisation to change the tuning of the SRM, investigating this further would amount to fixing the optimisation as above. Non-degenerate squeezing is when the produced photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new component to Finesse, similar to \code{nle}, but is otherwise achievable to model. \jam{what is the motivation for non-degenerate squeezing for GW detector?}
+
+% other limitations of finesse in its current form that can be overcome?
 
 
 \section{Conclusions}
 \label{sec:conclusions}
+% can be quite short!
 
+% remotivate
+In this report, we use Finesse to model advanced gravitational wave detector configurations proposed to improve on those in use. These detectors are complex and the analytics are tedious to derive for each proposed configuration. Finesse, and optical modelling more generally, allows for quick results and determination of the efficacy of a configuration.
+
+
+% sqz cavity, derived analytics
+In particular, we investigated long SRC and internal squeezing configurations. In order to do internal squeezing in Finesse, we first needed to test the \code{nle} component. We did this by deriving analytics to describe a squeezed cavity and then tested them against predictions made in Finesse. The component successfully recovered the threshold (and FSR) values for the squeezed cavity.
+
+
+% aLIGO, recommendation
+Having got a internal squeezer, we used existing analytics to test the proposed configurations in Finesse. This was successful up to some error attributed to approximations in the analytics, with the caveat that the input to the component had to be corrected for different conventions in dB and the directionality of the squeezer. In order to avoid further confusion, we recommend that the \code{nle} component be changed to match convention.
+
+
+% optimisation
+Finally, we used the now proven component to further improve the long SRC, internal squeezer configuration by optimising the high frequency sensitivity by varying the squeezer parameters. This gave the highest sensitivity of all the configurations investigated. We also attempted to further optimise by varying the SRC and SRM parameters, but this did not work as expected due to reasons yet unknown. For the future, we hope to resolve this many parameter optimisation and test more exotic configurations in Finesse.
 
 
 \begin{acknowledgments}
-The authors wish to thank the OzGrav-ANU squeezer group for their continued advice and support.
+The authors wish to thank the developers of Finesse for their great, open software.
+The authors also wish to thank the OzGrav-ANU squeezer group for their continued advice and support.
 
 \end{acknowledgments}
 

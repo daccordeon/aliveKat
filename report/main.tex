@@ -34,6 +34,7 @@
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\ip}[2]{\langle #1,#2 \rangle}
+\newcommand{\expect}[1]{\langle #1 \rangle}
 
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\jam}[1]{\textcolor{magenta}{\textbf{#1}}}
@@ -56,7 +57,7 @@
 \affiliation{Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia}
 \affiliation{OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia}
 
-\author{Daniel Töyra}
+\author{Daniel Töyrä}
 % \email{daniel.toyra@anu.edu.au}
 \affiliation{Centre for Gravitational Astrophysics, The Australian National University, Acton, A.C.T., 2601, Australia}
 \affiliation{OzGrav @ ANU, Australian Research Council Centre of Excellence for Gravitational Wave Discovery, Acton, A.C.T., 2601, Australia}
@@ -75,11 +76,7 @@ Gravitational wave detectors are highly complex and do not have exact analytic s
 
 \end{abstract}
 
-% {
-% \let\clearpage\relax
 \maketitle
-% }
-% \tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -510,7 +507,7 @@ We’ve largely ignored losses because how losses in the simplified aLIGO config
 
 
 % detuned long SRC, non-degenerate squeezing
-As for different proposed configurations, two changes would be detuning the long SRC and non-degenerate squeezing. Detuning the long SRC is something we started to investigate by allowing the optimisation to change the tuning of the SRM, investigating this further would amount to fixing the optimisation as above. Non-degenerate squeezing is when the produced photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new component to Finesse, similar to \code{nle}, but is otherwise achievable to model. \jam{what is the motivation for non-degenerate squeezing for GW detector?}
+As for different proposed configurations, two changes would be detuning the long SRC and non-degenerate squeezing. Detuning the long SRC is something we started to investigate by allowing the optimisation to change the tuning of the SRM, investigating this further would amount to fixing the optimisation as above. Non-degenerate squeezing is when the produced photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new component to Finesse, similar to \code{nle}, but is otherwise achievable to model. \jam{what is the motivation for non-degenerate squeezing?}
 
 % other limitations of finesse in its current form that can be overcome?
 
@@ -547,9 +544,161 @@ The authors also wish to thank the OzGrav-ANU squeezer group for their continued
 \section{Squeezed cavity analytics}
 \label{app:squeezed_cavity_analytics}
 
-% cavity matrix solution
-% Danilishin stuff
-% bring it all together
+We want the PSD of the homodyne intensity, $S_{\mathrm{HomI}}(\Omega)$, for the squeezed cavity. We proceed in four steps:
+\begin{itemize}
+\item finding the transfer matrix for the empty cavity
+\item borrowing the solution to arrive at the quadratures at the photodiodes
+\item computing the Fourier spectrum of the time averaged intensity
+\item using properties of the quantum noise quadratures from Ref.~\cite{Danilishin_2012} to arrive at the result
+\end{itemize}
+
+\subsection{Derivation}
+
+\subsubsection{Transfer matrix for a cavity}
+
+% fix position of this figure later
+\begin{figure*}
+	\begin{center}
+	\includegraphics[height=0.4\textwidth, angle=-90]{figures/empty_cavity_amplitudes.pdf}
+	\end{center}
+	\caption{Labelled amplitudes for empty cavity matrix solution.}
+	\label{fig:empty_cavity_amplitudes}
+\end{figure*}
+
+Consider an empty two-mirror cavity with reflectivities $r_1, r_2$ and transmitivities $t_1, t_2$. For simplicity we assume mirror 1 is lossless and mirror two is perfectly reflective $r_2 = 1, t_2 = 0$. Light $a_0(\Omega)$ is incident on mirror 1, where $a_0$ is a vector of the two quadratures in the frequency domain (see Section~\ref{sec:squeezing}). Let $a_j$ for $j = 1, \ldots, 6$ be similar and defined as in Fig.~\ref{fig:empty_cavity_amplitudes}. We use the mirror phase convention of no change on transmission and reflection from one of the sides and $\pi$ on reflection from the other side. The transmission and reflection matrices are therefore $R_i = r_i I,\; T_i = t_i I$, where $i = 1, 2$ and $I$ is the $2 \times 2$ identity matrix. Let the propagation matrix from one mirror to the other be $P$ which we construct later. Therefore, the amplitudes are related by
+\begin{align*}
+a_1 &= T_1 a_0 + R_1 a_4\\
+a_2 &= P a_1\\
+a_3 &= R_2 a_2 \\
+a_4 &= P a_3\\
+a_5 &= T_1 a_4 - R_1 a_0\\
+a_6 &= T_2 a_2
+\end{align*}
+Solving the set of equations
+\begin{align*}
+a_4 &= P R_2 P (T_1 a_0 + R_1 a_4) \\
+a_4 &= (I - P R_2 P R_1)^{-1} P R_2 P T_1 a_0 \\
+a_5 &= \left(T_1 (I - P R_2 P R_1)^{-1} P R_2 P T_1 - R_1\right) a_0
+\end{align*}
+We get an expression for the reflected field off the cavity, $a_5$.
+
+
+The propagation matrix $P$ across free space depends on the length and tuning of the space. Let the cavity be $D = L + \delta l$ long. Then the propagation across free space is
+\begin{align*}
+P(L, \delta l) &= \exp\left(i\frac{\Omega (L + \delta l)}{c}\right) \;\mathrm{Rot}\left(\frac{\omega_0 \delta l}{c}\right) \\
+\mathrm{Rot}(\phi) &= \begin{bmatrix}
+\cos(\phi) & -\sin(\phi)\\ 
+\sin(\phi) & \cos(\phi)
+\end{bmatrix}
+\end{align*}
+We assume that $\Omega \ll \omega_0$ and so $\frac{\Omega \delta l}{c} \ll 1$. Let the angular tuning be $\psi = \frac{\omega_0 \delta l}{c}$. Therefore $$P(L, \delta l) = \exp\left(i\frac{\Omega L}{c}\right) \;\mathrm{Rot}\left(\psi\right)$$
+
+\subsubsection{Quadratures at the photodiodes}
+
+To incorporate the squeezer we borrow the above solution but change the propagation matrix to
+\begin{align*}
+	\begin{gathered}
+	\tilde{P}(L, \delta l, r, \phi) = P\left(\frac{L}{2}, \frac{\delta l}{2}\right) \mathrm{Sqz}(r, \phi) P\left(\frac{L}{2}, \frac{\delta l}{2}\right) \\
+	\mathrm{Sqz}(r, \phi) = \begin{bmatrix}
+	\cos(2 \phi) \sinh(r) + \cosh(r) & \sin(2\phi) \sinh(r)\\ 
+	\sin(2\phi) \sinh(r) & -\cos(2 \phi) \sinh(r) + \cosh(r)
+	\end{bmatrix}
+	\end{gathered}
+\end{align*}
+Where $r = r_\mathrm{sqz}$ is the squeezer parameter (not in dB) and $\phi$ is the squeezer angle.
+
+
+Referring to Fig.~\ref{fig:squeezed_cavity}, let $n = a_0$ be the vacuum incident on the cavity, $a$ be the laser noise, and let the local oscillator itself be
+$$A = A_0 \begin{bmatrix}
+\cos(\theta)\\ 
+\sin(\theta)
+\end{bmatrix}$$
+For homodyne angle $\theta$ and amplitude $A_0$. The field reflected off the cavity is
+$$n_r = \left(t_1 (I - r_1 \tilde{P}^2)^{-1} \tilde{P}^2 t_1 - r_1 \right) n$$
+
+
+For a 50/50 beamsplitter and negligible propagation lengths outside the cavity the fields (as quadrature vectors, frequency dependent) at the two photodiodes are therefore
+\begin{align*}
+b_1 &= \frac{1}{2^{1/2}} \left( n_r + A + a\right) \\
+b_2 &= \frac{1}{2^{1/2}} \left( n_r - A - a\right)
+\end{align*}
+
+\subsubsection{Fourier spectrum of the time averaged intensity}
+
+Consider the time average of the intensity at photodiode 1. Need to take inverse Fourier transform of frequency domain field, let tilde denote time domain. Note that depending on quadrature convention there may need to be a constant squared out the front of the intensity to fix the units, we later drop this constant anyway so I won’t write it. 
+\begin{align*}
+\tilde{b}_1 &= \begin{bmatrix}
+\tilde{b}_{1,c}\\ 
+\tilde{b}_{1,s}
+\end{bmatrix} \\
+\expect{\tilde{I}_1(t)} &= \expect{\abs{\tilde{b}_{1,c} \cos(\omega_0 t) + \tilde{b}_{1,s} \sin(\omega_0 t)}^2}
+\end{align*}
+Assuming that the time domain quadrature are Hermitian allows the absolute value squared to be expanded. Also assume that the quadratures are slowly changing with respect to $\omega_0$. Taking time averages we note $\expect{\cos(\omega_0 t) \sin(\omega_0 t)} = 0$ and $\expect{\cos^2} = \expect{\sin^2} = 1/2$. This leaves
+$$\expect{\tilde{I}_1} = \frac{1}{2} \left( \tilde{b}_{1,c}^2 + \tilde{b}_{1,s}^2 \right)$$
+
+
+Splitting the quadratures into a constant $B$ and a time varying part $\tilde{b}'$ with average zero and assuming that the time varying part is small with respect to the constant (this is true for the noise compared to the local oscillator). We expand the quadratures squared and drop the time varying part squared terms.
+$$\expect{\tilde{I}_1} = \frac{1}{2} \left( B_{1,c}^2 + B_{1,s}^2 + 2 \left( B_{1,c} \tilde{b}_{1,c}' + B_{1,s} \tilde{b}_{1,s}' \right) \right)$$
+
+
+Now taking Fourier transform to return to frequency domain, and dropping the (DC) constant term since we are only interested in the quantum noise. Recall that tildes indicated time domain, so we just drop them.
+$$\expect{I_1} = B_{1,c} b_{1,c}' + B_{1,s} b_{1,s}'$$
+
+
+We claim that these $B$ and $b'$ are the constant and frequency dependant parts of the original quadrature $b$. This amounts to $B$ being the local oscillator, e.g.\ $B_{1,c} = 1/2^{1/2} A_0 \cos(\theta)$, and $b'$ being the noise terms in $b$, i.e.\ $1/2^{1/2} (n_r \pm a)$. The homodyne intensity, $\mathrm{HomI}$, is then
+$$\mathrm{HomI} = \expect{I_1 - I_2} = B_{1,c} b_{1,c}' + B_{1,s} b_{1,s}' - B_{2,c} b_{2,c}' - B_{2,s} b_{2,s}'$$
+
+
+Substituting the quadratures at the photodiodes and simplifying reveals that the homodyne intensity doesn’t depend on $a$, the laser noise of the local oscillator, as expected. Let $n_c$ and $n_s$ be the quadratures of the original vacuum input $n$.
+$$\mathrm{HomI} = \frac{A_0(g_1 n_c + g_2 n_s)}{g_3}$$
+	
+{\small
+\begin{align*}
+g_1 &= -\cosh ^2(r) e^{\frac{2 i L \Omega }{c}} \left(\cos (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi )+t_1^2
+   \sin (\theta ) \sin (2 \psi )\right) \\
+   &-\cos (\theta ) \sinh ^2(r) \left(2 r_1^2+t_1^2\right) e^{\frac{2 i L \Omega
+   }{c}}\\
+   &-t_1^2 \cos (\theta ) \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+   &-t_1^2 \sin (\theta )
+   \sinh (2 r) \cos (\psi ) \sin (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+   &+r_1^3 \cos (\theta ) e^{\frac{4 i L \Omega
+   }{c}}+r_1 t_1^2 \cos (\theta ) e^{\frac{4 i L \Omega }{c}}+r_1 \cos (\theta ) \\
+g_2 &= \cosh ^2(r) e^{\frac{2 i L \Omega }{c}} \left(t_1^2 \cos (\theta ) \sin (2 \psi )-\sin (\theta ) \left(2
+   r_1^2+t_1^2\right) \cos (2 \psi )\right)\\
+   &+\sin (\theta ) \left(-\sinh ^2(r) (2 r_1^2+t_1^2\right)
+   e^{\frac{2 i L \Omega }{c}}\\
+   &+t_1^2 \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}+r_1^3
+   e^{\frac{4 i L \Omega }{c}}+r_1 t_1^2 e^{\frac{4 i L \Omega }{c}}+r_1)\\
+   &-4 t_1^2 \cos (\theta )
+   \sinh (r) \cosh (r) \cos (\psi ) \sin (\phi ) \cos (\phi ) e^{\frac{2 i L \Omega }{c}} \\
+g_3 &= 1 + r_1^2 e^{\frac{4 i L \Omega}{c}} - 2 e^{\frac{2 i L \Omega}{c}} r_1 \cos(2 \psi) \cosh(r)^2 - 2 e^{\frac{2 i L \Omega}{c}} \sinh(r)^2
+\end{align*}
+}
+
+\subsubsection{PSD of the homodyne intensity}
+
+Recall the definition of PSD from Section~\ref{sec:squeezing}, and noting that $S, \mathrm{HomI}, n$ should all have hats (\,$\hat{}$\,) but we drop them to reduce clutter.
+$$S_\mathrm{HomI}(\Omega) 2 \pi \delta(\Omega - \Omega') = \langle0| \mathrm{HomI}(\Omega) \circ \mathrm{HomI}^\dagger(\Omega') |0\rangle$$
+
+Assuming that the homodyne intensity is hermitian, and expanding out the symmetric products we get
+\begin{align*}
+S_\mathrm{HomI}(\Omega) 2 \pi \delta(\Omega - \Omega') &= \frac{A_0^2}{g_3(\Omega) g_3(\Omega')} \\
+&\cdot \langle0| g_1(\Omega) g_1(\Omega') (n_c(\Omega) \circ n_c(\Omega'))\\
+&+ g_2(\Omega) g_2(\Omega') (n_s(\Omega) \circ n_s(\Omega')) \\
+&+ g_1(\Omega) g_2(\Omega') (n_c(\Omega) \circ n_s(\Omega')) \\
+&+ g_2(\Omega) g_1(\Omega') (n_s(\Omega) \circ n_c(\Omega')) |0\rangle
+\end{align*}
+
+
+From pg.~38 of Ref.~\cite{Danilishin_2012}, for the quantum noise we have the following relations (the factor of $1/2$ is from the choice of using a double-sided PSD).
+\begin{align*}
+\langle0|n_c(\Omega) \circ n_c(\Omega')|0\rangle &= \frac{1}{2} 2 \pi \delta(\Omega - \Omega') \\
+\langle0|n_s(\Omega) \circ n_s(\Omega')|0\rangle &= \frac{1}{2} 2 \pi \delta(\Omega - \Omega') \\
+\langle0|n_c(\Omega) \circ n_s(\Omega')|0\rangle &= 0
+\end{align*}
+
+Substituting these relations in we arrive at the result, the PSD of the homodyne intensity. For plotting purposes we set $A_0 = 1$.
+$$S_\mathrm{HomI}(\Omega) = \frac{A_0^2 \left( g_1(\Omega)^2 + g_2(\Omega)^2 \right)}{g_3(\Omega)^2}$$
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

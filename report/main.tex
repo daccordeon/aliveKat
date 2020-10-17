@@ -169,7 +169,12 @@ If the reflectivies are fixed and instead the frequency of the incoming light is
 Given a sinusoidal signal, one can decompose it into two quadratures $A_C \cos(\Omega t) + A_S \sin(\Omega t)$, called the cosine and sine or the amplitude and phase quadratures (so called because of the effects of amplitude and phase modulation being seen in their respective quadratures). Note that the quadrature decomposition of all the light in the interferometer is relative and taken (typically) with respect to the carrier.
 
 
-We are interested in quadratures because they lead to a simple explanation of squeezing. In the quantum mechanical two-photon formalism~\cite{Danilishin_2012}, the quadratures relate the harmonic oscillator creation/annihilation operators of the sidebands ($\hat{a}_{\omega_0 \pm \Omega}^\dagger, \hat{a}_{\omega_0 \pm \Omega}$) around the carrier (here we assume $\Omega \ll \omega_0$) $$\hat{a}_c(\Omega) \approx \frac{1}{2^{1/2}} (\hat{a}_{\omega_0 + \Omega} + \hat{a}_{\omega_0 - \Omega}^\dagger),\; \hat{a}_s(\Omega) \approx \frac{1}{i 2^{1/2}} (\hat{a}_{\omega_0 + \Omega} - \hat{a}_{\omega_0 - \Omega}^\dagger).$$ In quantum optics, these then define dimensionless “position” and “momentum” operators $\hat{X}, \hat{Y}$, the moments of which describe the uncertainty in each quadrature (and are also equal to values in the spectral density and covariance matrices~\cite{Danilishin_2012}). These uncertainties ultimately represent the uncertainty in the amplitude and phase of the electric field.
+We are interested in quadratures because they lead to a simple explanation of squeezing. In the quantum mechanical two-photon formalism~\cite{Danilishin_2012}, the quadratures relate the harmonic oscillator creation/annihilation operators of the sidebands ($\hat{a}_{\omega_0 \pm \Omega}^\dagger, \hat{a}_{\omega_0 \pm \Omega}$) around the carrier (here we assume $\Omega \ll \omega_0$)
+\begin{align*}
+\hat{a}_c(\Omega) &\approx \frac{1}{2^{1/2}} (\hat{a}_{\omega_0 + \Omega} + \hat{a}_{\omega_0 - \Omega}^\dagger),\\
+\hat{a}_s(\Omega) &\approx \frac{1}{i 2^{1/2}} (\hat{a}_{\omega_0 + \Omega} - \hat{a}_{\omega_0 - \Omega}^\dagger).
+\end{align*}
+In quantum optics, these then define dimensionless “position” and “momentum” operators $\hat{X}, \hat{Y}$, the moments of which describe the uncertainty in each quadrature (and are also equal to values in the spectral density and covariance matrices~\cite{Danilishin_2012}). These uncertainties ultimately represent the uncertainty in the amplitude and phase of the electric field.
 
 
 Consider a vacuum state, although the expected value for either quadrature is zero $\langle \hat{X} \rangle = \langle \hat{Y} \rangle = 0$, due to the Heisenberg Uncertainty Principle (HUP) the standard deviations are limited by $\mathrm{Var}[\hat{X}]^{1/2} \mathrm{Var}[\hat{Y}]^{1/2} \geq 1/2$. Imagining the distribution of the state in phase space, this means that smallest area the noise ellipse corresponding to one standard deviation can have is $1/2$. The vacuum ground state with minimum uncertainty has equal radii of $1/2^{1/2}$.
@@ -386,7 +391,7 @@ We first consider the behaviour at the carrier frequency of the absolute value o
 
 
 The explanation for this behaviour lies in the assumptions made in the analytics. In particular, we assumed that the pump laser for the squeezer, which is its energy source, was essentially an undepletable reservoir. This meant that when we pumped in phase with the noise we could endlessly amplify and we when pumped out of phase we could completely cancel the noise, these two conditions exactly occur when threshold is reached. Physically this is not the case and pump depletion requires a Hamiltonian model of the system to analyse properly. This means that the analytics derived here break at threshold, similarly, any results above threshold are unphysical.
-However, below threshold the model is reasonably accurate. {\Large how do we know, expt.???}
+However, below threshold the model is reasonably accurate, which is all we require as operating well below threshold is all we can achieve due to other physical constraints on our squeezers. {\Large how do we know, expt.???}
 
 
 We are also interested in the behaviour at some frequency offset $\Omega$ relative to the behaviour at the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. For the same parameters as above except for a selection of different squeezer parameters, this is shown in Fig.~\ref{fig:not_main_PSD_vs_freq}. For all non-zero squeezer parameters, it shows resonances every $9.42$ GHz (radians). At each resonance, the threshold values go to infinity and zero, while off resonance they are different from the carrier frequency but remain on the same scale (with difference of order $10^{-3}$).
@@ -427,44 +432,96 @@ Overall, the \code{nle} component successfully models the squeezed cavity, with 
 \section{Modelling advanced gravitational wave detector configurations}
 \label{sec:aLIGOcomparison}
 
-\subsection{Analytics for reduced configuration}
+\subsection{Analytics for the reduced aLIGO configuration}
+
 % get source from Vaishali
+We use analytics for the coupled cavity system (shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}) derived in Ref.~{\Large source???} and implemented in Ref.~{\Large ???}. Recall that this system is an approximation, albeit a good one, of the simplified aLIGO configuration (shown in Fig.~\ref{fig:aLIGO_configuration}). In addition, the input/output relation and the calculation of the coupled cavity pole are both only approximate. We claim below that these approximations are responsible for the rest of the discrepancy between the analytics and the Finesse model, after first correcting for the implementation in Finesse.
 
 
 \subsection{Finesse model of aLIGO}
-% comparison for long SRC with internal squeezing
 
 % table of aLIGO parameters used in Finesse model and analytics
+\begin{table}[]
+	\centering
+	\begin{tabular}{l|ll}
+	 & analytics & Finesse \\ \hline
+	Arm length / m & 3994.5 & 4000 \\
+	SRC length / m & 319 & 319 \\
+	Power on beamsplitter / kW & 5.35 & 5.35 \\
+	Power in arms / kW & 758.9 & 758.9 \\
+	SRM power transmission & 0.12 & 0.12 \\
+	ITM power transmission & 0.014 & 0.014 \\
+	\textit{Gain input to internal squeezer} & 0.06 & $5 \log_{10}(e^{0.06})$ \\
+	Maximum sensitivity / $\mathrm{Hz}^{-0.5}$ & $3.95 \times 10^{-25}$ & $4.16 \times 10^{-25}$ \\
+	Peak frequency / kHz & 2.49 & 2.51
+	\end{tabular}%
+	\caption{Parameters of analytics for reduced and Finesse model for simplified aLIGO configuration with no losses.}
+	\label{tab:aLIGO_parameters}
+\end{table}
+
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.8\textwidth]{figures/sqz_aLIGO_analytics_v_simulation.pdf}
+	\end{center}
+	\caption{Sensitivity of aLIGO for a long SRC with internal squeezing, analytics versus Finesse model.}
+	\label{fig:sqz_aLIGO_analytics_v_simulation}
+\end{figure*}
+
+We model the simplified, lossless aLIGO configuration (shown in Fig.~\ref{fig:aLIGO_configuration}) in Finesse with internal squeezing using the \code{nle} component. We study a long SRC configuration here, although the agreement between the analytics and model is similar for different parameters. Similar configurations with lengths of the SRC of 53 m and 2 km generate the signal and noise transfer functions and sensitivity shown in Fig.~\ref{fig:src_transfer_functions}. A summary of the parameters used here is shown in Table~\ref{tab:aLIGO_parameters}. Note that the squeezer in the analytics takes the $r_\mathrm{sqz} = 0.06$ parameter as input while the \code{nle} takes the gain in dB (defined as $10 \log_{10}(e^\mathrm{sqz})$ against convention) as input. However, here we input only $5 \log_{10}(e^\mathrm{sqz})$ into the Finesse model, explained below.
 
 
+% comparison for long SRC with internal squeezing
+A comparison of sensitivity of the analytics and Finesse is shown in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}. With the squeezer turned off, the agreement is nearly exact (to numerical error). With the squeezer turned on, the sensitivity is quite similar between the analytics and the Finesse model, with error at the peak sensitivity on the order of $10^{-26}$ and with similar relative error off peak (i.e.\ on a logarithmic scale the error looks uniform across frequency, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}). This remaining error we attribute to the approximations made in the analytics, in some ways, the Finesse model is more accurate.
 
-\subsection{Reasons for the discrepancy}
+
+\subsubsection{Explaining the discrepancy in dB}
 
 % different def of dB gives a factor of 2
-% double passing of NLE gives another factor of 2
-% => gave to input to NLE 1/4 of the input to analytics
+To recap, the squeezer in the analytics takes $r_\mathrm{sqz}$ as input and produces a gain in dB calculated as $20 \log_{10}(e^\mathrm{sqz})$. In Finesse, the \code{nle} components takes a gain value as input but calculates dB as only $10 \log_{10}(e^\mathrm{sqz})$, therefore producing twice the amount of squeezing than expected, as shown in Fig.~\ref{fig:testing_Finesse_squeezers}. This means that given the $r_\mathrm{sqz} = 0.06$ input into the analytics, we need to halve the gain to account for the difference in definitions in dB, and input into \code{nle} $10 \log_{10}(e^\mathrm{sqz})$.
 
-% approximations in the analytics
- % (including the calculation of the coupled cavity pole, the interferometer itself!) 
+
+% double passing of NLE gives another factor of 2
+However, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}, the correct value to pass to \code{nle} is $5 \log_{10}(e^\mathrm{sqz})$, so where is the second factor of two? As mentioned in Section~\ref{sec:squeezing}, physical squeezer crystals are directional, meaning that they will only squeeze states incident from one side, letting those incident from the other through unchanged. The implementation of \code{nle} is, however, direction-less, meaning that it squeezes from both sides. When placed in a cavity it produces twice the amount of squeezing than expected. Therefore, given a squeezer parameter (not in dB), the gain in dB to pass to \code{nle} is half as small due to different definitions of dB and half as small again due to the direction-less-ness of the component.
+
 
 % Is the recommendation to Daniel Brown to both fix the dB and perhaps make nle a directional component (will squeeze light from n1 to n2, but will just let light through n2 to n1)?
+Overall, the \code{nle} component successfully models the simplified aLIGO configuration up some error likely due to approximations in the analytics, with the caveat that the gain input must be corrected to account for the nature of the implementation. This is a good result and resolves, positively, the testing of the \code{nle} component we set out to do. Due to the confusion from the differences between the analytics’ conventions and those in the implementation, we recommend that the \code{nle} component be modified to calculate the gain as $20 \log_{10}(e^\mathrm{sqz})$ and also potentially made directional.
 
+
+\subsection{Optimisation}
+
+\begin{figure*}
+	\begin{center}
+	\includegraphics[width=0.8\textwidth]{figures/aLIGO_optimum_sensitivity_comparison.pdf}
+	\end{center}
+	\caption{Optimised sensitivity for fixed lengths of the SRC, for Finesse model of aLIGO with internal squeezing.}
+	\label{fig:aLIGO_optimum_sensitivity_comparison}
+\end{figure*}
+
+% reason to use python is to optimise
+Having successfully shown that Finesse can model the aLIGO configuration, we can now use PyKat to optimise the sensitivity in some band against whatever parameters we like. Here we only do this briefly, as a demonstration of the ability, but more broadly this is a key benefit of Finesse.
+
+
+We optimise the sensitivity within a high frequency band of 900 Hz to 3 kHz for fixed lengths of SRC of 53 m and 2 km, the results are shown in Fig.~\ref{fig:aLIGO_optimum_sensitivity_comparison}. The optimisation was allowed to vary the squeezer gain, the squeezer angle, and the homodyne angle. Once again the results show the high peak, short bandwidth of the long SRC which achieves a sensitivity of $1.36 \times 10^{-25}\; \mathrm{Hz}^{-0.5}$. It achieves this at a non-zero squeezer angle of $0.014^\circ$, which is surprising and not yet understood. Allowing the optimisation to vary additionally the length of the SRC, the power transmission of the SRM, and the tuning of the SRM led to the optimisation getting stuck near the various initial values given, for reasons not yet understood.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Future work}
 \label{sec:future_work}
 
+% fixing many parameter optimisation, if done, then could feed the program a frequency band and it could come up with the best configuration possible
+
 % (detuned long SRC ,non degenerate squeezing, limitations of finesse in its current form that can be overcome)
+
 
 
 \section{Conclusions}
 \label{sec:conclusions}
 
 
+
 \begin{acknowledgments}
-
-
+The authors wish to thank the OzGrav-ANU squeezer group for their continued advice and support.
 
 \end{acknowledgments}
 

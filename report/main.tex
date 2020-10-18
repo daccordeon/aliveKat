@@ -71,8 +71,7 @@
 
 Gravitational wave detectors are highly complex and their transfer functions do not have exact analytic solutions. Optical modelling allows the researcher to quickly ascertain the efficacy of a proposed configuration without needing to perform the analytical derivation. We demonstrate this using Finesse~\cite{finesse} by modelling a configuration of Advanced LIGO~\cite{AdvancedLIGO:2015} that has a long signal recycling cavity (SRC) with a degenerate squeezer inside. To do this, we first test (successfully) the implemented squeezer component in a squeezed cavity against derived analytics. We then test the proposed configuration against existing analytics and show that the model works up to approximation, when corrections are made for the different conventions used. Finally, we optimise the high frequency sensitivity of the proposed configuration by varying the squeezer parameters to show the benefits of the design in achieving higher peak quantum noise limited sensitivity.
 
-
-\jam{(this is a comment)}
+% \jam{(this is a comment)}
 
 \end{abstract}
 
@@ -302,7 +301,6 @@ Considering the coupled cavity system in analogy to a system of two coupled harm
 
 The effect of the length of the SRC on the signal transfer function is shown as red and blue lines in the middle panel of Fig.~\ref{fig:src_transfer_functions}.
 For a short SRC, the signal transfer function is constant at frequencies below $10^2$ Hz and then slowly begins to roll off, losing an order of magnitude when it gets to $10$ kHz. For a long SRC (of comparable length to the arm cavity), the signal transfer function is similar at lower frequencies, begins to roll off later than the short SRC, but has a faster roll off thereafter, losing two orders of magnitude by $10$ kHz. As a result, the long SRC is more sensitive around the coupled cavity pole but has shorter bandwidth overall, see the bottom panel of Fig.~\ref{fig:src_transfer_functions}.
-\jam{why is strain measured in $Hz^{-0.5}$?}
 
 
 Importantly, the length of the SRC also affects how internal squeezing reduces the quantum noise, discussed below.
@@ -368,7 +366,7 @@ We derive the analytics for this system, getting an expression for the power spe
 
 \begin{figure*}
 	\begin{center}
-	\includegraphics[width=0.7\textwidth]{figures/not_main_PSD_vs_r.pdf}
+	\includegraphics[width=0.6\textwidth]{figures/not_main_PSD_vs_r.pdf}
 	\end{center}
 	\caption{Analytics result for absolute value of PSD of homodyne intensity against the squeezer parameter for a squeezed cavity}
 	\label{fig:not_main_PSD_vs_r}
@@ -386,7 +384,7 @@ We first consider the behaviour at the carrier frequency of the absolute value o
 
 
 The explanation for this behaviour lies in the assumptions made in the analytics. In particular, we assumed that the pump laser for the squeezer, which is its energy source, was essentially an undepletable reservoir. This meant that when we pumped in phase with the noise we could endlessly amplify and we when pumped out of phase we could completely cancel the noise, these two conditions exactly occur when threshold is reached. Physically this is not the case and pump depletion requires a Hamiltonian model of the system to analyse properly. This means that the analytics derived here break at threshold, similarly, any results above threshold are unphysical.
-However, below threshold the model is reasonably accurate, which is all we require as operating well below threshold is all we can achieve due to other physical constraints on our squeezers. \jam{how do we know the accuracy?}
+However, the aLIGO squeezer operates normally well below threshold, where the model is reasonably accurate and so can be used to study aLIGO.
 
 
 We are also interested in the behaviour at some frequency offset $\Omega$ relative to the behaviour at the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. For the same parameters as above except for a selection of different squeezer parameters, this is shown in Fig.~\ref{fig:not_main_PSD_vs_freq}. For all non-zero squeezer parameters, it shows resonances every $9.42$ GHz (radians). At each resonance, the threshold values go to infinity and zero, while off resonance they are different from the carrier frequency but remain on the same scale (with difference of order $10^{-3}$).
@@ -430,7 +428,7 @@ Overall, the \code{nle} component successfully models the squeezed cavity, with 
 \subsection{Analytics for the reduced aLIGO configuration}
 
 % get source from Vaishali
-We use analytics for the coupled cavity system (shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}) derived in Ref.~\jam{ref?} and implemented in Ref.~\jam{ref?}. Recall that this system is an approximation, albeit a good one, of the simplified aLIGO configuration (shown in Fig.~\ref{fig:aLIGO_configuration}). In addition, the input/output relation and the calculation of the coupled cavity pole are both only approximate. We claim below that these approximations are responsible for the rest of the discrepancy between the analytics and the Finesse model, after first correcting for the implementation in Finesse.
+We use analytics for the coupled cavity system (shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}) derived in Refs.~\cite{Korobko_2019,SOMIYA2016521}. Recall that this system is an approximation, albeit a good one, of the simplified aLIGO configuration (shown in Fig.~\ref{fig:aLIGO_configuration}). In addition, the input/output relation and the calculation of the coupled cavity pole are both only approximate. We claim below that these approximations are responsible for the rest of the discrepancy between the analytics and the Finesse model, after first correcting for the implementation in Finesse.
 
 
 \subsection{Finesse model of aLIGO}
@@ -480,7 +478,7 @@ However, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}, the correct
 
 
 % Is the recommendation to Daniel Brown to both fix the dB and perhaps make nle a directional component (will squeeze light from n1 to n2, but will just let light through n2 to n1)?
-Overall, the \code{nle} component successfully models the simplified aLIGO configuration up some error likely due to approximations in the analytics, with the caveat that the gain input must be corrected to account for the nature of the implementation. This is a good result and resolves, positively, the testing of the \code{nle} component that we set out to do. Due to potential confusion about the dB convention and the directionality, we recommend that the \code{nle} component be modified to calculate the gain as $20 \log_{10}(e^\mathrm{sqz})$ and possibly made directional.
+Overall, the \code{nle} component successfully models the simplified aLIGO configuration up some error likely due to approximations in the analytics, with the caveat that the gain input must be corrected to account for the nature of the implementation. This is a good result and resolves, positively, the testing of the \code{nle} component that we set out to do. For the sake of consistency, we recommend that the \code{nle} component be modified to calculate the gain as $20 \log_{10}(e^\mathrm{sqz})$ and possibly made directional.
 
 
 \subsection{Optimisation}
@@ -497,7 +495,7 @@ Overall, the \code{nle} component successfully models the simplified aLIGO confi
 Having successfully shown that Finesse can model the aLIGO configuration, we can now use PyKat to optimise the sensitivity in some band against whatever parameters we like. Here we only do this briefly, as a demonstration of the ability, but more broadly this is a key benefit of Finesse.
 
 
-We optimise the sensitivity within a high frequency band of 900 Hz to 3 kHz for fixed lengths of SRC of 53 m and 2 km, the results are shown in Fig.~\ref{fig:aLIGO_optimum_sensitivity_comparison}. The optimisation was allowed to vary the squeezer gain, the squeezer angle, and the homodyne angle. Once again the results show the high peak, short bandwidth of the long SRC which achieves a sensitivity of $1.36 \times 10^{-25}\; \mathrm{Hz}^{-0.5}$. It achieves this at a non-zero squeezer angle of $0.014^\circ$, which is surprising and not yet understood. Allowing the optimisation to vary additionally the length of the SRC, the power transmission of the SRM, and the tuning of the SRM led to the optimisation getting stuck near the various initial values given, for reasons not yet understood.
+We optimise the sensitivity within a high frequency band of 900 Hz to 3 kHz for fixed lengths of SRC of 53 m and 2 km, the results are shown in Fig.~\ref{fig:aLIGO_optimum_sensitivity_comparison}. The optimisation was allowed to vary the squeezer gain, the squeezer angle, and the homodyne angle. Once again the results show the high peak, short bandwidth of the long SRC which achieves a sensitivity of $1.36 \times 10^{-25}\; \mathrm{Hz}^{-0.5}$. It achieves this at a non-zero squeezer angle of $0.014^\circ$, which is surprising and not yet understood (although it could just be the optimisation routine). Allowing the optimisation to vary additionally the length of the SRC, the power transmission of the SRM, and the tuning of the SRM led to the optimisation getting stuck near the various initial values given, for reasons not yet understood.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -516,7 +514,8 @@ We’ve largely ignored losses because how losses in the simplified aLIGO config
 
 
 % detuned long SRC, non-degenerate squeezing
-As for different proposed configurations, two changes would be detuning the long SRC and non-degenerate squeezing. Detuning the long SRC is something we started to investigate by allowing the optimisation to change the tuning of the SRM, investigating this further would amount to fixing the optimisation as above. Non-degenerate squeezing is when the produced photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new component to Finesse, similar to \code{nle}, but is otherwise achievable to model. \jam{what is the motivation for non-degenerate squeezing?}
+As for different proposed configurations, two changes would be detuning the long SRC and non-degenerate squeezing. Detuning the long SRC is something we started to investigate by allowing the optimisation to change the tuning of the SRM, investigating this further would amount to fixing the optimisation as above. Non-degenerate squeezing is when the produced entangled photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new component to Finesse able to be internal to the configuration, similar to \code{nle}, but is otherwise achievable to model. The motivation for internal non-degenerate squeezing is to be able to replace (potentially) a ``white-light cavity'' (not explained here) and get the same broadband improvement without the complications of the stability, high mechanical quality factor, and low required thermal noise of the ``white-light cavity''.
+
 
 % other limitations of finesse in its current form that can be overcome?
 
@@ -534,7 +533,7 @@ In particular, we investigated long SRC and internal squeezing configurations. I
 
 
 % aLIGO, recommendation
-Having got a internal squeezer, we used existing analytics to test the proposed configurations in Finesse. This was successful up to some error attributed to approximations in the analytics, with the caveat that the input to the component had to be corrected for different conventions in dB and the directionality of the squeezer. In order to avoid further confusion, we recommend that the \code{nle} component be changed to match convention.
+Having got a internal squeezer, we used existing analytics to test the proposed configurations in Finesse. This was successful up to some error attributed to approximations in the analytics, with the caveat that the input to the component had to be corrected for different conventions in dB and the directionality of the squeezer. For the sake of consistency, we recommend that the \code{nle} component be changed to match convention.
 
 
 % optimisation

@@ -71,8 +71,6 @@
 
 Gravitational wave detectors are highly complex and their transfer functions do not have exact analytic solutions. Optical modelling allows the researcher to quickly ascertain the efficacy of a proposed configuration without needing to perform the analytical derivation. We demonstrate this using Finesse~\cite{finesse} by modelling a configuration of Advanced LIGO~\cite{AdvancedLIGO:2015} that has a long signal recycling cavity (SRC) with a degenerate squeezer inside. To do this, we first test (successfully) the implemented squeezer component in a squeezed cavity against derived analytics. We then test the proposed configuration against existing analytics and show that the model works up to approximation, when corrections are made for the different conventions used. Finally, we optimise the high frequency sensitivity of the proposed configuration by varying the squeezer parameters to show the benefits of the design in achieving higher peak quantum noise limited sensitivity.
 
-% \jam{(this is a comment)}
-
 \end{abstract}
 
 \maketitle
@@ -474,7 +472,7 @@ To recap, the squeezer in the analytics takes $r_\mathrm{sqz}$ as input and prod
 
 
 % double passing of NLE gives another factor of 2
-However, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}, the correct value to pass to \code{nle} is $5 \log_{10}(e^\mathrm{sqz})$, so where is the second factor of two? As mentioned in Section~\ref{sec:squeezing}, physical squeezer crystals are directional, meaning that they will only squeeze states incident from one side, letting those incident from the other through unchanged. The implementation of \code{nle} is, however, direction-less, meaning that it squeezes from both sides. When placed in a cavity it produces twice the amount of squeezing than expected. Therefore, given a squeezer parameter (not in dB), the gain in dB to pass to \code{nle} is half as small due to different definitions of dB and half as small again due to the direction-less-ness of the component. \jam{if this is true, where is the effect in the squeezed cavity results?}
+However, as seen in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}, the correct value to pass to \code{nle} is $5 \log_{10}(e^\mathrm{sqz})$, so where is the second factor of two? As mentioned in Section~\ref{sec:squeezing}, physical squeezer crystals are directional, meaning that they will only squeeze states incident from one side, letting those incident from the other through unchanged. The implementation of \code{nle} is, however, direction-less, meaning that it squeezes from both sides. When placed in a cavity it produces twice the amount of squeezing than expected. Therefore, given a squeezer parameter (not in dB), the gain in dB to pass to \code{nle} is half as small due to different definitions of dB and half as small again due to the direction-less-ness of the component. This second factor of two was not evident in the squeezed cavity results because there the squeezer in the analytics was directionless.
 
 
 % Is the recommendation to Daniel Brown to both fix the dB and perhaps make nle a directional component (will squeeze light from n1 to n2, but will just let light through n2 to n1)?
@@ -613,7 +611,7 @@ To incorporate the squeezer we borrow the above solution but change the propagat
 	\end{bmatrix}
 	\end{gathered}
 \end{align*}
-Where $r = r_\mathrm{sqz}$ is the squeezer parameter (not in dB) and $\phi$ is the squeezer angle.
+Where $r = r_\mathrm{sqz}$ is the squeezer parameter (not in dB) and $\phi$ is the squeezer angle. Note that this means that the light gets squeezed from both directions by the squeezer. This is not what physically happens but is how \code{nle} is implemented, so for ease of comparison we choose this convention. Note that this is different to the directional squeezer in the analytics in Section~\ref{sec:aLIGOcomparison}.
 
 
 Referring to Fig.~\ref{fig:squeezed_cavity}, let $n = a_0$ be the vacuum incident on the cavity, $a$ be the laser noise, and let the local oscillator itself be

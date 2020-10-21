@@ -28,7 +28,7 @@
 %TITLE PAGE
 \title[Optical modelling of GW detectors]{Optical modelling of advanced gravitational wave detector configurations}
 
-\author[James W. Gardner et al.]{James W. Gardner, Vaishali B. Adya, David McClelland, Daniel Töyrä}
+\author[James W. Gardner et al.]{James~W.~Gardner, Vaishali~B.~Adya, David~McClelland, Daniel~Töyrä}
 \date{\today}
 
 \begin{document}
@@ -41,48 +41,70 @@
 
 \begin{frame}{Motivation: HF sensitivity}
 % GW detectors and neutron stars as example of HF source
+\begin{figure}
 \includegraphics<1>[height=\textwidth,angle=-90]{figures/gwo_ifos-pictures.pdf}
+\caption*{LIGO-Hanford, LIGO-Livingston, VIRGO, KAGRA}
+\end{figure}
 % quantum noise at HF
+\end{frame}
+
+\begin{frame}{Motivation: quantum noise limited detection}
 \centering
-\includegraphics<2>[height=0.8\textwidth, angle=-90]{figures/sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf}
+\includegraphics<1>[width=0.8\textwidth]{figures/sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf}
 \end{frame}
 
 \begin{frame}{Our goal}
 \begin{block}{Test the new \code{nle} component in Finesse}
-If successful, then allows us an efficient means to test configurations
+\begin{itemize}
+\item why bother?
+\item what’s the \code{nle}?
+\item what’s Finesse?
+\end{itemize}
+% If successful, then allows us an efficient means to test configurations
 \end{block}
+\end{frame}
+
+% quantum noise in phase quadrature
+\begin{frame}{aLIGO with long SRC and internal squeezing}
+\centering
+\includegraphics<1>[height=.8\textheight]{figures/aLIGO_internal_squeezing.pdf}
+% \vspace{-.5cm}
+% \includegraphics<2>[height=.8\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
 \end{frame}
 
 % freq. domain optical modelling, used in GW field and for optical cavities
 % Finesse can do (cool stuff) ...
 \begin{frame}{Finesse}
 \begin{itemize}
-\item frequency domain optical modelling 
-\item e.g.\ can handle beam geometry, noise coupling, higher order modes
-\item used for GW detector proposals and outside GW research
+\item<1> frequency domain optical modelling 
+% \item e.g.\ can handle beam geometry, noise coupling, higher order modes
+\item<1> can model some realistic, cool things
+\item<1> used for GW detector proposals and outside GW research
 \end{itemize}
 \begin{figure}
     \captionsetup[subfigure]{labelformat=empty}
     \centering 
-    \subfloat[\centering]{{\includegraphics<1>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
+    \subfloat[\centering]{{\includegraphics<1>[width=0.2\textwidth]{figures/finesse_horse.png}}}%    
     \qquad
-    \subfloat[\centering]{{\includegraphics<1>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
+    \subfloat[\centering]{{\includegraphics<1>[width=0.5\textwidth]{figures/pykat_cat_and_pie.png}}}%
 \end{figure}
+\vspace{-3cm}
+\begin{figure}
+    \captionsetup[subfigure]{labelformat=empty}
+    \centering 
+    \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
+    \qquad
+    \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
+\end{figure}
+\vfill
+\url{http://www.gwoptics.org/finesse/}
 \end{frame}
 
-% quantum noise in phase quadrature
-\begin{frame}{aLIGO with long SRC and internal squeezing}
-\begin{columns}
-\column{0.5\textwidth}
-\includegraphics<1>[width=\textwidth]{figures/aLIGO_internal_squeezing.pdf}
-\column{0.5\textwidth}
-\includegraphics<1>[width=\textwidth]{figures/aLIGO_as_coupled_cavities.pdf}
-\end{columns}
-\centering
-\vspace{-.5cm}
-\includegraphics<2>[height=.88\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
-\end{frame}
-
+% \begin{frame}{Our goal}
+% \begin{block}{Test the new \code{nle} component in Finesse}
+% If successful, then allows us an efficient means to test configurations
+% \end{block}
+% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -90,17 +112,13 @@ If successful, then allows us an efficient means to test configurations
 \begin{frame}{Squeezed cavity}
 \centering
 \qquad
-\includegraphics<1>[height=0.8\textwidth, angle=-90]{figures/squeezed_cavity.pdf}
+\includegraphics<1>[width=0.8\textwidth]{figures/squeezed_cavity.pdf}
 \begin{columns}
 \column{0.5\textwidth}
 \includegraphics<2>[width=\textwidth]{figures/not_main_PSD_vs_r.pdf}
 \column{0.5\textwidth}
 \includegraphics<2>[width=\textwidth]{figures/pykat_relative_qhd_vs_r.pdf}
 \end{columns}
-\vspace{-.5cm}
-\includegraphics<3>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
-\vspace{-.5cm}
-\includegraphics<4>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
 \end{frame}
 
 % match powers, check tunings, then compare sensitivities
@@ -118,14 +136,17 @@ If successful, then allows us an efficient means to test configurations
 \end{frame}
 
 \begin{frame}{Achieved our goal!}
-\begin{block}{Test the \code{nle} component in Finesse}
-Now allows us an efficient means to test configurations
-\end{block}
+\begin{alertblock}{Test the \code{nle} component in Finesse}
+\begin{itemize}
+\item Sensitivity agrees with analytics
+\item Input to \code{nle} needs to be corrected by $1/4$ to match conventions
+\item Now allows us an efficient means to test configurations
+\end{itemize}
+\end{alertblock}
 \end{frame}
 
 \begin{frame}{Future work}
 \begin{block}{Optimisation for HF sensitivity}
-e.g.\ for neutron star-neutron star mergers
 \end{block}
 \begin{exampleblock}{Modelling other configurations}
 \begin{itemize}
@@ -141,10 +162,21 @@ e.g.\ for neutron star-neutron star mergers
 \titlepage 
 \end{frame}
 
+\begin{frame}{Squeezed cavity frequency response}
+\centering
+\includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
+% \vspace{-.1cm}
+\includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
+\end{frame}
+
 \begin{frame}{Example of optimisation}
 \centering 
 \includegraphics<1>[height=0.85\textheight]{figures/aLIGO_optimum_sensitivity_comparison.pdf}
 \end{frame}
 
+\begin{frame}{Finesse code example}
+\centering 
+\includegraphics<1>[height=0.85\textheight]{figures/finesse_code_example.png}
+\end{frame}
 
 \end{document}

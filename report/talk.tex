@@ -75,6 +75,7 @@
 % freq. domain optical modelling, used in GW field and for optical cavities
 % Finesse can do (cool stuff) ...
 \begin{frame}{Finesse}
+\only<2-|handout:0>{\stepcounter{framenumber}}
 \begin{itemize}
 \item<1> frequency domain optical modelling 
 % \item e.g.\ can handle beam geometry, noise coupling, higher order modes
@@ -110,6 +111,7 @@
 
 % show method!
 \begin{frame}{Squeezed cavity}
+\only<2-|handout:0>{\stepcounter{framenumber}}
 \centering
 \qquad
 \includegraphics<1>[width=0.8\textwidth]{figures/squeezed_cavity.pdf}
@@ -123,6 +125,7 @@
 
 % match powers, check tunings, then compare sensitivities
 \begin{frame}{aLIGO with long SRC and internal squeezing}
+\only<2-|handout:0>{\stepcounter{framenumber}}
 \centering 
 \begin{columns}
 \column{0.5\textwidth}
@@ -132,7 +135,7 @@
 \end{columns}
 \vspace{-.5cm}
 \includegraphics<2>[height=.88\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
-\includegraphics<3>[width=0.8\textwidth]{figures/sqz_aLIGO_analytics_v_simulation.pdf}        
+\includegraphics<3>[height=0.8\textwidth, angle=-90]{figures/sqz_aLIGO_analytics_v_simulation_with_fractional_errors.pdf}        
 \end{frame}
 
 \begin{frame}{Achieved our goal!}
@@ -162,16 +165,47 @@
 \titlepage 
 \end{frame}
 
+\begin{frame}{Example of optimisation}
+\centering 
+\includegraphics<1>[height=0.85\textheight]{figures/aLIGO_optimum_sensitivity_comparison.pdf}
+\end{frame}
+
+\begin{frame}{Squeezed cavity analytics}
+\begin{columns}
+\column{0.5\textwidth}
+$$S_\mathrm{HomI}(\Omega) = \frac{A_0^2 \left( g_1(\Omega)^2 + g_2(\Omega)^2 \right)}{g_3(\Omega)^2}$$
+\column{0.5\textwidth}
+\tiny
+\begin{align*}
+g_1 &= -\cosh ^2(r) e^{\frac{2 i L \Omega }{c}} (\cos (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi )\\
+    &+t_1^2 \sin (\theta ) \sin (2 \psi )) \\
+    &-\cos (\theta ) \sinh ^2(r) \left(2 r_1^2+t_1^2\right) e^{\frac{2 i L \Omega
+    }{c}}\\
+    &-t_1^2 \cos (\theta ) \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+    &-t_1^2 \sin (\theta )
+    \sinh (2 r) \cos (\psi ) \sin (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+    &+r_1^3 \cos (\theta ) e^{\frac{4 i L \Omega
+    }{c}}+r_1 t_1^2 \cos (\theta ) e^{\frac{4 i L \Omega }{c}}+r_1 \cos (\theta ) \\
+g_2 &= \cosh ^2(r) e^{\frac{2 i L \Omega }{c}} (t_1^2 \cos (\theta ) \sin (2 \psi )\\
+    &-\sin (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi ))\\
+    &+\sin (\theta ) \left(-\sinh ^2(r) (2 r_1^2+t_1^2\right)
+    e^{\frac{2 i L \Omega }{c}}\\
+    &+t_1^2 \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+    &+r_1^3 e^{\frac{4 i L \Omega }{c}}+r_1 t_1^2 e^{\frac{4 i L \Omega }{c}}+r_1)\\
+    &-4 t_1^2 \cos (\theta ) \sinh (r) \cosh (r) \cos (\psi ) \sin (\phi ) \cos (\phi ) e^{\frac{2 i L \Omega }{c}} \\
+g_3 &= 1 + r_1^2 e^{\frac{4 i L \Omega}{c}} - 2 e^{\frac{2 i L \Omega}{c}} \sinh(r)^2 \\
+    &- 2 e^{\frac{2 i L \Omega}{c}} r_1 \cos(2 \psi) \cosh(r)^2 
+\end{align*}
+\normalsize
+\end{columns}
+\end{frame}
+
 \begin{frame}{Squeezed cavity frequency response}
+\only<2-|handout:0>{\stepcounter{framenumber}}
 \centering
 \includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
 % \vspace{-.1cm}
 \includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
-\end{frame}
-
-\begin{frame}{Example of optimisation}
-\centering 
-\includegraphics<1>[height=0.85\textheight]{figures/aLIGO_optimum_sensitivity_comparison.pdf}
 \end{frame}
 
 \begin{frame}{Finesse code example}

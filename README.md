@@ -38,8 +38,8 @@ Directory structure:
     └── talk.tex
 ```
 [//]: # (tree -I '*.pdf|*.png')
----
 
+---
 Guide to replicating results:
 1. Download repo
 2. Navigate to the source/ folder
@@ -54,4 +54,3 @@ Guide to replicating results:
 11. Close the notebook
 12. All of the produced figures shown in the report, minus some labelling, should now be available in the source/foler  
 13. For other values quoted into the report, see the various print-outs and comments made in each of the notebooks after restarting the kernel and running the notebook again.
-

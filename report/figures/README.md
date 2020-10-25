@@ -1,4 +1,4 @@
-#aliveKat/report/figures/
+# aliveKat/report/figures/
 
 figures used in the report and talk
 
@@ -12,38 +12,38 @@ file structure
 ```bash
 .
 └── report
-    └── figures
-        ├── README.md
-		├── aLIGO_as_coupled_cavities.pdf
-		├── aLIGO_as_coupled_cavities.svg
-		├── aLIGO_internal_squeezing.pdf
-		├── aLIGO_internal_squeezing.svg
-		├── aLIGO_optimum_sensitivity_comparison.pdf
-		├── aLIGO_transfer_fns_and_sensitivity_comparison.pdf
-		├── ball_and_stick_squeezed_state.png
-		├── cavity_fsr_fwhm_finesse.pdf
-		├── cavity_fsr_fwhm_finesse.svg
-		├── compress.sh
-		├── empty_cavity_amplitudes.pdf
-		├── empty_cavity_amplitudes.svg
-		├── finesse_code_example.png
-		├── finesse_horse.png
-		├── gwo_ifos-pictures.pdf
-		├── Michelson_interferometer.pdf
-		├── Michelson_interferometer.svg
-		├── not_main_PSD_vs_freq.pdf
-		├── not_main_PSD_vs_r.pdf
-		├── pykat_cat_and_pie.png
-		├── pykat_relative_qhd_vs_freq.pdf
-		├── pykat_relative_qhd_vs_r.pdf
-		├── README.md
-		├── squeezed_cavity.pdf
-		├── squeezed_cavity.svg
-		├── sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf
-		├── sqz_aLIGO_analytics_quantum_noise_budget-labelled.svg
-		├── sqz_aLIGO_analytics_v_simulation.pdf
-		├── sqz_aLIGO_analytics_v_simulation_with_fractional_errors.pdf
-		├── sqz_aLIGO_analytics_v_simulation_with_fractional_errors.svg
-		├── testing_Finesse_squeezers-nle.pdf
-		└── testing_Finesse_squeezers-sq.pdf
+    └── figures
+        ├── README.md
+        ├── aLIGO_as_coupled_cavities.pdf
+        ├── aLIGO_as_coupled_cavities.svg
+        ├── aLIGO_internal_squeezing.pdf
+        ├── aLIGO_internal_squeezing.svg
+        ├── aLIGO_optimum_sensitivity_comparison.pdf
+        ├── aLIGO_transfer_fns_and_sensitivity_comparison.pdf
+        ├── ball_and_stick_squeezed_state.png
+        ├── cavity_fsr_fwhm_finesse.pdf
+        ├── cavity_fsr_fwhm_finesse.svg
+        ├── compress.sh
+        ├── empty_cavity_amplitudes.pdf
+        ├── empty_cavity_amplitudes.svg
+        ├── finesse_code_example.png
+        ├── finesse_horse.png
+        ├── gwo_ifos-pictures.pdf
+        ├── Michelson_interferometer.pdf
+        ├── Michelson_interferometer.svg
+        ├── not_main_PSD_vs_freq.pdf
+        ├── not_main_PSD_vs_r.pdf
+        ├── pykat_cat_and_pie.png
+        ├── pykat_relative_qhd_vs_freq.pdf
+        ├── pykat_relative_qhd_vs_r.pdf
+        ├── README.md
+        ├── squeezed_cavity.pdf
+        ├── squeezed_cavity.svg
+        ├── sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf
+        ├── sqz_aLIGO_analytics_quantum_noise_budget-labelled.svg
+        ├── sqz_aLIGO_analytics_v_simulation.pdf
+        ├── sqz_aLIGO_analytics_v_simulation_with_fractional_errors.pdf
+        ├── sqz_aLIGO_analytics_v_simulation_with_fractional_errors.svg
+        ├── testing_Finesse_squeezers-nle.pdf
+        └── testing_Finesse_squeezers-sq.pdf
 ```

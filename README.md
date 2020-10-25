@@ -13,7 +13,7 @@ Guide to replicating results:
 1. Download the repo
 2. Navigate to the source/ folder
 3. Open squeezed_cavity_analytics.nb in Mathematica, this file contains the analytic derivation for the PSD of the homodyne intensity for a squeezed cavity 
-4. Run all of the notebook, this may take a few moments
+4. Run all of the notebook (CTRL+A, ENTER), this can take at least a minute
 5. Close the notebook
 6. Open squeezed_cavity_Finesse.ipynb in Jupyter, this file contains the Finesse model of the squeezed cavity
 7. Run all of the notebook

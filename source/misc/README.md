@@ -3,6 +3,7 @@
 miscellaneous code from learning tasks set during the initial stage of the project
 this code is **not** relevant to replicating the results in the report and is here simply as evidence of work done during the project
 this code is lightly documented and not intended for general use, explore it if you wish
+all notebooks are to be executed top to bottom, and will save figures locally
 
 - ex2-3_optical_cavity_matrix.nb was used while solving for the empty linear cavity fields
 - task3_average_power_fluctuation.nb was used while learning material about laser and vacuum noise

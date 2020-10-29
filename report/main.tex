@@ -121,15 +121,17 @@ We suggest directions for future work in Section~\ref{sec:future_work} and draw 
 % this section can be quite short
 
 % what does finesse do, how does it do it
-Finesse~\cite{finesse} (Frequency domain INterfErometer Simulation SoftwarE) is designed to model optical configurations such as gravitational wave interferometers (see Section~\ref{sec:gwIFO}). Given a configuration of optical components, it calculates the amplitudes for the carrier, any control signals, the signal sidebands from mirror motion (such as from a gravitational wave), and the quantum noise sidebands (see Section~\ref{sec:basics}) at each connecting node. By solving the appropriate matrix equations, it works in the frequency domain and the steady-state regime.
+Finesse~\cite{finesse} (Frequency domain INterfErometer Simulation SoftwarE) is designed to model optical configurations such as gravitational wave interferometers (see Section~\ref{sec:gwIFO}). Given a configuration of optical components, it calculates the complex amplitudes for the carrier, any control signals, the signal sidebands from mirror motion (such as from a gravitational wave), and the quantum noise sidebands (see Section~\ref{sec:basics}) at each connecting node. By solving the appropriate matrix equations, it works in the frequency domain and the steady-state regime.
 Finesse is able to calculate the quantum noise at the output and the signal transfer function, and therefore the sensitivity of a proposed detector configuration, which is what we are interested in modelling (see Section~\ref{sec:aLIGOcomparison}). Finesse is actively used for gravitational wave detector commissioning~\cite{brown2020pykat} and outside gravitational wave research for modelling optical cavities.
 
 
-Although not explored here, Finesse is also able to handle physical effects such as spatial geometry using Gaussian beams, noise coupling from different parts of the interferometer, imperfections on mirror surfaces, optical misalignment, and higher order modes~\cite{Bond_et_al_2016}. The inclusion of such physical effects means that it can better model and diagnose experiments than analytic solutions, as the analytics often assume some greater level of idealisation of the interferometer.
+Although not explored here, Finesse is also able to handle physical effects such as spatial geometry using Gaussian beams, noise coupling from different parts of the interferometer, imperfections on mirror surfaces, optical misalignment, and higher order modes~\cite{Bond_et_al_2016}.
+Handling these realistic effects analytically quickly becomes tedious and time consuming, with increasing complexity for each effect included. As such, Finesse facilitates a faster workflow for modelling realistic configurations.
+% The inclusion of such physical effects means that it can better model and diagnose experiments than analytic solutions, as the analytics often assume some greater level of idealisation of the interferometer.
 
 
 % what is new
-Newly implemented in Finesse is a non-linear element component (henceforth called \code{nle}) that simulates a squeezer crystal (see Section~\ref{sec:squeezing}). The modelling of this component was based on similar analytics to those in Appendix~\ref{app:squeezed_cavity_analytics}. Unlike the existing squeezer component (\code{sq}) in Finesse, the \code{nle} can be placed anywhere within the configuration. This allows us to model the internal squeezing configuration detailed in Section~\ref{sec:gwIFO}. We are interested in testing both whether this component is implemented correctly and in using it to examine proposed detector configurations with internal squeezing. Although, applications of the \code{nle} are not limited to gravitational wave detector modelling.
+Newly implemented in Finesse is a non-linear element component (henceforth called \code{nle}) that simulates a squeezer crystal (see Section~\ref{sec:squeezing}). The modelling of this component was based on similar analytics to those in Appendix~\ref{app:squeezed_cavity_analytics}. Unlike the older existing squeezer component (\code{sq}) in Finesse, the \code{nle} can be placed anywhere within the configuration. This allows us to model the internal squeezing configuration detailed in Section~\ref{sec:gwIFO}. We are interested in testing both whether this component is implemented correctly and in using it to examine proposed detector configurations with internal squeezing. Although, applications of the \code{nle} are not limited to gravitational wave detector modelling.
 
 
 % how we use it
@@ -144,14 +146,20 @@ We interact with the simulation through a Python~\cite{python} wrapper called Py
 % one paragraph
 % phase modulation produces sidebands, mirror motion causes phase modulation
 
-The light in a gravitational wave interferometer consists of a carrier at around $\omega_0 \approx 10^{14}$ Hz, control and local oscillators at MHz, and noise from classical and quantum sources across the detection band. Detectable gravitational waves are found with frequencies between Hz and $10$ kHz. When a gravitational wave passes through the interferometer its effect of stretching or squashing space is akin to the end mirrors in the arms moving back and forth. A moving mirror phase modulates the light incident on it. In the time domain, for a simple sinusoidal carrier $A \cos(\omega_0 t)$ with amplitude $A$ incident on a mirror undergoing small sinusoidal motion at some frequency $\Omega \ll \omega_0$, the reflected light has amplitude $A \cos(\omega_0 t + \delta_m \cos(\Omega t + \phi_m))$ where $\delta_m$ is the modulation depth and $\phi_m$ is the relative phase. To justify the mirror motion being small, given a strain $h(t) \approx 10^{-22}$ from a gravitational wave and an arm length $L \approx 10^3$~m the change in distance is $\Delta L = L h(t) \approx 10^{-19}$ m, far smaller than the radius of a proton ($10^{-15}$ m) and the wavelength of the carrier $\lambda_0 = 1.064 \times 10^{-6}$.
+The light in a gravitational wave interferometer consists of a carrier at around $\omega_0 \approx 1.8 \times 10^{15}$~(rad)~Hz, control and local oscillators at MHz, and noise from classical and quantum sources across the detection band. Detectable gravitational waves are found with frequencies between Hz and $10$ kHz. When a gravitational wave passes through the interferometer its effect of stretching or squashing space is akin to the end mirrors in the arms moving back and forth. A moving mirror phase modulates the light incident on it. In the time domain, for a simple sinusoidal carrier $A \cos(\omega_0 t)$ with amplitude $A$ incident on a mirror undergoing small sinusoidal motion at some frequency $\Omega \ll \omega_0$, the reflected light has amplitude $A \cos(\omega_0 t + \delta_m \cos(\Omega t + \phi_m))$ where $\delta_m$ is the modulation depth and $\phi_m$ is the relative phase.
 
 
-In the frequency domain, assuming that the modulation is weak ($\abs{\delta_m} \ll 1$), the modulation appears as sidebands at $\omega_0 \pm \Omega$, at phase $\pi/2$ ahead of the carrier and with amplitude proportional to the modulation depth.
+Given a strain $\abs{h(t)} \approx 10^{-22}$ from a gravitational wave and an arm length $L \approx 10^3$~m the scale of the change in distance is $\abs{\Delta L} = \abs{L h(t)} \approx 10^{-19}$ m, far smaller than the radius of a proton ($10^{-15}$ m) and the wavelength of the carrier $\lambda_0 = 1.064 \times 10^{-6}$ m. This means that the modulation is ``weak'' and we can take a Taylor expansion in terms of a small modulation depth given by
+\begin{equation}
+\abs{\delta_m} = \abs{\frac{2 \omega_0 L h}{c}} = \abs{\frac{4 \pi \Delta L}{\lambda_0}} \ll 1
+\end{equation}
+
+
+In the frequency domain, taking a Taylor expansion in terms of the small modulation depth, the modulation appears as sidebands at $\omega_0 \pm \Omega$, at phase $\pi/2$ ahead of the carrier and with amplitude proportional to the modulation depth.
 Weak amplitude modulation of the form $A (1 + \delta_m \cos(\Omega t + \phi_m)) \cos(\omega_0 t)$, not considered in depth here, similarly results in faint sidebands at $\omega_0 \pm \Omega$ but in phase with the carrier.
 
 
-Gravitational waves therefore create weak signal sidebands in the arms of the interferometer. Noise sources (including quantum noise which we consider here) can also shake the mirrors and create their own sidebands of comparable magnitude in the same frequency range. Measuring the signal sidebands despite the noise is the role of the rest of the detector, see Section~\ref{sec:squeezing}.
+Gravitational waves therefore create weak signal sidebands in the arms of the interferometer. Noise sources (including quantum noise which we consider here) can also shake the mirrors and create their own sidebands of comparable magnitude in the same frequency range. Moreover, noise sources can appear as sidebands similar to the gravitational wave signal through other processes than moving the mirrors. Measuring the signal sidebands despite the noise is the role of the rest of the detector, see Section~\ref{sec:squeezing}.
 
 
 \subsection{Types of optical cavities}
@@ -167,13 +175,14 @@ Gravitational waves therefore create weak signal sidebands in the arms of the in
 	\label{fig:cavity_fsr_fwhm_finesse}
 \end{figure}
 
-In gravitational wave detectors, many cavities are used to perform a variety of functions (see Section~\ref{sec:gwIFO}). Any cavity is equivalent to a two mirror cavity. Consider a linear Fabry-Peroy cavity: two lossless mirrors with reflectivities $r_1$ and $r_2$ separated by a space of macroscopic length $L$. Meaning that the length is tuned to the wavelength $\lambda_0$ of the carrier and is actually of length $\lfloor \frac{L}{\lambda_0} \rfloor \lambda_0$. Of the light incident on the front mirror from outside the cavity, $\abs{r_1}^2$ of the power is reflected promptly and undergoes no phase change (using the convention of no phase change on reflection and $\pi/2$ on transmission). The light that enters the cavity will either continue to circulate or eventually leave through one of the mirrors. The circulating light that eventually leaks back out through the front mirror has undergone a phase change of $\pi$ and so will destructively interfere with the directly reflected light. The result of this is that the power ratio of the incident to the reflected light, by working in the frequency domain, is given by~\cite{Danilishin_2012}
+In gravitational wave detectors, many cavities are used to perform a variety of functions (see Section~\ref{sec:gwIFO}). Any cavity is equivalent to a two mirror cavity. Consider a linear Fabry-Peroy cavity: two lossless mirrors with reflectivities $r_1$ and $r_2$ separated by a space of macroscopic length $N \lambda_0$, where $N \in \mathbb{N}$ and $\lambda_0$ is the wavelength of the carrier light. Meaning that the length is tuned to resonate at the wavelength $\lambda_0$. Of the light incident on the front mirror from outside the cavity, $\abs{r_1}^2$ of the power is reflected promptly and undergoes no phase change (using the convention of no phase change on reflection and $\pi/2$ on transmission). The light that enters the cavity will either continue to circulate or eventually leave through one of the mirrors. The circulating light that eventually leaks back out through the front mirror has undergone a phase change of $\pi$ relative to the promptly reflected light and so will destructively interfere with that light. The result of this is that the power ratio of the incident to the reflected light, working in the frequency domain, is given by~\cite{Danilishin_2012}
 \begin{equation}
 \label{eq:refl_field_amp}
-\abs{\frac{E_{\mathrm{refl}}}{E_{\mathrm{inci}}}}^2 = \abs{\frac{r_1 - r_2 e^{-i 2 L \frac{2\pi}{\lambda}}}{1- r_1 r_2 e^{-i 2 L \frac{2\pi}{\lambda}}}}^2.
+\abs{\frac{E_{\mathrm{refl}}}{E_{\mathrm{inci}}}}^2 = \abs{\frac{r_1 - r_2 e^{-i 2 (\psi + \frac{\Omega L}{c})}}{1- r_1 r_2 e^{-i 2 (\psi + \frac{\Omega L}{c})}}}^2.
 \end{equation}
+Where we have allowed for the cavity to have tuning $\psi = \frac{\omega_0 \delta l}{c}$ for some microscopic length $\delta l$ and for the light to be at some angular frequency offset $\Omega$ from the carrier at $\omega_0$, and we assumed that both of these quantities are small such that $\frac{\Omega \delta l}{c} \ll 1$.
 
-Fabry-Peroy cavities fall into three categories determined by which of the two reflected fields dominate, which depends on the relative size of $r_1$ and $r_2$. If $r_1 = r_2$ then the cavity is impedance matched, the fields exactly balance and no light is reflected back (see Eq.~\ref{eq:refl_field_amp}). If $r_1 < r_2$ then the cavity is overcoupled, the transmitted circulating field wins out and light is reflected off the cavity at a $\pi$ phase shift. And if $r_1 > r_2$ then the cavity is undercoupled, the directly reflected field wins out and the light is reflected back at the same phase it came in at. In gravitational wave detectors, both overcoupled cavities (e.g.\ the arm cavities) and impedance matched cavities (e.g.\ the power recycling cavity, when no reflection is necessary) are used.
+Fabry-Peroy cavities fall into three categories determined by which of the two reflected fields dominate the destructive interference mentioned above, which depends on the relative size of $r_1$ and $r_2$. If $r_1 = r_2$, then the cavity is impedance matched, the fields exactly balance and no light is reflected back (see Eq.~\ref{eq:refl_field_amp}). If $r_1 < r_2$, then the cavity is overcoupled, the transmitted circulating field wins out and light is reflected off the cavity. And, if $r_1 > r_2$, then the cavity is undercoupled, the directly reflected field wins out and the light is reflected back at a $\pi$ phase shift relative to the overcoupled case. In gravitational wave detectors, both overcoupled cavities (e.g.\ the arm cavities) and impedance matched cavities (e.g.\ the power recycling cavity, when no reflection is necessary) are used.
 
 
 If the reflectivies are fixed and instead the frequency of the incoming light is changed, then resonance peaks are seen in the power of the circulating field whenever the roundtrip distance is some multiple of the wavelength. The distance between these peaks, the free spectral range (FSR), is given by
@@ -229,7 +238,7 @@ The goal of squeezing in a gravitational wave interferometer is primarily to con
 where $|0\rangle$ is the vacuum state and $\circ$ is the symmetric product $A \circ B = \frac{1}{2}(A B + B A)$.
 The spectral density of the light is what we eventually measure to inspect the sidebands therein.
 Note that the convention for strain sensitivity uses amplitude spectral density (ASD), e.g.\ lossless 6 dB of injected external squeezing improves the quantum noise limited sensitivity measured as ASD by a factor of 2~\cite{Aasi_2013}.
-Therefore, the convention for decibels (dB) is defined as $20 \log_{10}(Q/{Q(0)})$ for some quantity $Q$. The choice of this convention is noteworthy as it will cause the appearance of apparent factors of two in cases where dB is defined as $10 \log_{10}(Q/{Q(0)})$.
+Therefore, the convention for decibels (dB) is defined as $20 \log_{10}(Q/{Q(0)})$ for some quantity $Q$, e.g.\ the quantum noise limited sensitivity. The choice of this convention is noteworthy as it will cause the appearance of apparent factors of two in cases where dB is defined as $10 \log_{10}(Q/{Q(0)})$.
 
 \subsection{Generation of squeezed states}
 
@@ -242,7 +251,10 @@ Therefore, the convention for decibels (dB) is defined as $20 \log_{10}(Q/{Q(0)}
     \label{fig:testing_Finesse_squeezers}%
 \end{figure}
 
-In the laboratory, or in a gravitational wave detector like aLIGO, squeezed states are generated in a non-linear crystal in which parametric down conversion (PDC) occurs stimulated by a pump laser. In degenerate squeezing, a photon of pump frequency $2\omega_0$ is annihilated and two photons of frequency $\omega_0$ are created (called the signal and the idler). The non-linear crystal is designed to be directional in that squeezing occurs if the light passes in one direction through the crystal but in the other direction the light is unaffected. The relative phase between the pump and the carrier determines the squeezer angle.
+In the laboratory, or in a gravitational wave detector like aLIGO, squeezed states are generated in a non-linear crystal in which parametric down conversion (PDC) occurs stimulated by a pump laser. In degenerate squeezing, a photon of pump frequency $2\omega_0$ is annihilated and two photons of frequency $\omega_0$ are created (called the signal and the idler).
+Assuming that the pump propagates through the crystal in one direction, then squeezing occurs only in that direction, and any light or vacuum passing through the crystal in the opposite direction is unaffected. Assuming that this is the case, we then call the non-linear crystal ``directional''.
+% The non-linear crystal is designed to be directional in that squeezing occurs if the light passes in one direction through the crystal but in the other direction the light is unaffected.
+The relative phase between the pump and the carrier determines the squeezer angle.
 % and the power of the pump determines the squeezer power?
 
 
@@ -256,12 +268,16 @@ In the non-linear element (\code{nle}) implementation in Finesse, squeezing is p
 \label{sec:homodyne}
 % one paragraph
 
-To detect the faint signal sidebands we use a readout scheme at the output of the interferometer. In balanced homodyne readout, the signal is mixed with a strong local oscillator at a $50/50$ beamsplitter. The local oscillator comes from a second laser at the carrier frequency $\omega_0$ but with some relative phase to the carrier, called the homodyne angle $\phi_{\mathrm{LO}}$. After the beamsplitter, the two mixed beams, with different relative phases between the signal and local oscillator, are each read by a photodiode.
+To detect the faint signal sidebands we use a readout scheme at the output of the interferometer.
+One way to amplify the sidebands is to beat them against a strong local oscillator provided by another laser. Adding another laser, however, introduces additional noise in the form of fluctuations in the laser light. To remove this additional laser noise, we need two detectors with suitable relative phase such that we can subtract the noise from the second laser.
+
+
+In balanced homodyne readout, the output signal is mixed with a strong local oscillator at a $50/50$ beamsplitter. The local oscillator comes from a second laser at the carrier frequency $\omega_0$ but with some relative phase to the carrier, called the homodyne angle $\phi_{\mathrm{LO}}$. After the beamsplitter, the two mixed beams, with different relative phases between the signal and local oscillator, are each read by a photodiode.
 The resultant homodyne current is proportional to the difference in intensities at the photodiodes.
 Homodyne readout in a simplified aLIGO configuration is shown inside the dashed blue box in Fig.~\ref{fig:aLIGO_configuration}.
 
 
-The homodyne current is proportional to the amplitude of the local oscillator times a combination of the sideband quadrature amplitudes dependent on $\phi_{\mathrm{LO}}$. It is independent of any laser noise from the local oscillator due to taking the difference in intensities at the photodiodes. Appropriate choice of $\phi_{\mathrm{LO}}$ allows the squeezed quadrature to be extracted. Note that homodyne readout does nothing to reduce the noise in the sidebands, it just allows for the benefits of squeezing to be gained by filtering out the anti-squeezed (or worsened) quadrature.
+The homodyne current is proportional to the amplitude of the local oscillator times a combination of the sideband quadrature amplitudes dependent on $\phi_{\mathrm{LO}}$. It is independent of any laser noise from the second laser by subtracting the intensities at the photodiodes. Additionally, appropriate choice of $\phi_{\mathrm{LO}}$ allows the squeezed quadrature to be extracted. Note that homodyne readout does nothing to reduce the noise already present in the sidebands, it just allows for the benefits of squeezing to be gained by filtering out the anti-squeezed (or worsened) quadrature.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,7 +300,8 @@ If something perturbs the mirrors (e.g.\ a gravitational wave or some noise) and
 Note that we are ignoring all spacial effects henceforth.
 
 
-By tuning the unperturbed lengths of the arms, the output of the beamsplitter can be made such that, by default, no carrier is present. This is known as setting the output to the darkport or as setting the operating point of the interferometer to a dark fringe. In practise, the operating point is set slightly off the dark fringe to balance the response to the differential length change and the amplitude of the sidebands.
+By tuning the unperturbed lengths of the arms, the output of the beamsplitter can be made such that, by default, no carrier is present. This is known as setting the output to the darkport or as setting the operating point of the interferometer to a dark fringe. In practice, the operating point is set slightly off the dark fringe in order to use a different readout scheme (DC readout), but, for balanced homodyne readout, being exactly at the dark fringe is ideal.
+% to balance the response to the differential length change and the amplitude of the sidebands.
 
 
 In the far-field, a gravitational wave stretches and squashes the distances between objects in a quadrupole manner. Transverse to the axis of propagation distances in one direction are stretched while those in the perpendicular direction are squashed. In order to best detect these changes we need two pairs of objects at right angles to each other (and, ideally, to the gravitational wave). These pairs consist of each mirror and the beamsplitter.
@@ -305,14 +322,14 @@ We study a simplified configuration of aLIGO, shown in Fig.~\ref{fig:aLIGO_confi
 
 
 % arm cavities, prc, src, 
-To achieve the sensitivity required for gravitational wave detection, a classical Michelson interferometer requires “technically infeasible” amounts of power in the arms in order to reduce the shot noise (see Section~\ref{sec:noise_sources}) and arm lengths tens of kilometres long to be optimally sensitive.
-Smaller detectors can be built be by increasing the effective arm length by increasing the storage time in the arms and by making the light experience the gravitational wave strain for longer. This can be achieved by introducing another mirror into each of the beam arms, forming an overcoupled arm cavity between an initial test mass (ITM) mirror and an end test mass (ETM) mirror. In aLIGO each of these masses are 40 kg heavy and are made of fused silica~\cite{AdvancedLIGO:2015}. The arm cavities in aLIGO are constructed in order to increase the number of times the average photon circulates the cavity by having a high finesse of $440$ (see Section~\ref{sec:basics}).
+To achieve the sensitivity required for gravitational wave detection, a classical Michelson interferometer requires large amounts of power in the arms in order to reduce the shot noise (see Section~\ref{sec:noise_sources}) and arm lengths tens of kilometres long to be optimally sensitive.
+Smaller detectors which require less power can be built be by increasing the effective arm length by increasing the storage time in the arms and by making the light experience the gravitational wave strain for longer. This can be achieved by introducing another mirror into each of the beam arms, forming an overcoupled arm cavity between an initial test mass (ITM) mirror and an end test mass (ETM) mirror. In aLIGO each of these masses are 40 kg heavy and are made of fused silica~\cite{AdvancedLIGO:2015}. The arm cavities in aLIGO are constructed in order to increase the number of times the average photon circulates the cavity by having a high finesse of $440$ (see Section~\ref{sec:basics}).
 
 
-To further increase the power in the arms, a power recycling mirror (PRM) is introduced before the beamsplitter. This reflects power returning from the arm cavities back into the interferometer. For reference, in aLIGO a $125$ W laser results in $\approx 5$ kW of power incident on the beamsplitter and beyond $600$ kW of power in the arms, due to the arm cavities and the PRM.
+To further increase the power in the arms, a power recycling mirror (PRM) is introduced before the beamsplitter. This reflects power returning from the arm cavities back into the interferometer. For reference, currently~\cite{Buikema_2020} in aLIGO a $35$ W main laser results in $\approx 1.6$ kW of power incident on the beamsplitter and $\approx 200$ kW of power in the arms, due to the arm cavities and the PRM. At the ``design power'' level, aLIGO would have $125$ W input, $5.2$ kW incident on the beamsplitter, and $750$ kW of power in the arms.
 
 
-For a passing gravitational wave to result in detectable changes in the arm lengths, the beam arms need to be at least kilometres long (e.g.\ $4$ km long in aLIGO) in order for the effective length to be optimal. To increase sensitivity, the signal from the darkport of the beamsplitter can be amplified by reflecting it back into the arms to ``see'' the gravitational wave again. This is done by placing a signal recycling mirror (SRM) after the darkport of the beamsplitter. The effect of the signal recycling cavity (SRC) is more complicated than this and is detailed further in Section~\ref{sec:long_srcs}.
+It is beneficial for the beam arms to be kilometres long (e.g.\ $4$ km long in aLIGO) in order for the effective length to be closer to the optimal length for gravitational wave detection. To increase sensitivity, the signal from the darkport of the beamsplitter can be amplified by reflecting it back into the arms to ``see'' the gravitational wave again. This is done by placing a signal recycling mirror (SRM) after the darkport of the beamsplitter. The effect of the signal recycling cavity (SRC) is more complicated than this and is detailed further in Section~\ref{sec:long_srcs}.
 
 
 \subsubsection{Reduction of aLIGO to coupled cavities}
@@ -327,7 +344,7 @@ For a passing gravitational wave to result in detectable changes in the arm leng
 \end{figure}
 
 Despite all the components in the (simplified) aLIGO configuration, the resultant transfer functions for the signal and the noise are equivalent (to a good approximation) to those for two coupled cavities, shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}. The differential mode from the two arms becomes an optomechanical coupling between the SRC and the beam arm under this equivalence.
-Although the coupled cavity system is not physical, for example the source of the laser in arm cavity is non-existent, the reduction is useful to understanding the interferometer. In particular, it is clear in the reduced system that the signal and the vacuum fluctuations see the cavities differently as they they enter from different sides. This explains how internal squeezing can affect them differently, as discussed in Section~\ref{sec:internal_squeezing}.
+Although the coupled cavity system is not physical, for example the source of the laser in arm cavity is not physical, the reduction is useful to understanding the interferometer. In particular, it is clear in the reduced system that the signal and the vacuum fluctuations see the cavities differently as they they enter from different sides. This explains how internal squeezing can affect them differently, as discussed in Section~\ref{sec:internal_squeezing}.
 
 
 \subsection{Noise sources}
@@ -344,13 +361,13 @@ Although the coupled cavity system is not physical, for example the source of th
 \end{figure*}
 
 
-In aLIGO, noise enters the system from many sources and reduces sensitivity across the frequency range of Hz to kHz. Classically, these include (but are not limited to) vibrations in the ground (seismic noise), changes in the nearby distribution of matter (known as Newtonian noise), and thermal vibration of the components and the systems that hold them (thermal noise). Control systems and the natural resonances of the mirror suspensions also remove the possibility for detection in certain bands. We do not consider these effects here, instead focusing on the quantum noise. We assume that all these noise sources are static in frequency (an often reasonable assumption). 
+In aLIGO, noise enters the system from many sources and reduces sensitivity across the frequency range of Hz to kHz. Classically, these include (but are not limited to) vibrations in the ground (seismic noise), changes in the nearby distribution of matter (known as Newtonian noise), thermal vibration of the components and the systems that hold them (thermal noise), and fluctuations in the frequency, amplitude, and shape of the main laser beam (laser noise). Control systems and the natural resonances of the mirror suspensions also remove the possibility for detection in certain bands. We do not consider these effects here, instead focusing on the quantum noise. We assume that all these noise sources are static in frequency (an often reasonable assumption). 
 
 
-Quantum noise comes from the fundamental HUP limits on the uncertainty in each quadrature, discussed in Section~\ref{sec:squeezing}. Vacuum enters the interferometer at every open port, most importantly from behind the SRM, and, due to the Fluctuation Dissipation Theorem~\cite{Danilishin_2012}, at every lossy optical component in the form of new, un-correlated noise. In the phase quadrature, quantum noise manifests as shot noise, uncertainty in the number of photons hitting one of the mirrors, that is strongest at high frequencies. In the amplitude quadrature, quantum noise comes as radiation pressure, the momentum of incident light driving mirror oscillations, that is strongest at low frequencies. Increasing the power in the arms increases radiation pressure but reduces favourably shot noise, leading to a trade-off in how much power is put into the interferometer.
+Quantum noise comes from the fundamental HUP limits on the uncertainty in each quadrature, discussed in Section~\ref{sec:squeezing}. Vacuum enters the interferometer at every open port, most importantly from behind the SRM, and, due to the Fluctuation Dissipation Theorem~\cite{Danilishin_2012}, at every lossy optical component in the form of new, un-correlated noise. In the phase quadrature, quantum noise manifests as shot noise, uncertainty in the number of photons hitting one of the mirrors. Shot noise is approximately constant across the detection band, but the signal-to-noise ratio (SNR), due to the finite bandwidth of the arm cavities, rolls off at higher frequencies, where we say that the shot noise dominates. In the amplitude quadrature, quantum noise comes as radiation pressure, the momentum of incident light driving mirror oscillations, that is strongest at low frequencies. Increasing the power in the arms increases radiation pressure but reduces favourably shot noise, leading to a trade-off in how much power is put into the interferometer.
 
 
-To compare the effect of noise sources on the detector’s ability to detect gravitational waves, we define the noise limited strain sensitivity to be the signal amplitude required to achieve a signal-to-noise (SNR) ratio of one, with respect to the given noise source in isolation. This means computing the noise at the output and the signal transfer function for the interferometer and suitably dividing them. The total sensitivity of the interferometer is the SNR with respect to the total noise, equal to the root sum squared of the contribution from each noise source, e.g.\
+To compare the effect of noise sources on the detector’s ability to detect gravitational waves, we define the noise limited strain sensitivity to be the signal amplitude required to achieve a SNR of one, with respect to the given noise source in isolation. This means computing the noise at the output and the signal transfer function for the interferometer and suitably dividing them. The total sensitivity of the interferometer is the SNR with respect to the total noise, equal to the root sum squared of the contribution from each noise source, e.g.\
 \begin{equation}
 \mathrm{total\; noise = \sqrt{(quantum \; noise)^2 + (thermal \; noise)^2 + \ldots}}
 \end{equation}
@@ -389,11 +406,11 @@ Internal squeezing is when a squeezer crystal is placed inside the interferomete
 % SRC, signal de-amplification
 Here we consider a high frequency (HF) gravitational wave detector motivated in Section~\ref{sec:introduction}. With internal squeezing in the phase quadrature, the quantum phase noise (the shot noise) gets reduced around the coupled cavity pole. The linewidth of the SRC (the FWHM of the cavity resonance, see Section~\ref{sec:basics}) determines the bandwidth of the noise reduction. For the system considered here, this reduction in noise is shown in the black and green lines in the top panel Fig.~\ref{fig:src_transfer_functions}.
 
-Squeezing in phase will anti-squeeze in amplitude. In the system considered here the homodyne angle was chosen to select the phase quadrature. If it instead selected the amplitude quadrature, then the well in the top panel of Fig.~\ref{fig:src_transfer_functions} would be inverted into a bump, but the low frequency response would not change from the case without squeezing (as in either case the squeezer only affects the noise and the signal within the linewidth of the SRC).
+Squeezing in phase will anti-squeeze in amplitude. In the system considered here, the homodyne angle was chosen to ``select'' the phase quadrature (in convention the readout angle is set to whichever quadrature the most signal is in). If it instead the homodyne angle was changed to select the amplitude quadrature, then the well in the top panel of Fig.~\ref{fig:src_transfer_functions} would be inverted into a bump, but then, since the readout is not longer selecting the quadrature with the most signal, most of the sensitivity would be lost. In any case, the low frequency response does not change from the case without squeezing (since the squeezer only affects the noise and the signal within the linewidth of the SRC).
 
 Because the squeezing is internal, the signal is affected too, and is shown, for the system consider here, in the middle panel of Fig.~\ref{fig:src_transfer_functions}. Squeezing in phase results in the signal losing power around the pole (known as de-amplification), but this is less significant than the reduction in noise and so the sensitivity (as the SNR) overall improves around the pole.
 % vacuum input, signal and noise see the interferometer differently
-Why internal squeezing affects the noise and the signal differently is best understood through the reduced coupled cavity system, shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}. There, the vacuum and the signal enter the system from different ends (the noise enters into the SRC while the signal is generated in the arm cavity) and so will see the squeezer differently.
+Why internal squeezing affects the noise and the signal differently is best understood through the reduced coupled cavity system, shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}. There, the vacuum and the signal enter the system from different ends (the noise enters into the SRC while the signal is generated in the arm cavity) and so will see the squeezer differently. Moreover, at the output (readout) side of the SRM, the noise consists of a promptly reflected component and a transmitted component from the SRC, which destructively interfere (as described in Section~\ref{sec:basics}) and enhance the effect of the squeezer. The signal, however, only has the transmitted component, so no destructive interference and therefore the asymmetry between the signal and noise.
 
 
 The goal of the rest of this report is to test internal squeezing in Finesse by considering different detector configurations. However, first we must test the implementation of the non-linear element (the \code{nle}) as a squeezer.
@@ -446,7 +463,7 @@ The explanation for this behaviour lies in the assumptions made in the analytics
 This could be an issue for modelling, except that the aLIGO squeezer operates normally well below threshold, where the model is  accurate reasonably well and so can be used to study aLIGO.
 
 
-We are also interested in the behaviour at some frequency offset $\Omega$ from the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. We use the same parameters as above except for a selection of different squeezer parameters (shown in Fig.~\ref{fig:not_main_PSD_vs_freq}). For all non-zero squeezer parameters, Fig.~\ref{fig:not_main_PSD_vs_freq} shows resonances every $9.42$~(rad)~GHz. When the squeezer is at threshold, at each resonance the PSD becomes unbounded or goes to zero, while off resonance the PSD has a fractional difference on the order of $10^{-3}$ from the case with no squeezing.
+We are also interested in the behaviour at some frequency offset $\Omega$ from the carrier frequency for different squeezer parameters, relative to the frequency behaviour with no squeezing, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega, r)/S_{\mathrm{HomI}}(\Omega, 0)}$ against $\Omega$. We use the same parameters as above and a selection of different squeezer parameters (shown in Fig.~\ref{fig:not_main_PSD_vs_freq}). For all non-zero squeezer parameters, Fig.~\ref{fig:not_main_PSD_vs_freq} shows resonances every $9.42$~(rad)~GHz. When the squeezer is at threshold, at each resonance the PSD becomes unbounded or goes to zero, while off resonance the PSD has a fractional difference on the order of $10^{-3}$ from the case with no squeezing.
 
 
 \subsection{Testing the non-linear element in Finesse}
@@ -471,14 +488,14 @@ We now model the squeezed cavity in Finesse with the \code{nle} component as the
 
 
 % rThresh and \Omega values are the same, convert to dB and check angular freq
-The behaviour of the relative homodyne intensity against the squeezer parameter is shown in Fig.~\ref{fig:pykat_relative_qhd_vs_r}. The shape of the response is similar to the analytics. The squeezer parameter axis shows the input to \code{nle} which is in ``dB'' calculated as $r_{\mathrm{nle}} = 10 \log_{10}(e^{r_\mathrm{sqz}})$. Python quotes the threshold value as $0.144$ (to three significant figures) which agrees with the analytics, $0.114 \approx 10 \log_{10}(e^{0.0263})$, with negligible uncertainty.
+The behaviour of the relative homodyne intensity against the squeezer parameter is shown in Fig.~\ref{fig:pykat_relative_qhd_vs_r}. The shape of the response is similar to the analytics. The squeezer parameter axis shows the input to \code{nle} which is in ``dB'' calculated as $r_{\mathrm{nle}} = 10 \log_{10}(e^{r_\mathrm{sqz}})$. The Finesse model agrees on the threshold value with the analytics, as long as the dB convention is accounted for. That is, the Finesse model reaches threshold at $0.114 \approx 10 \log_{10}(e^{0.0263})$ (recall that the analytics reaches threshold at $0.0263$).
 
 
 % FSR is 1.5 since L = 1
 The behaviour against the frequency offset is shown in Fig.~\ref{fig:pykat_relative_qhd_vs_freq}. Again, the shape of the response is similar to the analytics.
-The angular FSR ($2 \pi \mathrm{FSR}$) for the model is (up to numerical error) $0.94185 \times 10^9$ Hz.
-The angular FSR in the analytics is $0.94248 \times 10^9$ Hz.
-The theoretical value for $L = 1$ m is $2 \pi \mathrm{FSR} = 2 \pi c/(2 L) \approx 0.94183 \times 10^9$ Hz.
+The angular FSR ($2 \pi \mathrm{FSR}$) for the model is (up to numerical error) $0.94185 \times 10^9$~(rad)~Hz.
+The angular FSR in the analytics is $0.94248 \times 10^9$~(rad)~Hz.
+The theoretical value for $L = 1$ m is $2 \pi \mathrm{FSR} = 2 \pi c/(2 L) \approx 0.94183 \times 10^9$~(rad)~Hz.
 Therefore, the fractional error between the model and the analytics is on the order of $10^{-4}$, calculated as
 \begin{equation}
 \mathrm{fractional\; error} = \abs{\frac{\mathrm{model} - \mathrm{analytics}}{\mathrm{analytics}}}.
@@ -536,7 +553,7 @@ It is worth briefly explaining how we made sure that the Finesse model was simul
 
 % comparison for long SRC with internal squeezing
 A comparison of the quantum noise limited sensitivity of the analytics and Finesse is shown in Fig.~\ref{fig:sqz_aLIGO_analytics_v_simulation}. With the squeezer turned off, the agreement is nearly exact (to numerical error). With the squeezer turned on, the sensitivity is similar between the analytics and the Finesse model, with an average fractional error of $5\%$.
-This remaining error we attribute tentatively to the approximations made in the analytics, in particular the calculation of the coupled cavity pole. However, even if the error is, in fact, in the Finesse model, this error is small enough for the predictions made using the model to be useful in determining the optimal detector configuration.
+This remaining error we attribute tentatively to the approximations made in the analytics, in particular the calculation of the coupled cavity pole, although this requires further investigation. However, even if the error is, in fact, in the Finesse model, this error is small enough for the predictions made using the model to be useful in determining the optimal detector configuration.
 
 
 \subsubsection{Explaining the factor of four discrepancy in dB}
@@ -580,15 +597,16 @@ We have shown that Finesse can model successfully internal squeezing in a long s
 
 
 % optimisation
-Fixing the many parameter optimisation in Section~\ref{sec:optimisation} would improve Finesse’s usefulness in designing the configuration to achieve the best sensitivity in the desired band. Potential fixes to getting stuck in local minima would be to test many different initial conditions in some efficient way or constrain the problem more in some way. Alternatively, the present cost function (which is “maximise quantum noise SNR in a given band”) could be replaced by some other choice in the literature, such as Eq.~1 in Ref.~\cite{Miao_2014} or Eq.~8 in Ref.~\cite{Martynov_2019}, which may have less local minima and/or be more useful to detector design.
+Fixing the many parameter optimisation in Section~\ref{sec:optimisation} would improve Finesse’s usefulness in designing the configuration to achieve the best sensitivity in the desired band. Potential fixes to getting stuck in local minima would be to test many different initial conditions in some efficient way or constrain the problem more in some way. Alternatively, the present cost function (which is “maximise the peak quantum noise SNR in a given band”) could be replaced by some other choice in the literature, such as Eq.~1 in Ref.~\cite{Miao_2014} (which measures the improvement in a log-log scale integrated over the detection band against the reference of the baseline design of aLIGO) or Eq.~8 in Ref.~\cite{Martynov_2019} (which integrates the reciprocal of the noise over the band and accounts for the antenna response of the detector). These alternatives may have fewer local minima (making them easier to optimise) and/or be more useful to detector design.
 
 
 % losses
-We have ignored losses to simplify these initial tests, however, losses should be included in any realistic model. The complication with introducing a loss is that it then acts as a port for vacuum fluctuations, the coupling of which needs to then be included in the analytics. Finesse handles this complication itself and so introducing realistic losses into the model would be easy, albeit more difficult to derived the analytics to compare to.
+We have ignored losses to simplify these initial tests, however, losses should be included in any realistic model and are relevant to quantum noise. The complication with introducing a loss is that it then acts as a port for vacuum fluctuations, the coupling of which needs to then be included in the analytics. Finesse handles this complication itself and so introducing realistic losses into the model would be easy, albeit more difficult to derived the analytics to compare to.
 
 
 % other noise sources
-Similarly, we have focussed on quantum noise here because it limits the high frequency sensitivity of current detectors. A more realistic model would include other sorts of noise sources along with control systems. Finesse is able to handle control signals and so they could be added in. Finesse can handle other noise sources, up to the limitations of the model in how the noise can affect the components.
+One may be also interested in including control systems or other noise sources than quantum noise in the model. Although Finesse can handle both of these, they are as not relevant to the work here and can be handled separately.
+% Similarly, we have focussed on quantum noise here because it limits the high frequency sensitivity of current detectors. A more realistic model would include other sorts of noise sources along with control systems. Finesse is able to handle control signals and so they could be added in. Finesse can handle other noise sources, up to the limitations of the model in how the noise can affect the components.
 % Either the modelling would need to ignore those noise sources or some cleverness with injecting suitable sidebands would be required.
 
 
@@ -604,27 +622,24 @@ Non-degenerate squeezing is when the produced entangled photons from the squeeze
 \section{Conclusions}
 \label{sec:conclusions}
 % can be quite short!
-
-% remotivate
-In this report, we have used Finesse to model proposed advanced gravitational wave detector configurations. These detectors are complex and the analytics are tedious to derive for each proposed configuration. Finesse, and optical modelling more generally, allows for quick results and determination of the efficacy of a configuration.
-
+% do not need to explain details or tell a story
+% just report on what you have done and why people should care
 
 % sqz cavity, derived analytics
-We were interested in improving the high frequency (kHz) sensitivity of the detectors in order to see new sources, like the late states of binary neutron star--neutron star mergers. Since the current detectors are limited by quantum noise at high frequencies, we investigated configurations involving internal squeezing in a long SRC that were proposed to reduce shot noise at high frequencies without affecting the low frequency sensitivity of the detector. In order to do internal squeezing in Finesse, we first needed to test the newly implemented non-linear element (\code{nle}). We started by considering a simpler system of a squeezed cavity and used derived analytics to test the component in Finesse. The component successfully recovered the threshold (and FSR) values for the squeezed cavity.
-
-
+We have shown that the newly implemented non-linear element (\code{nle}) in Finesse successfully models a squeezer in a cavity when compared to analytics that we derived.
 % aLIGO, recommendation
-We then considered a simplified configuration of aLIGO, and used existing analytics to test the component in Finesse. This was successful up to a $5\%$ fractional error attributed to approximations made in the analytics, with the caveat that the input to the component had to be corrected for different conventions of dB and the directionality of the squeezer.
-For the sake of consistency, we recommend that the \code{nle} component be changed to match these conventions.
-
+We also tested the \code{nle} by modelling it inside of the long signal recycling cavity of a simplified configuration of aLIGO. Its behaviour agreed with existing analytics up to a $5\%$ fractional error, which we believe to be due to approximations made in the analytics. This, however, requires further investigation. These results required consideration for the convention of decibels used and the directionless--ness of the \code{nle}. For the sake of consistency, we recommend that the \code{nle} component be changed to: (1) calculate dB as $20 \log_{10}$ and (2) be made directional.
 
 % optimisation
-Work in optimising the high frequency quantum noise limited sensitivity by varying the squeezer and SRC parameters is ongoing, but has already demonstrated how Finesse can be used to find optimum detector configurations. All this and more future work, such as modelling exotic configurations, is now possible since we can trust the \code{nle} component that has passed all of our tests.
+Furthermore, assuming that the \code{nle} is working correctly, we have optimised the high frequency peak quantum noise limited sensitivity by varying the squeezer and SRC parameters. Although this work is ongoing, we have already demonstrated how Finesse can be used to find optimum detector configurations. All of this and more future work, such as modelling exotic configurations, is now possible since we can trust the \code{nle} component that has passed all of our tests.
+
+% remotivate
+Using a non-linear element inside the signal recycling cavity of a gravitational wave detector has been proposed to increase the high frequency (kHz) quantum noise limited sensitivity without affecting the low frequency sensitivity. We have demonstrated support for this hypothesis. At high frequencies are sources, like the late states of binary neutron star--neutron star mergers, that current detectors are too limited by quantum noise to see. Therefore, being able to model such configurations, in the hope to be able to see these new sources, is of great interest to the field of gravitational wave research.
 
 
 \begin{acknowledgments}
-The authors wish to thank the developers of Finesse for their great, open software.
-The authors also wish to thank the OzGrav-ANU squeezer group for their continued advice and support.
+The authors wish to thank the developers of Finesse for their great, open source software.
+The authors also wish to thank the ANU~CGA squeezer group for their continued advice and support.
 
 \end{acknowledgments}
 

@@ -102,7 +102,7 @@ One solution is to use optical modelling tools that can deliver fast results and
 In this report, we demonstrate the use of the optical modelling software Finesse~\cite{finesse}, for a variety of gravitational wave detector configurations and compare against known analytics. In particular, we test the implementation of a non-linear element, a squeezer crystal, in Finesse.
 We test this component first in a simple cavity and compare its results with analytics we derive. We then test it in a proposed detector configuration with a squeezer inside of a long signal recycling cavity (SRC), this configuration is called ``internal squeezing''.
 Current gravitational wave detectors only use a squeezer externally to the interferometer and inject in the squeezed states.
-At high frequencies, these detectors are limited by quantum noise, in particular, shot noise. Internal squeezing is predicted to improve the quantum noise limited (strain) sensitivity around the coupled cavity pole above the present detectors~\cite{Korobko_2019,Adya_2020}, without increasing the circulating power in the arms nor affecting the low frequency sensitivity of the detector.
+At high frequencies, these detectors are limited by quantum noise, in particular, shot noise. Internal squeezing is predicted to improve the quantum noise limited (strain) sensitivity around the coupled cavity pole above the current detectors~\cite{Korobko_2019,Adya_2020}, without increasing the circulating power in the arms nor affecting the low frequency sensitivity of the detector.
 By testing internal squeezing in Finesse we can attempt to verify these claims, but first we must demonstrate that we can trust the new implementation of a non-linear element to simulate squeezing accurately.
 
 
@@ -327,7 +327,7 @@ For a passing gravitational wave to result in detectable changes in the arm leng
 \end{figure}
 
 Despite all the components in the (simplified) aLIGO configuration, the resultant transfer functions for the signal and the noise are equivalent (to a good approximation) to those for two coupled cavities, shown in Fig.~\ref{fig:aLIGO_as_coupled_cavities}. The differential mode from the two arms becomes an optomechanical coupling between the SRC and the beam arm under this equivalence.
-Although the coupled cavity system isn’t physical, for example the source of the laser in arm cavity is non-existent, the reduction is useful to understanding the interferometer. In particular, it is clear in the reduced system that the signal and the vacuum fluctuations see the cavities differently as they they enter from different sides. This explains how internal squeezing can affect them differently, as discussed in Section~\ref{sec:internal_squeezing}.
+Although the coupled cavity system is not physical, for example the source of the laser in arm cavity is non-existent, the reduction is useful to understanding the interferometer. In particular, it is clear in the reduced system that the signal and the vacuum fluctuations see the cavities differently as they they enter from different sides. This explains how internal squeezing can affect them differently, as discussed in Section~\ref{sec:internal_squeezing}.
 
 
 \subsection{Noise sources}
@@ -344,7 +344,7 @@ Although the coupled cavity system isn’t physical, for example the source of t
 \end{figure*}
 
 
-In aLIGO, noise enters the system from many sources and reduces sensitivity across the frequency range of Hz to kHz. Classically, these include (but are not limited to) vibrations in the ground (seismic noise), changes in the nearby distribution of matter (known as Newtonian noise), and thermal vibration of the components and the systems that hold them (thermal noise). Control systems and the natural resonances of the mirror suspensions also remove the possibility for detection in certain bands. We don’t consider these effects here, instead focusing on the quantum noise. We assume that all these noise sources are static in frequency (an often reasonable assumption). 
+In aLIGO, noise enters the system from many sources and reduces sensitivity across the frequency range of Hz to kHz. Classically, these include (but are not limited to) vibrations in the ground (seismic noise), changes in the nearby distribution of matter (known as Newtonian noise), and thermal vibration of the components and the systems that hold them (thermal noise). Control systems and the natural resonances of the mirror suspensions also remove the possibility for detection in certain bands. We do not consider these effects here, instead focusing on the quantum noise. We assume that all these noise sources are static in frequency (an often reasonable assumption). 
 
 
 Quantum noise comes from the fundamental HUP limits on the uncertainty in each quadrature, discussed in Section~\ref{sec:squeezing}. Vacuum enters the interferometer at every open port, most importantly from behind the SRM, and, due to the Fluctuation Dissipation Theorem~\cite{Danilishin_2012}, at every lossy optical component in the form of new, un-correlated noise. In the phase quadrature, quantum noise manifests as shot noise, uncertainty in the number of photons hitting one of the mirrors, that is strongest at high frequencies. In the amplitude quadrature, quantum noise comes as radiation pressure, the momentum of incident light driving mirror oscillations, that is strongest at low frequencies. Increasing the power in the arms increases radiation pressure but reduces favourably shot noise, leading to a trade-off in how much power is put into the interferometer.
@@ -389,7 +389,7 @@ Internal squeezing is when a squeezer crystal is placed inside the interferomete
 % SRC, signal de-amplification
 Here we consider a high frequency (HF) gravitational wave detector motivated in Section~\ref{sec:introduction}. With internal squeezing in the phase quadrature, the quantum phase noise (the shot noise) gets reduced around the coupled cavity pole. The linewidth of the SRC (the FWHM of the cavity resonance, see Section~\ref{sec:basics}) determines the bandwidth of the noise reduction. For the system considered here, this reduction in noise is shown in the black and green lines in the top panel Fig.~\ref{fig:src_transfer_functions}.
 
-Squeezing in phase will anti-squeeze in amplitude. In the system considered here the homodyne angle was chosen to select the phase quadrature. If it instead selected the amplitude quadrature, then the well in the top panel of Fig.~\ref{fig:src_transfer_functions} would be inverted into a bump, but the low frequency response wouldn’t change from the case without squeezing (as in either case the squeezer only affects the noise and the signal within the linewidth of the SRC).
+Squeezing in phase will anti-squeeze in amplitude. In the system considered here the homodyne angle was chosen to select the phase quadrature. If it instead selected the amplitude quadrature, then the well in the top panel of Fig.~\ref{fig:src_transfer_functions} would be inverted into a bump, but the low frequency response would not change from the case without squeezing (as in either case the squeezer only affects the noise and the signal within the linewidth of the SRC).
 
 Because the squeezing is internal, the signal is affected too, and is shown, for the system consider here, in the middle panel of Fig.~\ref{fig:src_transfer_functions}. Squeezing in phase results in the signal losing power around the pole (known as de-amplification), but this is less significant than the reduction in noise and so the sensitivity (as the SNR) overall improves around the pole.
 % vacuum input, signal and noise see the interferometer differently
@@ -421,7 +421,7 @@ We derive the analytics for this system, getting an expression for the double-si
 
 
 \subsubsection{Threshold}
-% threshold results, operating above threshold isn’t physically meaningful for the approximations made to reach these analytics
+% threshold results, operating above threshold is not physically meaningful for the approximations made to reach these analytics
 
 \begin{figure}[ht]
 	\begin{center}
@@ -446,7 +446,7 @@ The explanation for this behaviour lies in the assumptions made in the analytics
 This could be an issue for modelling, except that the aLIGO squeezer operates normally well below threshold, where the model is  accurate reasonably well and so can be used to study aLIGO.
 
 
-We are also interested in the behaviour at some frequency offset $\Omega$ from the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. We use the same parameters as above except for a selection of different squeezer parameters (shown in Fig.~\ref{fig:not_main_PSD_vs_freq}). For all non-zero squeezer parameters, Fig.~\ref{fig:not_main_PSD_vs_freq} shows resonances every $9.42$~(rad)~GHz. At each resonance, the threshold values go to infinity and zero, while off resonance they are different from the carrier frequency but remain on the same scale (with fractional difference on the order of $10^{-3}$).
+We are also interested in the behaviour at some frequency offset $\Omega$ from the carrier frequency, i.e.\ $\abs{S_{\mathrm{HomI}}(\Omega)/S_{\mathrm{HomI}}(0)}$ against $\Omega$. We use the same parameters as above except for a selection of different squeezer parameters (shown in Fig.~\ref{fig:not_main_PSD_vs_freq}). For all non-zero squeezer parameters, Fig.~\ref{fig:not_main_PSD_vs_freq} shows resonances every $9.42$~(rad)~GHz. When the squeezer is at threshold, at each resonance the PSD becomes unbounded or goes to zero, while off resonance the PSD has a fractional difference on the order of $10^{-3}$ from the case with no squeezing.
 
 
 \subsection{Testing the non-linear element in Finesse}
@@ -554,6 +554,7 @@ Overall, the \code{nle} component successfully models the simplified aLIGO confi
 
 
 \subsection{Optimisation}
+\label{sec:optimisation}
 
 \begin{figure*}[ht]
 	\begin{center}
@@ -575,26 +576,26 @@ We optimise the quantum noise limited sensitivity within a high frequency band o
 \section{Future work}
 \label{sec:future_work}
 
-We’ve shown that Finesse can successfully model internal squeezing and have then used it to demonstrate the benefits of a long SRC. Here we detail other proposed configurations and how Finesse could be used to evaluate their efficacy.
+We have shown that Finesse can model successfully internal squeezing in a long signal recycling cavity (SRC) and can support the hypothesis that that configuration improves the high frequency quantum noise limited sensitivity around the coupled cavity pole. Here we detail other proposed configurations and how Finesse could be used to evaluate their efficacy.
 
 
 % optimisation
-Fixing the many parameter optimisation would improve Finesse’s usefulness in designing the configuration to achieve the best sensitivity in the desired band. Potential fixes to getting stuck in local minima would be to test many different initial conditions in some efficient way or constrain the problem more in some way. Alternatively, the current cost function (which is “maximise quantum noise SNR in a given band”) could be replaced by some other choice in the literature, such as Eq.~1 in Ref.~\cite{Miao_2014} or Eq.~8 in Ref.~\cite{Martynov_2019}, which may be less prone to local minima and/or more physically useful to detector design.
+Fixing the many parameter optimisation in Section~\ref{sec:optimisation} would improve Finesse’s usefulness in designing the configuration to achieve the best sensitivity in the desired band. Potential fixes to getting stuck in local minima would be to test many different initial conditions in some efficient way or constrain the problem more in some way. Alternatively, the present cost function (which is “maximise quantum noise SNR in a given band”) could be replaced by some other choice in the literature, such as Eq.~1 in Ref.~\cite{Miao_2014} or Eq.~8 in Ref.~\cite{Martynov_2019}, which may have less local minima and/or be more useful to detector design.
 
 
 % losses
-We’ve ignored losses to simplify these initial tests, however, losses should be included in any realistic model. The complication with introducing a loss is that it then acts as a port for vacuum fluctuations, the coupling of which needs to then be included in the analytics. Finesse handles this complication itself and so introducing realistic losses into the model would be easy, albeit more difficult to write the analytics for.
+We have ignored losses to simplify these initial tests, however, losses should be included in any realistic model. The complication with introducing a loss is that it then acts as a port for vacuum fluctuations, the coupling of which needs to then be included in the analytics. Finesse handles this complication itself and so introducing realistic losses into the model would be easy, albeit more difficult to derived the analytics to compare to.
 
 
 % other noise sources
-Similarly, we’ve focussed on quantum noise here because it limits the high frequency sensitivity of current detectors. A more realistic model would include other sorts of noise sources along with control systems. Finesse is able to handle control signals and so they could be added in. Finesse can handle other noise sources, up to the limitations of the model in how the noise can affect the components.
+Similarly, we have focussed on quantum noise here because it limits the high frequency sensitivity of current detectors. A more realistic model would include other sorts of noise sources along with control systems. Finesse is able to handle control signals and so they could be added in. Finesse can handle other noise sources, up to the limitations of the model in how the noise can affect the components.
 % Either the modelling would need to ignore those noise sources or some cleverness with injecting suitable sidebands would be required.
 
 
 % detuned long SRC, non-degenerate squeezing
-As for different proposed configurations, two changes would be detuning the long SRC and non-degenerate squeezing. Detuning should allow for more control of the bandwidth of the detector and so allow for more sources to be seen.
-Detuning the long SRC is something we started to investigate by allowing the optimisation routine to change the tuning of the SRM, investigating this further would amount to fixing the optimisation as above.
-Non-degenerate squeezing is when the produced entangled photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new component to Finesse able to be internal to the configuration, similar to \code{nle}, but is otherwise achievable to model. The motivation for internal non-degenerate squeezing is to be able to replace (potentially) a ``white-light cavity'' (not explained here, but see Ref.~\cite{white-light-resonators}) and get the same broadband improvement without the complications of the stability, the high mechanical quality factor, and the low required thermal noise of the ``white-light cavity''.
+As for investigating different proposed configurations: two changes would be detuning the long SRC and non-degenerate squeezing. Detuning should allow for more control of the bandwidth of the detector and so allow for more sources to be seen.
+Detuning the long SRC is something we started to investigate by allowing the optimisation routine to change the tuning of the SRM; investigating this further would amount to fixing the optimisation as above.
+Non-degenerate squeezing is when the produced entangled photons from the squeezer, the signal and the idler, are at different frequencies and so see the interferometer differently. This would require the addition of a new non-degenerate squeezer component to Finesse similar to \code{nle}. The motivation for internal non-degenerate squeezing is to be able to replace a ``white-light cavity'' (WLC) with a different configuration that has the same broadband improvement but without the WLC’s complications of stability, high mechanical quality factor, and low required thermal noise~\cite{white-light-resonators}.
 
 
 % other limitations of finesse in its current form that can be overcome?
@@ -605,20 +606,20 @@ Non-degenerate squeezing is when the produced entangled photons from the squeeze
 % can be quite short!
 
 % remotivate
-In this report, we use Finesse to model advanced gravitational wave detector configurations proposed to improve on those in use. These detectors are complex and the analytics are tedious to derive for each proposed configuration. Finesse, and optical modelling more generally, allows for quick results and determination of the efficacy of a configuration.
+In this report, we have used Finesse to model proposed advanced gravitational wave detector configurations. These detectors are complex and the analytics are tedious to derive for each proposed configuration. Finesse, and optical modelling more generally, allows for quick results and determination of the efficacy of a configuration.
 
 
 % sqz cavity, derived analytics
-We were interested in improving the high frequency (kHz) sensitivity of the detectors in order to see new sources, like the late states of binary neutron star--neutron star mergers. Since the current detectors are limited by quantum noise at high frequencies, we investigated configurations involving internal squeezing in a long SRC that were proposed to reduce shot noise at high frequencies without affecting the low frequency sensitivity of the detector. In order to do internal squeezing in Finesse, we first needed to test the \code{nle} component. We started by considering a simpler system of a squeezed cavity and used derived analytics to test the component in Finesse. The component successfully recovered the threshold (and FSR) values for the squeezed cavity.
+We were interested in improving the high frequency (kHz) sensitivity of the detectors in order to see new sources, like the late states of binary neutron star--neutron star mergers. Since the current detectors are limited by quantum noise at high frequencies, we investigated configurations involving internal squeezing in a long SRC that were proposed to reduce shot noise at high frequencies without affecting the low frequency sensitivity of the detector. In order to do internal squeezing in Finesse, we first needed to test the newly implemented non-linear element (\code{nle}). We started by considering a simpler system of a squeezed cavity and used derived analytics to test the component in Finesse. The component successfully recovered the threshold (and FSR) values for the squeezed cavity.
 
 
 % aLIGO, recommendation
 We then considered a simplified configuration of aLIGO, and used existing analytics to test the component in Finesse. This was successful up to a $5\%$ fractional error attributed to approximations made in the analytics, with the caveat that the input to the component had to be corrected for different conventions of dB and the directionality of the squeezer.
-For the sake of consistency, we recommend that the \code{nle} component be changed to match convention.
+For the sake of consistency, we recommend that the \code{nle} component be changed to match these conventions.
 
 
 % optimisation
-Work in optimising the high frequency quantum noise limited sensitivity by varying the squeezer and SRC parameters is ongoing, but has already demonstrated how Finesse can be used to find optimum detector configurations. All this and more future work, such as modelling  exotic configurations, is now possible since we can trust the component that has passed all of our tests.
+Work in optimising the high frequency quantum noise limited sensitivity by varying the squeezer and SRC parameters is ongoing, but has already demonstrated how Finesse can be used to find optimum detector configurations. All this and more future work, such as modelling exotic configurations, is now possible since we can trust the \code{nle} component that has passed all of our tests.
 
 
 \begin{acknowledgments}
@@ -633,10 +634,10 @@ The authors also wish to thank the OzGrav-ANU squeezer group for their continued
 \section{Squeezed cavity analytics}
 \label{app:squeezed_cavity_analytics}
 
-We want the PSD of the homodyne intensity, $S_{\mathrm{HomI}}(\Omega)$, for the squeezed cavity. We proceed in four steps:
+We want to derive the PSD of the homodyne intensity, $S_{\mathrm{HomI}}(\Omega)$, for the squeezed cavity (shown in Fig.~\ref{fig:squeezed_cavity}). We proceed in four steps:
 \begin{itemize}
-\item finding the transfer matrix for the empty cavity
-\item borrowing the solution to arrive at the quadratures at the photodiodes
+\item finding the transfer matrix for an empty cavity in the frequency domain
+\item borrowing that solution for a squeezed cavity to arrive at the quadratures at the photodiodes
 \item computing the Fourier spectrum of the time averaged intensity
 \item using properties of the quantum noise quadratures from Ref.~\cite{Danilishin_2012} to arrive at the result
 \end{itemize}
@@ -650,11 +651,11 @@ We want the PSD of the homodyne intensity, $S_{\mathrm{HomI}}(\Omega)$, for the 
 	\begin{center}
 	\includegraphics[width=0.45\textwidth]{figures/empty_cavity_amplitudes.pdf}
 	\end{center}
-	\caption{Labelled electric field amplitudes for empty cavity, used in deriving matrix solution for the reflected field $a_5$ in terms of the incident field $a_0$.}
+	\caption{Labelled electric field amplitudes for an empty Fabry-Perot cavity. These amplitudes are used in deriving the matrix solution for the reflected field $a_5$ in terms of the incident field $a_0$.}
 	\label{fig:empty_cavity_amplitudes}
 \end{figure}
 
-Consider an empty two-mirror cavity with reflectivities $r_1, r_2$ and transmitivities $t_1, t_2$. For simplicity we assume mirror 1 is lossless and mirror two is perfectly reflective $r_2 = 1, t_2 = 0$. Light $a_0(\Omega)$ is incident on mirror 1, where $a_0$ is a vector of the two quadratures in the frequency domain (see Section~\ref{sec:squeezing}). Let $a_j$ for $j = 1, \ldots, 6$ be similar and defined as in Fig.~\ref{fig:empty_cavity_amplitudes}. We use the mirror phase convention of no change on transmission and reflection from one of the sides and $\pi$ on reflection from the other side. The transmission and reflection matrices are therefore $R_i = r_i I,\; T_i = t_i I$, where $i = 1, 2$ and $I$ is the $2 \times 2$ identity matrix. Let the propagation matrix from one mirror to the other be $P$ which we construct later. Therefore, the amplitudes are related by
+Consider an empty two-mirror cavity with reflectivities $r_1, r_2$ and transmitivities $t_1, t_2$ (shown in Fig.~\ref{fig:empty_cavity_amplitudes}). For simplicity, we assume that the front mirror is lossless and that the back mirror is perfectly reflective $r_2 = 1, t_2 = 0$. Light $a_0(\Omega)$ is incident on the front mirror, where $a_0$ is a vector of the quadratures in the frequency domain (see Section~\ref{sec:squeezing}). Let $a_j$ for $j = 1, \ldots, 6$ be similar and defined as in Fig.~\ref{fig:empty_cavity_amplitudes}. We use the mirror phase convention of no change on transmission and reflection from one of the sides and $\pi$ on reflection from the other side. The transmission and reflection matrices are therefore $R_i = r_i I,\; T_i = t_i I$, where $i = 1, 2$ and $I$ is the $2 \times 2$ identity matrix. Let the propagation matrix from one mirror to the other be $P$, which we construct later. Therefore, the amplitudes are related by
 \begin{align}
 a_1 &= T_1 a_0 + R_1 a_4\\
 a_2 &= P a_1\nonumber\\
@@ -667,12 +668,13 @@ Solving the set of equations
 \begin{align}
 a_4 &= P R_2 P (T_1 a_0 + R_1 a_4) \\
 a_4 &= (I - P R_2 P R_1)^{-1} P R_2 P T_1 a_0 \nonumber\\
-a_5 &= \left(T_1 (I - P R_2 P R_1)^{-1} P R_2 P T_1 - R_1\right) a_0\nonumber
+a_5 &= \left(T_1 (I - P R_2 P R_1)^{-1} P R_2 P T_1 - R_1\right) a_0
+\label{eq:empty_cav_refl}
 \end{align}
 We get an expression for the reflected field off the cavity, $a_5$.
 
 
-The propagation matrix $P$ across free space depends on the length and tuning of the space. Let the cavity be $D = L + \delta l$ long. Then the propagation across free space is
+The propagation matrix $P$ across free space depends on the macroscopic length $L$ and tuning $\delta$ of the space. Let the cavity be of length $D = L + \delta l$. Then the propagation across free space is
 \begin{align}
 P(L, \delta l) &= \exp\left(i\frac{\Omega (L + \delta l)}{c}\right) \;\mathrm{Rot}\left(\frac{\omega_0 \delta l}{c}\right) \\
 \mathrm{Rot}(\phi) &= \begin{bmatrix}
@@ -687,7 +689,7 @@ P(L, \delta l) = \exp\left(i\frac{\Omega L}{c}\right) \;\mathrm{Rot}\left(\psi\r
 
 \subsubsection{Quadratures at the photodiodes}
 
-To incorporate the squeezer we borrow the above solution but change the propagation matrix to
+To incorporate the squeezer, we borrow the above solution but change the propagation matrix to
 \begin{align}
 	\begin{gathered}
 	\tilde{P}(L, \delta l, r, \phi) = P\left(\frac{L}{2}, \frac{\delta l}{2}\right) \mathrm{Sqz}(r, \phi) P\left(\frac{L}{2}, \frac{\delta l}{2}\right) \\
@@ -698,23 +700,23 @@ To incorporate the squeezer we borrow the above solution but change the propagat
 	\end{bmatrix}
 	\end{gathered}
 \end{align}
-Where $r = r_\mathrm{sqz}$ is the squeezer parameter (not in dB) and $\phi$ is the squeezer angle. Note that this means that the light gets squeezed from both directions by the squeezer. This is not what physically happens but is how \code{nle} is implemented, so for ease of comparison we choose this convention. Note that this is different to the directional squeezer in the analytics in Section~\ref{sec:aLIGOcomparison}.
+Where $r = r_\mathrm{sqz}$ is the squeezer parameter (not in dB), $\phi$ is the squeezer angle, and $\mathrm{Sqz}$ is the squeezer matrix mentioned in Section~\ref{sec:squeezing}. Note that this substitution of $\tilde{P}$ for $P$ everywhere means that the light gets squeezed from both directions by the squeezer. This is not what physically happens but is how \code{nle} is implemented, so for ease of comparison we choose this convention. Note that this is different to the directional squeezer in the analytics in Section~\ref{sec:aLIGOcomparison}.
 
 
-Referring to Fig.~\ref{fig:squeezed_cavity}, let $n = a_0$ be the vacuum incident on the cavity, $a$ be the laser noise, and let the local oscillator itself be
+Referring to Fig.~\ref{fig:squeezed_cavity}, let $n = a_0$ be the vacuum incident on the cavity, $a$ be the laser noise, and the local oscillator be
 \begin{equation}
 A = A_0 \begin{bmatrix}
 \cos(\theta)\\ 
 \sin(\theta)
-\end{bmatrix}
+\end{bmatrix},
 \end{equation}
-For homodyne angle $\theta$ and amplitude $A_0$. The field reflected off the cavity is
+for homodyne angle $\theta$ and amplitude $A_0$. By Eq.~\ref{eq:empty_cav_refl}, the field reflected off the cavity is
 \begin{equation}
 n_r = \left(t_1 (I - r_1 \tilde{P}^2)^{-1} \tilde{P}^2 t_1 - r_1 \right) n
 \end{equation}
 
 
-For a 50/50 beamsplitter and negligible propagation lengths outside the cavity the fields (as quadrature vectors, frequency dependent) at the two photodiodes are therefore
+For a 50/50 beamsplitter and negligible propagation lengths outside the cavity the fields at the two photodiodes are therefore
 \begin{align}
 b_1 &= \frac{1}{\sqrt{2}} \left( n_r + A + a\right) \\
 b_2 &= \frac{1}{\sqrt{2}} \left( n_r - A - a\right)\nonumber
@@ -722,7 +724,7 @@ b_2 &= \frac{1}{\sqrt{2}} \left( n_r - A - a\right)\nonumber
 
 \subsubsection{Fourier spectrum of the time averaged intensity}
 
-Consider the time average of the intensity at photodiode 1. Need to take inverse Fourier transform of frequency domain field, let tilde denote time domain. Note that depending on quadrature convention there may need to be a constant squared out the front of the intensity to fix the units, we later drop this constant anyway so I won’t write it. 
+Consider the time average (notated as $\expect{\cdot}$) of the intensity at the first photodiode $\expect{\tilde{I}_1(t)}$. Let tilde ($\tilde{\cdot}$) denote time domain quantities. The above fields are in the frequency domain, so we need to take the inverse Fourier transform. Note that depending on the quadrature convention there may need to be a constant squared out the front of the intensity to fix the units (but we later drop this constant anyway so I will not write it). 
 \begin{align}
 \tilde{b}_1 &= \begin{bmatrix}
 \tilde{b}_{1,c}\\ 
@@ -730,24 +732,24 @@ Consider the time average of the intensity at photodiode 1. Need to take inverse
 \end{bmatrix} \\
 \expect{\tilde{I}_1(t)} &= \expect{\abs{\tilde{b}_{1,c} \cos(\omega_0 t) + \tilde{b}_{1,s} \sin(\omega_0 t)}^2}
 \end{align}
-Assuming that the time domain quadrature are Hermitian allows the absolute value squared to be expanded. Also assume that the quadratures are slowly changing with respect to $\omega_0$. Taking time averages we note $\expect{\cos(\omega_0 t) \sin(\omega_0 t)} = 0$ and $\expect{\cos^2} = \expect{\sin^2} = 1/2$. This leaves
+We assume that the time domain quadratures are Hermitian and that the quadratures are slowly changing with respect to $\omega_0$. Taking time averages (and noting that $\expect{\cos(\omega_0 t) \sin(\omega_0 t)} = 0$ and $\expect{\cos^2} = \expect{\sin^2} = 1/2$) this leaves
 
 \begin{equation}
 \expect{\tilde{I}_1} = \frac{1}{2} \left( \tilde{b}_{1,c}^2 + \tilde{b}_{1,s}^2 \right)
 \end{equation}
 
 
-Splitting the quadratures into a constant $B$ and a time varying part $\tilde{b}'$ with average zero and assuming that the time varying part is small with respect to the constant (this is true for the noise compared to the local oscillator). We expand the quadratures squared and drop the time varying part squared terms.
+We then split the quadratures $\tilde{b}_i$ into a constant $B$ and a time varying part $\tilde{b}'$ with average zero. Assuming that the time varying part is small with respect to the constant part (this is true for the noise compared to the local oscillator), we expand the quadratures squared and drop the terms quadratic in the time varying parts.
 \begin{equation}
 \expect{\tilde{I}_1} = \frac{1}{2} \left( B_{1,c}^2 + B_{1,s}^2 + 2 \left( B_{1,c} \tilde{b}_{1,c}' + B_{1,s} \tilde{b}_{1,s}' \right) \right)
 \end{equation}
 
 
-Now taking Fourier transform to return to frequency domain, and dropping the (DC) constant term since we are only interested in the quantum noise. Recall that tildes indicated time domain, so we just drop them.
+Taking Fourier transform to return to the frequency domain, and dropping the constant (DC) term since we are only interested in the quantum noise.
 \begin{equation}
 \expect{I_1} = B_{1,c} b_{1,c}' + B_{1,s} b_{1,s}'
 \end{equation}
-
+Where, since the tildes indicated the time domain, we just drop them to return to the frequency domain.
 
 We claim that these $B$ and $b'$ are the constant and frequency dependant parts of the original quadrature $b$. This amounts to $B$ being the local oscillator, e.g.\ $B_{1,c} = 1/\sqrt{2} A_0 \cos(\theta)$, and $b'$ being the noise terms in $b$, i.e.\ $1/\sqrt{2} (n_r \pm a)$. The homodyne intensity, $\mathrm{HomI}$, is then
 \begin{equation}
@@ -755,7 +757,7 @@ We claim that these $B$ and $b'$ are the constant and frequency dependant parts 
 \end{equation}
 
 
-Substituting the quadratures at the photodiodes and simplifying reveals that the homodyne intensity doesn’t depend on $a$, the laser noise of the local oscillator, as expected. Let $n_c$ and $n_s$ be the quadratures of the original vacuum input $n$.
+Substituting the quadratures at the photodiodes and simplifying reveals that the balanced homodyne intensity does not depend on $a$, the laser noise of the local oscillator, as expected. Let $n_c$ and $n_s$ be the quadratures of the original vacuum input $n$.
 \begin{equation}
 \mathrm{HomI} = \frac{A_0(g_1 n_c + g_2 n_s)}{g_3}
 \end{equation}
@@ -786,12 +788,13 @@ g_3 &= 1 + r_1^2 e^{\frac{4 i L \Omega}{c}} - 2 e^{\frac{2 i L \Omega}{c}} \sinh
 
 \subsubsection{PSD of the homodyne intensity}
 
-Recall the definition of PSD from Section~\ref{sec:squeezing}, and noting that $S, \mathrm{HomI}, n$ should all have hats (\,$\hat{}$\,) but we drop them to reduce clutter.
+Recall the definition of the double-sided PSD from Section~\ref{sec:squeezing}.
 \begin{equation}
 S_\mathrm{HomI}(\Omega) 2 \pi \delta(\Omega - \Omega') = \langle0| \mathrm{HomI}(\Omega) \circ \mathrm{HomI}^\dagger(\Omega') |0\rangle
 \end{equation}
+Note that $S,\; \mathrm{HomI}$ and $n$ should all have hats (\,$\hat{}$\,) to denote operators (but we drop them to reduce clutter).
 
-Assuming that the homodyne intensity is hermitian, and expanding out the symmetric products we get
+Assuming that the homodyne intensity is Hermitian, and expanding out the symmetric products we get
 \begin{align}
 S_\mathrm{HomI}(\Omega) 2 \pi \delta(\Omega - \Omega') &= \frac{A_0^2}{g_3(\Omega) g_3(\Omega')} \\
 &\cdot \langle0| g_1(\Omega) g_1(\Omega') (n_c(\Omega) \circ n_c(\Omega'))\nonumber\\

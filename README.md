@@ -9,6 +9,19 @@ James Gardner, October 2020
 Current build found [here.](https://github.com/daccordeon/aliveKat)
 
 ---
+aliveKat uses Mathematica 11.3 and Python 3.6.9. For Python, it has the following requirements:
+- ipython==5.5.0
+- jupyter==1.0.0
+- jupyter-client==5.2.2
+- jupyter-console==6.0.0
+- jupyter-core==4.4.0
+- matplotlib==3.0.3
+- numpy==1.16.2
+- scipy==1.2.1
+
+Additionally, aliveKat needs the [nle branch of Finesse](https://git.ligo.org/finesse/finesse/-/tree/nle) installed and built (see the README there, commit a3cc55b25da14cd23047f0fdc34ef0e9ee656f44) in order to import pykat.
+
+---
 Guide to replicating results:
 1. Download the repo (either through git or extract from .zip download)
 2. Navigate to the source folder

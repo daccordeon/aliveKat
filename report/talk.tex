@@ -89,16 +89,22 @@
     \qquad
     \subfloat[\centering]{{\includegraphics<1>[width=0.5\textwidth]{figures/pykat_cat_and_pie.png}}}%
 \end{figure}
-\vspace{-3cm}
-\begin{figure}
-    \captionsetup[subfigure]{labelformat=empty}
-    \centering 
-    \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
-    \qquad
-    \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
-\end{figure}
+\only{
 \vfill
 \url{http://www.gwoptics.org/finesse/}
+}<1>
+\only{
+\vspace{-4cm}
+}<2>
+\begin{figure}
+    % \captionsetup[subfigure]{labelformat=empty}
+    \centering 
+    % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
+    % \qquad
+    % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
+    \includegraphics<2>[width=0.8\textwidth]{figures/testing_Finesse_squeezers_comparison.pdf}
+\end{figure}
+
 \end{frame}
 
 % \begin{frame}{Our goal}
@@ -114,13 +120,14 @@
 \only<2-|handout:0>{\stepcounter{framenumber}}
 \centering
 \qquad
-\includegraphics<1>[width=0.8\textwidth]{figures/squeezed_cavity.pdf}
-\begin{columns}
-\column{0.5\textwidth}
-\includegraphics<2>[width=\textwidth]{figures/not_main_PSD_vs_r.pdf}
-\column{0.5\textwidth}
-\includegraphics<2>[width=\textwidth]{figures/pykat_relative_qhd_vs_r.pdf}
-\end{columns}
+\includegraphics<1>[height=0.8\textwidth, angle=-90]{figures/squeezed_cavity.pdf}
+% \begin{columns}
+% \column{0.5\textwidth}
+% \includegraphics<2>[width=\textwidth]{figures/not_main_PSD_vs_r.pdf}
+% \column{0.5\textwidth}
+% \includegraphics<2>[width=\textwidth]{figures/pykat_relative_qhd_vs_r.pdf}
+% \end{columns}
+\includegraphics<2>[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_r_comparison.pdf}
 \end{frame}
 
 % match powers, check tunings, then compare sensitivities
@@ -201,11 +208,12 @@ g_3 &= 1 + r_1^2 e^{\frac{4 i L \Omega}{c}} - 2 e^{\frac{2 i L \Omega}{c}} \sinh
 \end{frame}
 
 \begin{frame}{Squeezed cavity frequency response}
-\only<2-|handout:0>{\stepcounter{framenumber}}
+% \only<2-|handout:0>{\stepcounter{framenumber}}
 \centering
-\includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
-% \vspace{-.1cm}
-\includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
+% \includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
+% % \vspace{-.1cm}
+% \includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
+\includegraphics[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_freq_comparison.pdf}
 \end{frame}
 
 \begin{frame}{Finesse code example}

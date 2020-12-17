@@ -1,4 +1,4 @@
-% aliveKat, presentation to CGA, wk11
+% aliveKat, presentation to IFO-SIM, Saturday 19th of Dec
 \documentclass[12pt]{beamer}
 \mode<presentation> {
 \usetheme{Madrid}
@@ -18,17 +18,21 @@
 \usepackage{comment}
 % \usepackage{siunitx}
 
+\usepackage{xcolor}
+
 % \usepackage{booktabs} % toprule, \midrule and \bottomrule in tables
 % \newcommand\hmmax{0}  % stop the 'too many math scripts' error
 % \newcommand\bmmax{0}
+
+% \usepackage{bibentry}
 
 \newcommand{\code}[1]{\texttt{#1}}
 
 
 %TITLE PAGE
-\title[Optical modelling of GW detectors]{Optical modelling of advanced gravitational wave detector configurations}
+\title[Verification of the \code{nle}]{Verification of the newly-added non-linear element in Finesse for optical modelling of advanced gravitational-wave detector configurations}
 
-\author[James W. Gardner et al.]{James~W.~Gardner, Vaishali~B.~Adya, David~McClelland, Daniel~Töyrä}
+\author[James W. Gardner et al.]{James~W.~Gardner, Vaishali~B.~Adya, Daniel~Töyrä, David~McClelland}
 \date{\today}
 
 \begin{document}
@@ -39,7 +43,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Motivation: HF sensitivity}
+\begin{frame}{Motivation - HF sensitivity}
 % GW detectors and neutron stars as example of HF source
 \begin{figure}
 \includegraphics<1>[height=\textwidth,angle=-90]{figures/gwo_ifos-pictures.pdf}
@@ -48,7 +52,7 @@
 % quantum noise at HF
 \end{frame}
 
-\begin{frame}{Motivation: quantum noise limited detection}
+\begin{frame}{Motivation - quantum noise limited detection}
 \centering
 \includegraphics<1>[width=0.8\textwidth]{figures/sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf}
 \end{frame}
@@ -58,7 +62,8 @@
 \begin{itemize}
 \item why bother?
 \item what’s the \code{nle}?
-\item what’s Finesse?
+\item does it work? (spoiler: likely yes but it is a work-in-progress)
+% \item what’s Finesse?
 \end{itemize}
 % If successful, then allows us an efficient means to test configurations
 \end{block}
@@ -66,8 +71,20 @@
 
 % quantum noise in phase quadrature
 \begin{frame}{aLIGO with long SRC and internal squeezing}
+\begin{columns}
+\column{0.5\textwidth}
 \centering
-\includegraphics<1>[height=.8\textheight]{figures/aLIGO_internal_squeezing.pdf}
+\includegraphics<1>[height=.7\textheight]{figures/aLIGO_internal_squeezing.pdf}
+
+\column{0.5\textwidth}
+\begin{block}{Such a configuration may improve the HF QN limited:}
+\begin{itemize}
+\item peak sensitivity
+\item broadband sensitivity~\footnote{\tiny Mikhail Korobko, Yiqiu Ma, Yanbei Chen, and Roman\\ Schnabel. Quantum expander for gravitational-wave\\ observatories. \emph{Light: Science \& Applications}, 8(1), Dec
+2019.}~\footnote{\tiny V B Adya, M J Yap, D Töyrä, et al. Quantum enhanced\\ kHz gravitational wave detector with internal squeezing. \\\emph{Classical and Quantum Gravity}, 37(7):07LT02, Mar 2020.}
+\end{itemize}
+\end{block}
+\end{columns}
 % \vspace{-.5cm}
 % \includegraphics<2>[height=.8\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
 \end{frame}
@@ -75,11 +92,11 @@
 % freq. domain optical modelling, used in GW field and for optical cavities
 % Finesse can do (cool stuff) ...
 \begin{frame}{Finesse}
-\only<2-|handout:0>{\stepcounter{framenumber}}
+% \only<2-|handout:0>{\stepcounter{framenumber}}
 \begin{itemize}
 \item<1> frequency domain optical modelling 
 % \item e.g.\ can handle beam geometry, noise coupling, higher order modes
-\item<1> can model some realistic, cool things
+\item<1> can model some realistic effects
 \item<1> used for GW detector proposals and outside GW research
 \end{itemize}
 \begin{figure}
@@ -91,20 +108,62 @@
 \end{figure}
 \only{
 \vfill
-\url{http://www.gwoptics.org/finesse/}
+{\color{blue}\url{http://www.gwoptics.org/finesse/}}
 }<1>
-\only{
-\vspace{-4cm}
-}<2>
-\begin{figure}
-    % \captionsetup[subfigure]{labelformat=empty}
-    \centering 
-    % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
-    % \qquad
-    % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
-    \includegraphics<2>[width=0.8\textwidth]{figures/testing_Finesse_squeezers_comparison.pdf}
-\end{figure}
+% \only{
+% \vspace{-4cm}
+% }<2>
+\end{frame}
 
+\begin{frame}{\code{nle} timeline}
+\begin{itemize}
+\item motivation from Refs.~\footnote{\tiny Mikhail Korobko, Yiqiu Ma, Yanbei Chen, and Roman Schnabel. Quantum expander for gravitational-wave observatories. \emph{Light: Science \& Applications}, 8(1), Dec
+2019.}~\footnote{\tiny V B Adya, M J Yap, D Töyrä, et al. Quantum enhanced kHz gravitational wave detector with internal squeezing. \emph{Classical and Quantum Gravity}, 37(7):07LT02, Mar 2020.}
+\item request for implementation into Finesse
+\item equations provided by Daniel~Töyrä
+% sqz matrix equations
+\item implementation by Daniel~Brown in nle development branch available at {\color{blue}\url{https://git.ligo.org/finesse/finesse/-/tree/nle}}
+\item testing by James~Gardner available at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Squeezer matrix}
+The matrix for the non-linear crystal in the two-photon formalism is
+{\footnotesize
+\begin{align}
+\mathbf{N} &\equiv \mathbf{N}(r, \phi) = \begin{bmatrix} \cosh(r) + \sinh(r) \cos(2\phi) & \sinh(r) \sin(2\phi) \\ 
+                                            \sinh(r) \sin(2\phi) & \cosh(r) - \sinh(r) \cos(2\phi)
+                                            \end{bmatrix}
+\end{align}
+}
+e.g. for $\vec{u}$ the incident field and $\vec{v}$ the transmitted field expressed as quadrature vectors
+\begin{align}
+\vec{v} = \mathbf{N}\, \vec{u}
+\end{align}
+\end{frame}
+
+\begin{frame}{Finesse squeezer conventions}
+\begin{columns}
+\column{0.5\textwidth}
+% \captionsetup[subfigure]{labelformat=empty}
+\centering 
+% \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
+% \qquad
+% \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
+\includegraphics<1>[width=\textwidth]{figures/testing_Finesse_squeezers_comparison.pdf}
+
+\column{0.5\textwidth}
+\begin{itemize}
+\item \code{nle} connects two nodes (can be internal), calculates dB as $20 \log_{10}$, squeezes fields in both directions
+    \begin{itemize}
+    \item \code{nle name r\_sqz angle\_sqz node\_1 node\_2} 
+    \end{itemize}
+\item \code{sq} connects to one node (for external input), calculates dB as $10 \log_{10}$
+    \begin{itemize}
+    \item \code{sq name f r\_sqz angle\_sqz node}
+    \end{itemize}
+\end{itemize}
+\end{columns}
 \end{frame}
 
 % \begin{frame}{Our goal}
@@ -115,20 +174,104 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% show method!
 \begin{frame}{Squeezed cavity}
-\only<2-|handout:0>{\stepcounter{framenumber}}
 \centering
-\qquad
 \includegraphics<1>[height=0.8\textwidth, angle=-90]{figures/squeezed_cavity.pdf}
+\end{frame}
+
+\begin{frame}{Squeezed cavity - analytics\footnote{\tiny See the complete derivation at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}
+}
+
+{\tiny
+% (two-photon formalism)
+In the frequency domain, the vacuum noise incident on the cavity can be expressed in quadratures in the two-photon formalism as
+\begin{align}
+\vec{a}(\Omega) = \begin{bmatrix}
+    \hat{a}_1(\Omega) \\
+    \hat{a}_2(\Omega)
+\end{bmatrix}
+\end{align}
+
+The field reflected off the cavity is
+\begin{align}
+\vec{b}(\Omega) = \begin{bmatrix}
+    \hat{b}_1(\Omega) \\
+    \hat{b}_2(\Omega)
+\end{bmatrix} = \mathbf{M}\, \vec{a}(\Omega)
+\end{align}
+
+where the matrix describing the reflection off the cavity is
+\begin{align}
+\mathbf{M} &= -\mathbf{R_1} + \mathbf{T_1} ( \mathbf{I} - \mathbf{N}\, \mathbf{P}\, \mathbf{R_2}\, \mathbf{P}\, \mathbf{N}\, \mathbf{R_1} )^{-1} \mathbf{N}\, \mathbf{P}\, \mathbf{R_2}\, \mathbf{P}\, \mathbf{N}\, \mathbf{T_1} %\\
+% \mathbf{M} &= -\mathbf{R} + \mathbf{T} ( \mathbf{I} - \mathbf{N}\, \mathbf{S}\, \mathbf{N}\, \mathbf{R} )^{-1} \mathbf{N}\, \mathbf{S}\, \mathbf{N}\, \mathbf{T} \\
+% \mathbf{R} &- \text{Reflection off input mirror} \\
+% \mathbf{T} &- \text{Transmission through input mirror} \\
+% \mathbf{S} &- \text{Roundtrip propagation} \\
+% \mathbf{I} &- \text{Identity matrix} \\
+\end{align}
+
+where $\mathbf{I}$ is the identity matrix, $\mathbf{R_n}\, (\mathbf{T_n})$ is the reflection (transmission) matrix for the nth mirror, $\mathbf{P}$ is propagation across the cavity interior, and the matrix for the non-linear crystal is
+\begin{align}
+\mathbf{N} &\equiv \mathbf{N}(r, \phi) = \begin{bmatrix} \cosh(r) + \sinh(r) \cos(2\phi) & \sinh(r) \sin(2\phi) \\ 
+                                            \sinh(r) \sin(2\phi) & \cosh(r) - \sinh(r) \cos(2\phi)
+                                            \end{bmatrix}
+\end{align}
+
+The operator for the homodyne readout power-fluctuations is
+\begin{align}
+\hat{P}(\Omega) =  A_1 \big(\hat{b}_1(\Omega) + \hat{b}_1^\dagger(\Omega) \big) + A_2 \big(\hat{b}_2(\Omega) + \hat{b}_2^\dagger(\Omega) \big)
+\end{align}
+
+where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ is the power of the local oscillator, and $\theta$ is the phase of the local oscillator. The power spectral density (PSD) and amplitude spectral density (ASD) of the quantum noise become
+\begin{align}
+\text{PSD} &= \langle0|\, \hat{P}(\Omega) \hat{P}^\dagger(\Omega) \,| 0\rangle = 
+2 P_0 \hbar \omega_0 \,[\,\cos(\theta) \; \sin(\theta)\,]\, \mathbf{M} \,\mathbf{M}^\dagger \begin{bmatrix} \cos(\theta) \\ \sin(\theta) \end{bmatrix} \\
+\text{ASD} &= \sqrt{\text{PSD}}
+\end{align}
+}
+
+\vspace{-.5cm}
+\end{frame}
+
+% show method!
+\begin{frame}{Squeezed cavity - squeezer response}
+% \only<2-|handout:0>{\stepcounter{framenumber}}
+\centering
+% \qquad
 % \begin{columns}
 % \column{0.5\textwidth}
 % \includegraphics<2>[width=\textwidth]{figures/not_main_PSD_vs_r.pdf}
 % \column{0.5\textwidth}
 % \includegraphics<2>[width=\textwidth]{figures/pykat_relative_qhd_vs_r.pdf}
 % \end{columns}
-\includegraphics<2>[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_r_comparison.pdf}
+\includegraphics<1>[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_r_comparison.pdf}
 \end{frame}
+
+\begin{frame}{Squeezed cavity - frequency response}
+% \only<2-|handout:0>{\stepcounter{framenumber}}
+\centering
+% \includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
+% % \vspace{-.1cm}
+% \includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
+\includegraphics[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_freq_comparison.pdf}
+\end{frame}
+
+\begin{frame}{Squeezed cavity - conclusions}
+\begin{block}{Initial verification for the \code{nle}}
+\begin{itemize}
+\item Finesse agrees with the analytics in all tests so far, after accounting for conventions used
+\item We also re-derived the analytics another three different ways which all agree with each other
+\end{itemize}
+\end{block}
+% \begin{alertblock}{Limitations}
+% \begin{itemize}
+% \item We have only considered plane waves, e.g.\ we do not know the interaction with \code{maxtem}
+% \item We have only shown relative scales, to compare the exact values for the ASD we are still chasing some factors of $2$ and $c$.
+% \end{itemize}
+% \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % match powers, check tunings, then compare sensitivities
 \begin{frame}{aLIGO with long SRC and internal squeezing}
@@ -145,25 +288,38 @@
 \includegraphics<3>[height=0.8\textwidth, angle=-90]{figures/sqz_aLIGO_analytics_v_simulation_with_fractional_errors.pdf}        
 \end{frame}
 
-\begin{frame}{Achieved our goal!}
-\begin{alertblock}{Test the \code{nle} component in Finesse}
+% rewrite this
+\begin{frame}{Conclusions}
+\begin{block}{Work-in-progress verification of the \code{nle}}
 \begin{itemize}
-\item Sensitivity agrees with analytics
-\item Input to \code{nle} needs to be corrected by $1/4$ to match conventions
-\item Now allows us an efficient means to test configurations
+\item Works in isolation 
+\item Agrees with analytics for the squeezed cavity exactly
+\item Agrees with analytics for aLIGO up to a $5\%$ fractional error
+\item Need to be aware of input conventions used by the \code{nle}
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Limitations}
+\begin{itemize}
+\item We have only considered plane waves, e.g.\ we do not know the interaction with \code{maxtem}
+\item We have only shown relative scales, to compare the exact values for the ASD we are still chasing some factors of $2$ and $c$.
 \end{itemize}
 \end{alertblock}
 \end{frame}
 
 \begin{frame}{Future work}
-\begin{block}{Optimisation for HF sensitivity}
-\end{block}
-\begin{exampleblock}{Modelling other configurations}
+\begin{itemize}
+\item Optimisation for HF sensitivity
+\end{itemize}
+% \begin{block}{Optimisation for HF sensitivity}
+% % Can use Finesse to find the optimum configuration
+% \end{block}
+\begin{block}{Modelling exotic configurations}
 \begin{itemize}
 \item Detuned long SRC
 \item Non-degenerate squeezing
 \end{itemize}
-\end{exampleblock}
+\end{block}
 \end{frame}
 
 
@@ -172,53 +328,45 @@
 \titlepage 
 \end{frame}
 
-\begin{frame}{Example of optimisation}
-\centering 
-\includegraphics<1>[height=0.85\textheight]{figures/aLIGO_optimum_sensitivity_comparison.pdf}
-\end{frame}
+% \begin{frame}{Example of optimisation}
+% \centering 
+% \includegraphics<1>[height=0.85\textheight]{figures/aLIGO_optimum_sensitivity_comparison.pdf}
+% \end{frame}
 
-\begin{frame}{Squeezed cavity analytics}
-\begin{columns}
-\column{0.5\textwidth}
-$$S_\mathrm{HomI}(\Omega) = \frac{A_0^2 \left( g_1(\Omega)^2 + g_2(\Omega)^2 \right)}{g_3(\Omega)^2}$$
-\column{0.5\textwidth}
-\tiny
-\begin{align*}
-g_1 &= -\cosh ^2(r) e^{\frac{2 i L \Omega }{c}} (\cos (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi )\\
-    &+t_1^2 \sin (\theta ) \sin (2 \psi )) \\
-    &-\cos (\theta ) \sinh ^2(r) \left(2 r_1^2+t_1^2\right) e^{\frac{2 i L \Omega
-    }{c}}\\
-    &-t_1^2 \cos (\theta ) \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
-    &-t_1^2 \sin (\theta )
-    \sinh (2 r) \cos (\psi ) \sin (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
-    &+r_1^3 \cos (\theta ) e^{\frac{4 i L \Omega
-    }{c}}+r_1 t_1^2 \cos (\theta ) e^{\frac{4 i L \Omega }{c}}+r_1 \cos (\theta ) \\
-g_2 &= \cosh ^2(r) e^{\frac{2 i L \Omega }{c}} (t_1^2 \cos (\theta ) \sin (2 \psi )\\
-    &-\sin (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi ))\\
-    &+\sin (\theta ) \left(-\sinh ^2(r) (2 r_1^2+t_1^2\right)
-    e^{\frac{2 i L \Omega }{c}}\\
-    &+t_1^2 \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
-    &+r_1^3 e^{\frac{4 i L \Omega }{c}}+r_1 t_1^2 e^{\frac{4 i L \Omega }{c}}+r_1)\\
-    &-4 t_1^2 \cos (\theta ) \sinh (r) \cosh (r) \cos (\psi ) \sin (\phi ) \cos (\phi ) e^{\frac{2 i L \Omega }{c}} \\
-g_3 &= 1 + r_1^2 e^{\frac{4 i L \Omega}{c}} - 2 e^{\frac{2 i L \Omega}{c}} \sinh(r)^2 \\
-    &- 2 e^{\frac{2 i L \Omega}{c}} r_1 \cos(2 \psi) \cosh(r)^2 
-\end{align*}
-\normalsize
-\end{columns}
-\end{frame}
+% \begin{frame}{wrong - Squeezed cavity analytics}
+% % {\big wrong!}
+% \begin{columns}
+% \column{0.5\textwidth}
+% $$S_\mathrm{HomI}(\Omega) = \frac{A_0^2 \left( g_1(\Omega)^2 + g_2(\Omega)^2 \right)}{g_3(\Omega)^2}$$
+% \column{0.5\textwidth}
+% \tiny
+% \begin{align*}
+% g_1 &= -\cosh ^2(r) e^{\frac{2 i L \Omega }{c}} (\cos (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi )\\
+%     &+t_1^2 \sin (\theta ) \sin (2 \psi )) \\
+%     &-\cos (\theta ) \sinh ^2(r) \left(2 r_1^2+t_1^2\right) e^{\frac{2 i L \Omega
+%     }{c}}\\
+%     &-t_1^2 \cos (\theta ) \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+%     &-t_1^2 \sin (\theta )
+%     \sinh (2 r) \cos (\psi ) \sin (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+%     &+r_1^3 \cos (\theta ) e^{\frac{4 i L \Omega
+%     }{c}}+r_1 t_1^2 \cos (\theta ) e^{\frac{4 i L \Omega }{c}}+r_1 \cos (\theta ) \\
+% g_2 &= \cosh ^2(r) e^{\frac{2 i L \Omega }{c}} (t_1^2 \cos (\theta ) \sin (2 \psi )\\
+%     &-\sin (\theta ) \left(2 r_1^2+t_1^2\right) \cos (2 \psi ))\\
+%     &+\sin (\theta ) \left(-\sinh ^2(r) (2 r_1^2+t_1^2\right)
+%     e^{\frac{2 i L \Omega }{c}}\\
+%     &+t_1^2 \sinh (2 r) \cos (\psi ) \cos (2 \phi ) e^{\frac{2 i L \Omega }{c}}\\
+%     &+r_1^3 e^{\frac{4 i L \Omega }{c}}+r_1 t_1^2 e^{\frac{4 i L \Omega }{c}}+r_1)\\
+%     &-4 t_1^2 \cos (\theta ) \sinh (r) \cosh (r) \cos (\psi ) \sin (\phi ) \cos (\phi ) e^{\frac{2 i L \Omega }{c}} \\
+% g_3 &= 1 + r_1^2 e^{\frac{4 i L \Omega}{c}} - 2 e^{\frac{2 i L \Omega}{c}} \sinh(r)^2 \\
+%     &- 2 e^{\frac{2 i L \Omega}{c}} r_1 \cos(2 \psi) \cosh(r)^2 
+% \end{align*}
+% \normalsize
+% \end{columns}
+% \end{frame}
 
-\begin{frame}{Squeezed cavity frequency response}
-% \only<2-|handout:0>{\stepcounter{framenumber}}
-\centering
-% \includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
-% % \vspace{-.1cm}
-% \includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
-\includegraphics[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_freq_comparison.pdf}
-\end{frame}
-
-\begin{frame}{Finesse code example}
-\centering 
-\includegraphics<1>[height=0.85\textheight]{figures/finesse_code_example.png}
-\end{frame}
+% \begin{frame}{Finesse code example}
+% \centering 
+% \includegraphics<1>[height=0.85\textheight]{figures/finesse_code_example.png}
+% \end{frame}
 
 \end{document}

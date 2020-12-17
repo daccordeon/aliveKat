@@ -33,6 +33,7 @@
 \title[Verification of the \code{nle}]{Verification of the newly-added non-linear element in Finesse for optical modelling of advanced gravitational-wave detector configurations}
 
 \author[James W. Gardner et al.]{James~W.~Gardner, Vaishali~B.~Adya, Daniel~Töyrä, David~McClelland}
+\institute[ANU-CGA]{Centre for Gravitational Astrophysics (CGA), ANU}
 \date{\today}
 
 \begin{document}
@@ -57,18 +58,6 @@
 \includegraphics<1>[width=0.8\textwidth]{figures/sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf}
 \end{frame}
 
-\begin{frame}{Our goal}
-\begin{block}{Test the new \code{nle} component in Finesse}
-\begin{itemize}
-\item why bother?
-\item what’s the \code{nle}?
-\item does it work? (spoiler: likely yes but it is a work-in-progress)
-% \item what’s Finesse?
-\end{itemize}
-% If successful, then allows us an efficient means to test configurations
-\end{block}
-\end{frame}
-
 % quantum noise in phase quadrature
 \begin{frame}{aLIGO with long SRC and internal squeezing}
 \begin{columns}
@@ -87,6 +76,18 @@
 \end{columns}
 % \vspace{-.5cm}
 % \includegraphics<2>[height=.8\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
+\end{frame}
+
+\begin{frame}{Our goal}
+\begin{block}{Test the new \code{nle} component in Finesse}
+\begin{itemize}
+\item we want to be able to model the proposed configuration
+\item what is the \code{nle}?
+\item does it work? \footnote{spoiler: likely yes but it is a work-in-progress}
+% \item what’s Finesse?
+\end{itemize}
+% If successful, then allows us an efficient means to test configurations
+\end{block}
 \end{frame}
 
 % freq. domain optical modelling, used in GW field and for optical cavities
@@ -117,8 +118,7 @@
 
 \begin{frame}{\code{nle} timeline}
 \begin{itemize}
-\item motivation from Refs.~\footnote{\tiny Mikhail Korobko, Yiqiu Ma, Yanbei Chen, and Roman Schnabel. Quantum expander for gravitational-wave observatories. \emph{Light: Science \& Applications}, 8(1), Dec
-2019.}~\footnote{\tiny V B Adya, M J Yap, D Töyrä, et al. Quantum enhanced kHz gravitational wave detector with internal squeezing. \emph{Classical and Quantum Gravity}, 37(7):07LT02, Mar 2020.}
+\item motivation to improve HF QN limited sensitivity
 \item request for implementation into Finesse
 \item equations provided by Daniel~Töyrä
 % sqz matrix equations
@@ -127,8 +127,9 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Squeezer matrix}
-The matrix for the non-linear crystal in the two-photon formalism is
+\begin{frame}{Non-linear element matrix}
+% The matrix for the non-linear crystal in the two-photon formalism is
+Two-photon formalism/quadrature picture (analytics)
 {\footnotesize
 \begin{align}
 \mathbf{N} &\equiv \mathbf{N}(r, \phi) = \begin{bmatrix} \cosh(r) + \sinh(r) \cos(2\phi) & \sinh(r) \sin(2\phi) \\ 
@@ -136,10 +137,40 @@ The matrix for the non-linear crystal in the two-photon formalism is
                                             \end{bmatrix}
 \end{align}
 }
-e.g. for $\vec{u}$ the incident field and $\vec{v}$ the transmitted field expressed as quadrature vectors
+\vspace{-0.5cm}
 \begin{align}
-\vec{v} = \mathbf{N}\, \vec{u}
+\begin{bmatrix}
+\hat{b}_{1} \\
+\hat{b}_{2}  
+\end{bmatrix} = \mathbf{N} \begin{bmatrix}
+\hat{a}_{1} \\
+\hat{a}_{2}
+\end{bmatrix}
 \end{align}
+% e.g. for $\vec{u}$ the incident field and $\vec{v}$ the transmitted field expressed as quadrature vectors
+% \begin{align}
+% \vec{v} = \mathbf{N}\, \vec{u}
+% \end{align}
+% Alternatively, the matrix going into Finesse is in the sideband picture
+One-photon formalism/sideband picture (Finesse)
+{\footnotesize
+\begin{align}
+\mathbf{N} &\equiv \mathbf{N}(r, \phi) = \begin{bmatrix} \cosh(r) & \text{e}^{2i\phi} \sinh(r) \\ 
+                              \text{e}^{-2i\phi} \sinh(r) & \cosh(r)
+                     \end{bmatrix}
+\end{align}
+}
+\vspace{-0.5cm}
+\begin{align}
+\begin{bmatrix}
+\hat{b}_{\omega_0 + \Omega} \\
+\hat{b}^\dagger_{\omega_0 - \Omega}  
+\end{bmatrix} = \mathbf{N} \begin{bmatrix}
+\hat{a}_{\omega_0 + \Omega} \\
+\hat{a}^\dagger_{\omega_0 - \Omega}
+\end{bmatrix}
+\end{align}
+
 \end{frame}
 
 \begin{frame}{Finesse squeezer conventions}
@@ -149,20 +180,26 @@ e.g. for $\vec{u}$ the incident field and $\vec{v}$ the transmitted field expres
 \centering 
 % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
 % \qquad
-% \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%    
+% \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%
 \includegraphics<1>[width=\textwidth]{figures/testing_Finesse_squeezers_comparison.pdf}
 
 \column{0.5\textwidth}
-\begin{itemize}
-\item \code{nle} connects two nodes (can be internal), calculates dB as $20 \log_{10}$, squeezes fields in both directions
+\tiny
+\code{nle}:
     \begin{itemize}
+    \item connects two nodes (can be internal),
+    % \item produces $20 \log_{10}(e^r)$ worth of squeezing given input r,
+    \item internally converts input $x$ to $r_\code{nle} = \frac{x}{10} \log(10)$,
+    \item squeezes (noise, signal, but not carrier) fields in both directions,
     \item \code{nle name r\_sqz angle\_sqz node\_1 node\_2} 
     \end{itemize}
-\item \code{sq} connects to one node (for external input), calculates dB as $10 \log_{10}$
+\code{sq}:
     \begin{itemize}
+    \item connects to one node (for external input),
+    % \item produces $10 \log_{10}(e^r)$ worth of squeezing given input r,
+    \item internally converts input $x$ to $r_\code{sq} = \frac{x}{20} \log(10)$,
     \item \code{sq name f r\_sqz angle\_sqz node}
     \end{itemize}
-\end{itemize}
 \end{columns}
 \end{frame}
 
@@ -179,12 +216,10 @@ e.g. for $\vec{u}$ the incident field and $\vec{v}$ the transmitted field expres
 \includegraphics<1>[height=0.8\textwidth, angle=-90]{figures/squeezed_cavity.pdf}
 \end{frame}
 
-\begin{frame}{Squeezed cavity - analytics\footnote{\tiny See the complete derivation at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}
-}
-
-{\tiny
+\begin{frame}{Squeezed cavity - analytics\footnote{\tiny See the complete derivation at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}}
+\tiny
 % (two-photon formalism)
-In the frequency domain, the vacuum noise incident on the cavity can be expressed in quadratures in the two-photon formalism as
+In the frequency domain, the vacuum noise incident on the cavity can be expressed in the two-photon formalism/quadrature picture as
 \begin{align}
 \vec{a}(\Omega) = \begin{bmatrix}
     \hat{a}_1(\Omega) \\
@@ -228,7 +263,7 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 2 P_0 \hbar \omega_0 \,[\,\cos(\theta) \; \sin(\theta)\,]\, \mathbf{M} \,\mathbf{M}^\dagger \begin{bmatrix} \cos(\theta) \\ \sin(\theta) \end{bmatrix} \\
 \text{ASD} &= \sqrt{\text{PSD}}
 \end{align}
-}
+
 
 \vspace{-.5cm}
 \end{frame}
@@ -259,8 +294,13 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 \begin{frame}{Squeezed cavity - conclusions}
 \begin{block}{Initial verification for the \code{nle}}
 \begin{itemize}
-\item Finesse agrees with the analytics in all tests so far, after accounting for conventions used
-\item We also re-derived the analytics another three different ways which all agree with each other
+\item Finesse agrees with analytics for 
+    \begin{itemize}
+    \item \code{nle} in isolation
+    % \item empty cavity
+    \item \code{nle} in cavity
+    \end{itemize}
+% \item We also re-derived the analytics another three different ways which all agree with each other
 \end{itemize}
 \end{block}
 % \begin{alertblock}{Limitations}
@@ -293,7 +333,7 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 \begin{block}{Work-in-progress verification of the \code{nle}}
 \begin{itemize}
 \item Works in isolation 
-\item Agrees with analytics for the squeezed cavity exactly
+\item Agrees with analytics for the squeezed cavity
 \item Agrees with analytics for aLIGO up to a $5\%$ fractional error
 \item Need to be aware of input conventions used by the \code{nle}
 \end{itemize}
@@ -309,6 +349,9 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 
 \begin{frame}{Future work}
 \begin{itemize}
+\item Finish verification
+\item Determine reason for deviation from analytics
+\item Test signal sidebands
 \item Optimisation for HF sensitivity
 \end{itemize}
 % \begin{block}{Optimisation for HF sensitivity}

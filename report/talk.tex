@@ -38,9 +38,12 @@
 
 \begin{document}
 
-\begin{frame}
-\titlepage
-\end{frame}
+{
+  \usebackgroundtemplate{\includegraphics[width=\paperwidth]{figures/title_slide_with_logos.pdf}}
+  \begin{frame}
+  % \titlepage
+  \end{frame}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -53,11 +56,6 @@
 % quantum noise at HF
 \end{frame}
 
-\begin{frame}{Motivation - quantum noise limited detection}
-\centering
-\includegraphics<1>[width=0.8\textwidth]{figures/sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf}
-\end{frame}
-
 % quantum noise in phase quadrature
 \begin{frame}{aLIGO with long SRC and internal squeezing}
 \begin{columns}
@@ -66,28 +64,39 @@
 \includegraphics<1>[height=.7\textheight]{figures/aLIGO_internal_squeezing.pdf}
 
 \column{0.5\textwidth}
-\begin{block}{Such a configuration may improve the HF QN limited:}
+{\centering
+\includegraphics<1>[width=\textwidth]{figures/sqz_aLIGO_analytics_quantum_noise_budget-labelled.pdf}
+}
+{\footnotesize \vspace{-0.1cm} Such a configuration may\!~\footnote{\tiny{Mikhail Korobko, Yiqiu Ma, Yanbei Chen, and Roman Schnabel.\\ Quantum expander for gravitational-wave observatories. \emph{Light: Science\\ \& Applications}, 8(1), Dec 2019.}}\!~\footnote{\tiny{V B Adya, M J Yap, D Töyrä, et al. Quantum enhanced kHz \\gravitational wave detector with internal squeezing. \emph{Classical and \\Quantum Gravity}, 37(7):07LT02, Mar 2020.}} improve the HF QN limited:}
 \begin{itemize}
+    \scriptsize
 \item peak sensitivity
-\item broadband sensitivity~\footnote{\tiny Mikhail Korobko, Yiqiu Ma, Yanbei Chen, and Roman\\ Schnabel. Quantum expander for gravitational-wave\\ observatories. \emph{Light: Science \& Applications}, 8(1), Dec
-2019.}~\footnote{\tiny V B Adya, M J Yap, D Töyrä, et al. Quantum enhanced\\ kHz gravitational wave detector with internal squeezing. \\\emph{Classical and Quantum Gravity}, 37(7):07LT02, Mar 2020.}
+\item broadband sensitivity\vspace{-0.2cm}
 \end{itemize}
-\end{block}
+
 \end{columns}
+% Mikhail Korobko, Yiqiu Ma, Yanbei Chen, and Roman\\ Schnabel. Quantum expander for gravitational-wave\\ observatories. \emph{Light: Science \& Applications}, 8(1), Dec 2019.
 % \vspace{-.5cm}
 % \includegraphics<2>[height=.8\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
 \end{frame}
 
-\begin{frame}{Our goal}
-\begin{block}{Test the new \code{nle} component in Finesse}
+\begin{frame}{Project timeline}
+% \begin{block}{Test the new \code{nle} component in Finesse}
 \begin{itemize}
-\item we want to be able to model the proposed configuration
-\item what is the \code{nle}?
-\item does it work? \footnote{spoiler: likely yes but it is a work-in-progress}
+\item we want to see HF GW sources
+\item proposed configuration may improve HF QN limited sensitivity
+\item we need the \code{nle} in Finesse to model the configuration
+\item equations provided by Daniel~Töyrä
+% sqz matrix equations
+\item implementation by Daniel~Brown~\footnote{available at {\color{blue}\url{https://git.ligo.org/finesse/finesse/-/tree/nle}}}
+\item testing by James~Gardner~\footnote{available at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}$\longleftarrow$(this talk!)
+    \begin{itemize}
+    \item does it work? \footnote{spoiler: likely yes but it is a work-in-progress}
+    \end{itemize}
 % \item what’s Finesse?
 \end{itemize}
 % If successful, then allows us an efficient means to test configurations
-\end{block}
+% \end{block}
 \end{frame}
 
 % freq. domain optical modelling, used in GW field and for optical cavities
@@ -114,17 +123,6 @@
 % \only{
 % \vspace{-4cm}
 % }<2>
-\end{frame}
-
-\begin{frame}{\code{nle} timeline}
-\begin{itemize}
-\item motivation to improve HF QN limited sensitivity
-\item request for implementation into Finesse
-\item equations provided by Daniel~Töyrä
-% sqz matrix equations
-\item implementation by Daniel~Brown in nle development branch available at {\color{blue}\url{https://git.ligo.org/finesse/finesse/-/tree/nle}}
-\item testing by James~Gardner available at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Non-linear element matrix}
@@ -279,16 +277,7 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 % \column{0.5\textwidth}
 % \includegraphics<2>[width=\textwidth]{figures/pykat_relative_qhd_vs_r.pdf}
 % \end{columns}
-\includegraphics<1>[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_r_comparison.pdf}
-\end{frame}
-
-\begin{frame}{Squeezed cavity - frequency response}
-% \only<2-|handout:0>{\stepcounter{framenumber}}
-\centering
-% \includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
-% % \vspace{-.1cm}
-% \includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
-\includegraphics[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_freq_comparison.pdf}
+\includegraphics<1>[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_r_comparison_2.pdf}
 \end{frame}
 
 \begin{frame}{Squeezed cavity - conclusions}
@@ -369,6 +358,15 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 %%%%%%%% repete primeiro slide %%%%%%%%
 \begin{frame}
 \titlepage 
+\end{frame}
+
+\begin{frame}[noframenumbering]{Squeezed cavity - frequency response}
+% \only<2-|handout:0>{\stepcounter{framenumber}}
+\centering
+% \includegraphics<1>[width=0.9\textwidth]{figures/not_main_PSD_vs_freq.pdf}%
+% % \vspace{-.1cm}
+% \includegraphics<2>[width=0.8\textwidth]{figures/pykat_relative_qhd_vs_freq.pdf}%
+\includegraphics[width=0.8\textwidth]{figures/squeezed_cavity_relative_qhd_vs_freq_comparison.pdf}
 \end{frame}
 
 % \begin{frame}{Example of optimisation}

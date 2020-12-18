@@ -41,7 +41,7 @@
 {
   \usebackgroundtemplate{\includegraphics[width=\paperwidth]{figures/title_slide_with_logos.pdf}}
   \begin{frame}
-  % \titlepage
+  \titlepage
   \end{frame}
 }
 
@@ -88,10 +88,10 @@
 \item we need the \code{nle} in Finesse to model the configuration
 \item equations provided by Daniel~Töyrä
 % sqz matrix equations
-\item implementation by Daniel~Brown~\footnote{available at {\color{blue}\url{https://git.ligo.org/finesse/finesse/-/tree/nle}}}
-\item testing by James~Gardner~\footnote{available at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}$\longleftarrow$(this talk!)
+\item implementation by Daniel~Brown\!~\footnote{available at {\color{blue}\url{https://git.ligo.org/finesse/finesse/-/tree/nle}}}
+\item testing by James~Gardner\!~\footnote{available at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}$\longleftarrow$(this talk!)
     \begin{itemize}
-    \item does it work? \footnote{spoiler: likely yes but it is a work-in-progress}
+    \item does it work?\!~\footnote{spoiler: likely yes but it is a work-in-progress}
     \end{itemize}
 % \item what’s Finesse?
 \end{itemize}
@@ -171,18 +171,30 @@ One-photon formalism/sideband picture (Finesse)
 
 \end{frame}
 
-\begin{frame}{Finesse squeezer conventions}
+\begin{frame}{Finesse squeezers}
 \begin{columns}
 \column{0.5\textwidth}
 % \captionsetup[subfigure]{labelformat=empty}
-\centering 
 % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-sq.pdf}}}%
 % \qquad
 % \subfloat[\centering]{{\includegraphics<2>[width=0.4\textwidth]{figures/testing_Finesse_squeezers-nle.pdf}}}%
-\includegraphics<1>[width=\textwidth]{figures/testing_Finesse_squeezers_comparison.pdf}
+\vspace{-0.5cm}
+\begin{figure}
+\centering 
+\includegraphics<1>[width=.9\textwidth]{figures/testing_Finesse_squeezers_comparison_dual.pdf}
+\end{figure}
 
 \column{0.5\textwidth}
-\tiny
+\vspace{-0.5cm}
+\begin{figure}
+\centering 
+\includegraphics<1>[width=.7\textwidth]{figures/Finesse_squeezers.pdf}
+\end{figure}
+
+% \vspace{-0.4cm}
+{% \tiny
+\scriptsize
+\vspace{-0.5cm}
 \code{nle}:
     \begin{itemize}
     \item connects two nodes (can be internal),
@@ -191,6 +203,7 @@ One-photon formalism/sideband picture (Finesse)
     \item squeezes (noise, signal, but not carrier) fields in both directions,
     \item \code{nle name r\_sqz angle\_sqz node\_1 node\_2} 
     \end{itemize}
+\vspace{-0.1cm}
 \code{sq}:
     \begin{itemize}
     \item connects to one node (for external input),
@@ -198,6 +211,7 @@ One-photon formalism/sideband picture (Finesse)
     \item internally converts input $x$ to $r_\code{sq} = \frac{x}{20} \log(10)$,
     \item \code{sq name f r\_sqz angle\_sqz node}
     \end{itemize}
+}
 \end{columns}
 \end{frame}
 
@@ -216,7 +230,7 @@ One-photon formalism/sideband picture (Finesse)
 
 \begin{frame}{Squeezed cavity - analytics\footnote{\tiny See the complete derivation at {\color{blue}\url{https://github.com/daccordeon/aliveKat}}}}
 \tiny
-% (two-photon formalism)
+% (two-photon formalism/quadrature picture)
 In the frequency domain, the vacuum noise incident on the cavity can be expressed in the two-photon formalism/quadrature picture as
 \begin{align}
 \vec{a}(\Omega) = \begin{bmatrix}
@@ -249,7 +263,6 @@ where $\mathbf{I}$ is the identity matrix, $\mathbf{R_n}\, (\mathbf{T_n})$ is th
                                             \sinh(r) \sin(2\phi) & \cosh(r) - \sinh(r) \cos(2\phi)
                                             \end{bmatrix}
 \end{align}
-
 The operator for the homodyne readout power-fluctuations is
 \begin{align}
 \hat{P}(\Omega) =  A_1 \big(\hat{b}_1(\Omega) + \hat{b}_1^\dagger(\Omega) \big) + A_2 \big(\hat{b}_2(\Omega) + \hat{b}_2^\dagger(\Omega) \big)
@@ -258,12 +271,10 @@ The operator for the homodyne readout power-fluctuations is
 where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ is the power of the local oscillator, and $\theta$ is the phase of the local oscillator. The power spectral density (PSD) and amplitude spectral density (ASD) of the quantum noise become
 \begin{align}
 \text{PSD} &= \langle0|\, \hat{P}(\Omega) \hat{P}^\dagger(\Omega) \,| 0\rangle = 
-2 P_0 \hbar \omega_0 \,[\,\cos(\theta) \; \sin(\theta)\,]\, \mathbf{M} \,\mathbf{M}^\dagger \begin{bmatrix} \cos(\theta) \\ \sin(\theta) \end{bmatrix} \\
+2 P_0 \hbar \omega_0 \,[\,\cos(\theta) \; \sin(\theta)\,]\, \mathbf{M} \,\mathbf{M}^\dagger \begin{bmatrix} \cos(\theta) \\ \sin(\theta) \end{bmatrix}\\
 \text{ASD} &= \sqrt{\text{PSD}}
 \end{align}
 
-
-\vspace{-.5cm}
 \end{frame}
 
 % show method!
@@ -285,9 +296,9 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 \begin{itemize}
 \item Finesse agrees with analytics for 
     \begin{itemize}
-    \item \code{nle} in isolation
+    \item the \code{nle} in isolation
     % \item empty cavity
-    \item \code{nle} in cavity
+    \item the \code{nle} in a cavity
     \end{itemize}
 % \item We also re-derived the analytics another three different ways which all agree with each other
 \end{itemize}
@@ -307,14 +318,15 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 \only<2-|handout:0>{\stepcounter{framenumber}}
 \centering 
 \begin{columns}
-\column{0.5\textwidth}
+\column{0.4\textwidth}
 \includegraphics<1>[width=\textwidth]{figures/aLIGO_internal_squeezing.pdf}
-\column{0.5\textwidth}
-\includegraphics<1>[width=\textwidth]{figures/aLIGO_as_coupled_cavities.pdf}
+\column{0.6\textwidth}
+\includegraphics<1>[height=.8\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
+% \includegraphics<1>[width=\textwidth]{figures/aLIGO_as_coupled_cavities.pdf}
 \end{columns}
 \vspace{-.5cm}
-\includegraphics<2>[height=.88\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
-\includegraphics<3>[height=0.8\textwidth, angle=-90]{figures/sqz_aLIGO_analytics_v_simulation_with_fractional_errors.pdf}        
+% \includegraphics<2>[height=.88\textheight]{figures/aLIGO_transfer_fns_and_sensitivity_comparison.pdf}
+\includegraphics<2>[height=0.8\textwidth, angle=-90]{figures/sqz_aLIGO_analytics_v_simulation_with_fractional_errors.pdf}        
 \end{frame}
 
 % rewrite this
@@ -338,8 +350,8 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 
 \begin{frame}{Future work}
 \begin{itemize}
-\item Finish verification
-\item Determine reason for deviation from analytics
+\item Finish the verification
+\item Determine reason for deviation from IFO analytics
 \item Test signal sidebands
 \item Optimisation for HF sensitivity
 \end{itemize}
@@ -356,7 +368,7 @@ where $A_1 = \sqrt{P_0}\cos(\theta)$ and $A_2 = \sqrt{P_0}\sin(\theta)$, $P_0$ i
 
 
 %%%%%%%% repete primeiro slide %%%%%%%%
-\begin{frame}
+\begin{frame}[noframenumbering]
 \titlepage 
 \end{frame}
 
